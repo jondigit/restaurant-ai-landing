@@ -7,22 +7,22 @@ const app = express();
 
 /**
  * CORS WHITELIST
- * Put your actual site origins here (scheme + host only, no paths).
+ * Replace these with your real site origins (scheme + host only, no paths).
  * Examples:
- *  - GitHub Pages (project site): "https://YOUR-USERNAME.github.io"
- *  - Netlify: "https://your-site-name.netlify.app"
- *  - Custom domain(s): "https://www.yourdomain.com", "https://yourdomain.com"
+ *   - GitHub Pages (project): "https://YOUR-USERNAME.github.io"
+ *   - Netlify: "https://your-site-name.netlify.app"
+ *   - Custom domain(s): "https://www.yourdomain.com", "https://yourdomain.com"
  */
 const allowlist = [
-  "https://YOUR-USERNAME.github.io",       // <- replace or remove as needed
-  "https://your-site-name.netlify.app",    // <- replace or remove as needed
-  "https://www.restaurantaihelper.com",    // <- optional: your custom domain
-  "https://restaurantaihelper.com"         // <- optional: apex domain
+  "https://YOUR-USERNAME.github.io",     // <-- change/remove as needed
+  "https://your-site-name.netlify.app",  // <-- change/remove as needed
+  "https://www.restaurantaihelper.com",  // optional
+  "https://restaurantaihelper.com"       // optional
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow tools with no Origin header (curl/Postman) during testing
+    // allow curl/Postman (no Origin header)
     if (!origin) return callback(null, true);
     if (allowlist.includes(origin)) return callback(null, true);
     return callback(new Error("Not allowed by CORS"));
@@ -34,10 +34,9 @@ app.use(express.json());
 
 // ---------- Load Data (no DB yet) ----------
 /**
- * We keep a tiny facts file and a menu file in /api/data.
  * Make sure these files exist:
- *  - /api/data/facts.json
- *  - /api/data/menu.json
+ *   /api/data/facts.json
+ *   /api/data/menu.json
  */
 const facts = JSON.parse(
   fs.readFileSync(new URL("./data/facts.json", import.meta.url), "utf-8")
@@ -99,3 +98,45 @@ app.post("/chat/query", (req, res) => {
     if (/vegetarian/i.test(message)) {
       const names = listMatches((i) => i.is_vegetarian);
       const reply = names.length
+        ? `Vegetarian dishes: ${names.join(", ")}.`
+        : "I didn’t find vegetarian dishes.";
+      return res.json({ reply: allergyCaution(reply) });
+    }
+    if (/spicy|heat/i.test(message)) {
+      const names = listMatches((i) => (i.spice_level || 0) > 0);
+      const reply = names.length
+        ? `Spicier picks: ${names.join(", ")}.`
+        : "No marked spicy items right now.";
+      return res.json({ reply });
+    }
+    const popular = menu.items.slice(0, 3).map((i) => i.name);
+    return res.json({
+      reply: `Guests often enjoy: ${popular.join(", ")}. Tell me if you need gluten-free/vegan/etc.`
+    });
+  }
+
+  // Reservation intake starter
+  if (/table|reservation|book|party/i.test(message)) {
+    return res.json({
+      reply:
+        "I can take your reservation request. Please share your name, party size, date & time, and a phone or email.",
+      followup: "reservation_intake"
+    });
+  }
+
+  // Fallback
+  return res.json({
+    reply:
+      "I can help with hours, address, parking, menu (gluten-free/vegan/spicy), and simple reservations. What would you like to know?"
+  });
+});
+
+app.post("/intake/reservation", (req, res) => {
+  const { name, partySize, when, phone, email, notes } = req.body || {};
+  console.log("Reservation request:", { name, partySize, when, phone, email, notes });
+  return res.json({ status: "received" });
+});
+
+// ---------- Start ----------
+const port = process.env.PORT || 8080;
+app.listen(port, () => console.log(`API running on :${port}`));
