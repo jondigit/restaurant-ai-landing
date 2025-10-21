@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Restaurant AI Helper</title>
+    <!-- Tailwind CDN for quick demo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-white text-neutral-900">
+    <!-- Nav -->
+    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+      <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="h-8 w-8 rounded-xl bg-black"></div>
+          <span class="font-semibold">Restaurant AI Helper</span>
+        </div>
+        <nav class="hidden md:flex items-center gap-6 text-sm">
+          <a href="#features" class="hover:opacity-70">Features</a>
+          <a href="#how" class="hover:opacity-70">How it works</a>
+          <a href="#pricing" class="hover:opacity-70">Pricing</a>
+          <a href="#faq" class="hover:opacity-70">FAQ</a>
+        </nav>
+        <a href="#demo" class="rounded-2xl px-4 py-2 border hover:bg-black hover:text-white transition text-sm">Get a Demo</a>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="mx-auto max-w-6xl px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
+          Turn website visitors into <span class="underline decoration-8 decoration-black">bookings</span>.
+        </h1>
+        <p class="mt-5 text-lg text-neutral-600">
+          A friendly AI assistant for your restaurant that answers hours, parking, and menu questions, recommends dishes by diet,
+          and collects basic reservation details—24/7.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href="#demo" class="rounded-2xl px-5 py-3 bg-black text-white hover:opacity-90">See a Live Demo</a>
+          <a href="#features" class="rounded-2xl px-5 py-3 border hover:bg-neutral-50">Explore Features</a>
+        </div>
+        <p class="mt-4 text-sm text-neutral-500">No POS changes • Install in minutes • Always on</p>
+      </div>
+      <div class="border rounded-2xl p-4 md:p-6 shadow-sm">
+        <div class="aspect-[4/3] rounded-xl border flex items-center justify-center text-neutral-500">
+          Demo preview area (embed your widget or a short video here)
+        </div>
+        <div class="mt-3 text-xs text-neutral-500">Tip: replace this box with an iframe to your demo page.</div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="bg-neutral-50 border-y">
+      <div class="mx-auto max-w-6xl px-4 py-10 grid md:grid-cols-3 gap-6 text-center">
+        <div>
+          <div class="text-3xl font-bold">80%+</div>
+          <div class="text-sm text-neutral-600">Common questions answered instantly</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold">&lt;5s</div>
+          <div class="text-sm text-neutral-600">Typical response time (p95)</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold">24/7</div>
+          <div class="text-sm text-neutral-600">After-hours coverage for guests</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="mx-auto max-w-6xl px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-bold">What it does</h2>
+      <p class="mt-2 text-neutral-600">Everything a guest keeps calling about—handled in chat.</p>
+      <div class="mt-8 grid md:grid-cols-3 gap-6">
+        <div class="border rounded-2xl p-5 hover:shadow-sm transition">
+          <div class="text-lg font-semibold">Instant FAQs</div>
+          <div class="mt-1 text-sm text-neutral-600">Hours, address, parking, dress code—always accurate and on brand.</div>
+        </div>
+        <div class="border rounded-2xl p-5 hover:shadow-sm transition">
+          <div class="text-lg font-semibold">Menu coach</div>
+          <div class="mt-1 text-sm text-neutral-600">Dietary filters (vegan, gluten-free, nut-free) and dish recommendations.</div>
+        </div>
+        <div class="border rounded-2xl p-5 hover:shadow-sm transition">
+          <div class="text-lg font-semibold">Reservation intake</div>
+          <div class="mt-1 text-sm text-neutral-600">Collect details and notify your host via email or Slack.</div>
+        </div>
+        <div class="border rounded-2xl p-5 hover:shadow-sm transition">
+          <div class="text-lg font-semibold">Daily specials & 86</div>
+          <div class="mt-1 text-sm text-neutral-600">Toggle items on/off so the assistant never recommends an unavailable dish.</div>
+        </div>
+        <div class="border rounded-2xl p-5 hover:shadow-sm transition">
+          <div class="text-lg font-semibold">Multi-language</div>
+          <div class="mt-1 text-sm text-neutral-600">Optional: help tourists and out-of-towners.</div>
+        </div>
+        <div class="border rounded-2xl p-5 hover:shadow-sm transition">
+          <div class="text-lg font-semibold">Safe allergy wording</div>
+          <div class="mt-1 text-sm text-neutral-600">Conservative responses with staff escalation when needed.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="mx-auto max-w-6xl px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-bold">How it works</h2>
+      <ol class="mt-6 grid md:grid-cols-4 gap-6 text-sm">
+        <li class="border rounded-2xl p-5">
+          <div class="font-semibold">1. Add your menu</div>
+          <div class="mt-1 text-neutral-600">Upload a CSV/JSON or paste from your website.</div>
+        </li>
+        <li class="border rounded-2xl p-5">
+          <div class="font-semibold">2. Install the widget</div>
+          <div class="mt-1 text-neutral-600">Drop a small script on your site—done.</div>
+        </li>
+        <li class="border rounded-2xl p-5">
+          <div class="font-semibold">3. Review answers</div>
+          <div class="mt-1 text-neutral-600">We tune tone and allergy language with you.</div>
+        </li>
+        <li class="border rounded-2xl p-5">
+          <div class="font-semibold">4. Go live</div>
+          <div class="mt-1 text-neutral-600">Start deflecting calls and capturing bookings.</div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="mx-auto max-w-6xl px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-bold">Simple pricing</h2>
+      <div class="mt-8 grid md:grid-cols-3 gap-6">
+        <div class="border rounded-2xl p-6 flex flex-col">
+          <div class="text-xl font-semibold">Basic</div>
+          <div class="mt-2 text-3xl font-extrabold">$99/mo</div>
+          <ul class="mt-4 text-sm text-neutral-700 space-y-1">
+            <li>• Website chat</li>
+            <li>• FAQ + Menu Q&A</li>
+            <li>• Email handoff</li>
+          </ul>
+          <a href="#demo" class="mt-6 rounded-2xl px-4 py-2 bg-black text-white text-center hover:opacity-90">Start demo</a>
+        </div>
+        <div class="border rounded-2xl p-6 flex flex-col">
+          <div class="text-xl font-semibold">Pro</div>
+          <div class="mt-2 text-3xl font-extrabold">$179/mo</div>
+          <ul class="mt-4 text-sm text-neutral-700 space-y-1">
+            <li>• Everything in Basic</li>
+            <li>• Slack handoff</li>
+            <li>• Daily specials & 86</li>
+            <li>• Multi-language</li>
+          </ul>
+          <a href="#demo" class="mt-6 rounded-2xl px-4 py-2 bg-black text-white text-center hover:opacity-90">Start demo</a>
+        </div>
+        <div class="border rounded-2xl p-6 flex flex-col">
+          <div class="text-xl font-semibold">Pilot</div>
+          <div class="mt-2 text-3xl font-extrabold">Free (14 days)</div>
+          <ul class="mt-4 text-sm text-neutral-700 space-y-1">
+            <li>• Install for you</li>
+            <li>• Menu import</li>
+            <li>• Weekly report</li>
+          </ul>
+          <a href="#demo" class="mt-6 rounded-2xl px-4 py-2 bg-black text-white text-center hover:opacity-90">Start demo</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="mx-auto max-w-6xl px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-bold">FAQ</h2>
+      <div class="mt-6 grid md:grid-cols-2 gap-6 text-sm">
+        <div class="border rounded-2xl p-5">
+          <div class="font-medium">Does this replace staff?</div>
+          <div class="mt-1 text-neutral-600">No. It handles repetitive questions and passes anything sensitive to your team.</div>
+        </div>
+        <div class="border rounded-2xl p-5">
+          <div class="font-medium">How do we keep the menu updated?</div>
+          <div class="mt-1 text-neutral-600">Upload a file or use a small admin page; daily specials and 86 toggles are built in.</div>
+        </div>
+        <div class="border rounded-2xl p-5">
+          <div class="font-medium">What about allergies?</div>
+          <div class="mt-1 text-neutral-600">Conservative language and escalation to staff when unsure.</div>
+        </div>
+        <div class="border rounded-2xl p-5">
+          <div class="font-medium">Do we need to change our POS?</div>
+          <div class="mt-1 text-neutral-600">No, it works alongside your current tools.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact / Demo (Netlify Forms enabled) -->
+    <section id="demo" class="mx-auto max-w-6xl px-4 pb-24">
+      <div class="border rounded-2xl p-6">
+        <h2 class="text-2xl md:text-3xl font-bold">Get a demo</h2>
+        <p class="mt-2 text-neutral-600">Share your email and we’ll send a private demo link with your menu loaded.</p>
+
+        <!-- Netlify Forms: add name, netlify attribute, hidden form-name input -->
+        <form name="demo-request" method="POST" data-netlify="true"
+              class="mt-6 grid md:grid-cols-3 gap-3">
+          <input type="hidden" name="form-name" value="demo-request" />
+          <input name="name" class="border rounded-xl px-4 py-3" placeholder="Your name" />
+          <input name="email" type="email" class="border rounded-xl px-4 py-3" placeholder="Email" />
+          <button class="rounded-xl px-4 py-3 bg-black text-white hover:opacity-90">Request demo</button>
+        </form>
+
+        <p class="mt-2 text-xs text-neutral-500">We’ll only use your info to contact you about the demo.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t">
+      <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-neutral-500 flex items-center justify-between">
+        <span id="year"></span>
+        <a href="#" class="hover:opacity-70">Privacy</a>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = `© ${new Date().getFullYear()} Restaurant AI Helper`;
+    </script>
+  </body>
+</html>
