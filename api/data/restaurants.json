@@ -1,0 +1,89 @@
+{
+  "restaurants": [
+    {
+      "id": "fearings-dallas",
+      "name": "Fearing's Restaurant",
+      "city": "Dallas, TX",
+      "address": "2121 McKinney Ave, Dallas, TX 75201",
+      "phone": "+1 214-922-4848",
+      "hours_text": "Breakfast: Mon–Sat 7:00–11:00, Sun 7:00–10:30 • Lunch: Mon–Sat 11:30–14:00 • Dinner: Mon–Sat 17:30–22:00, Sun 17:30–21:00 • Sun Brunch 11:00–14:00",
+      "parking_note": "On-site hotel/valet (Ritz-Carlton Dallas)",
+      "reservations_url": "https://www.fearingsrestaurant.com/",
+      "menu_url": "https://www.fearingsrestaurant.com/",
+      "notes": "Located inside The Ritz-Carlton, Dallas."
+    },
+    {
+      "id": "pappasbros-dallas",
+      "name": "Pappas Bros. Steakhouse — Dallas",
+      "city": "Dallas, TX",
+      "address": "10477 Lombardy Ln, Dallas, TX 75220",
+      "phone": "+1 214-366-2000",
+      "hours_text": "Mon–Thu 5:00pm–9:00pm • Fri–Sat 5:00pm–10:00pm • Sun Closed",
+      "parking_note": "Valet and self-parking per venue",
+      "reservations_url": "https://pappasbros.com/location/dallas",
+      "menu_url": "https://pappasbros.com/menus",
+      "notes": "Classic Texas steakhouse; deep wine list."
+    },
+    {
+      "id": "uchi-dallas",
+      "name": "Uchi — Dallas",
+      "city": "Dallas, TX",
+      "address": "2817 Maple Ave, Dallas, TX 75201",
+      "phone": "+1 214-855-5454",
+      "hours_text": "Happy hour daily 4:00–6:00; dinner hours see site",
+      "parking_note": "Complimentary valet per site",
+      "reservations_url": "https://uchi.uchirestaurants.com/location/sushi-dallas/",
+      "menu_url": "https://uchi.uchirestaurants.com/location/sushi-dallas/",
+      "notes": "Non-traditional Japanese from Tyson Cole."
+    },
+    {
+      "id": "french-room-dallas",
+      "name": "The French Room (Adolphus Hotel)",
+      "city": "Dallas, TX",
+      "address": "1321 Commerce St, Dallas, TX 75202",
+      "phone": "+1 214-742-8200",
+      "hours_text": "See hotel site for current service hours",
+      "parking_note": "Hotel valet/nearby parking",
+      "reservations_url": "https://www.adolphus.com/restaurants-bars/the-french-room",
+      "menu_url": "https://www.adolphus.com/restaurants-bars/the-french-room",
+      "notes": "Iconic fine-dining room in The Adolphus."
+    },
+
+    {
+      "id": "franklin-austin",
+      "name": "Franklin Barbecue",
+      "city": "Austin, TX",
+      "address": "900 E 11th St, Austin, TX 78702",
+      "phone": "",
+      "hours_text": "Typically Tue–Sun 11:00am–sell-out; check site for latest",
+      "parking_note": "Street parking; lines common",
+      "reservations_url": "https://franklinbbq.com/",
+      "menu_url": "https://franklinbbq.com/",
+      "notes": "Legendary Central Texas BBQ; sells out daily."
+    },
+    {
+      "id": "uchi-austin",
+      "name": "Uchi — Austin",
+      "city": "Austin, TX",
+      "address": "801 S Lamar Blvd, Austin, TX 78704",
+      "phone": "+1 512-916-4808",
+      "hours_text": "Sun–Thu 4:00–10:00 • Fri–Sat 4:00–11:00 • Happy hour daily 4:00–6:00",
+      "parking_note": "See site; typical valet/street mix",
+      "reservations_url": "https://uchi.uchirestaurants.com/location/sushi-austin/",
+      "menu_url": "https://uchi.uchirestaurants.com/location/sushi-austin/",
+      "notes": "Original Uchi location."
+    },
+    {
+      "id": "emmer-rye-austin",
+      "name": "Emmer & Rye",
+      "city": "Austin, TX",
+      "address": "51 Rainey St #110, Austin, TX 78701",
+      "phone": "",
+      "hours_text": "See site/OpenTable for current service hours",
+      "parking_note": "Rainey St area parking",
+      "reservations_url": "https://emmerandrye.com/",
+      "menu_url": "https://emmerandrye.com/",
+      "notes": "Heirloom grains, whole-animal; acclaimed tasting/à la carte."
+    }
+  ]
+}
