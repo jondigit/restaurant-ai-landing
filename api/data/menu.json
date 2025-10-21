@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "name": "Grilled Salmon",
+      "description": "Herb butter, lemon",
+      "price_cents": 2500,
+      "category": "Mains",
+      "is_vegan": false,
+      "is_vegetarian": false,
+      "is_gluten_free": true,
+      "spice_level": 1,
+      "allergens": ["fish"]
+    },
+    {
+      "name": "Chickpea Bowl",
+      "description": "Spiced chickpeas, greens",
+      "price_cents": 1600,
+      "category": "Mains",
+      "is_vegan": true,
+      "is_vegetarian": true,
+      "is_gluten_free": true,
+      "spice_level": 2,
+      "allergens": []
+    },
+    {
+      "name": "Penne Alfredo",
+      "description": "Cream sauce, parmesan",
+      "price_cents": 1800,
+      "category": "Mains",
+      "is_vegan": false,
+      "is_vegetarian": true,
+      "is_gluten_free": false,
+      "spice_level": 0,
+      "allergens": ["dairy", "gluten"]
+    }
+  ]
+}
