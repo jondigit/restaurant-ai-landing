@@ -3,20 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>The Back Porch — Kilgore, TX | Restaurant AI Helper</title>
-  <meta name="description" content="Instant answers for The Back Porch guests: hours, parking, dress code, menu guidance, and reservation requests." />
+  <title>The Back Porch — Kilgore, TX | Official Menu & Info</title>
+  <meta name="description" content="The Back Porch in Kilgore, TX — menu with prices, address, phone, parking info, and live music link." />
   <meta name="theme-color" content="#0B0F19" />
   <link rel="icon" href="/favicon.ico" />
-
-  <!-- Your live API base -->
+  <!-- API base (for optional chat demo) -->
   <meta name="rai-api" content="https://restaurant-ai-landing.onrender.com" />
-
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .container { max-width: 1200px; }
-    .shadow-soft { box-shadow: 0 2px 10px rgba(0,0,0,.06); }
-    .brand-gradient { background: linear-gradient(180deg, #0B0F19 0%, #121826 60%, #ffffff 100%); }
-    .panel { box-shadow: 0 8px 30px rgba(0,0,0,.08); }
+    .container{max-width:1200px}.shadow-soft{box-shadow:0 2px 10px rgba(0,0,0,.06)}.panel{box-shadow:0 8px 30px rgba(0,0,0,.08)}
+    .section-title{font-weight:800;letter-spacing:-.02em}
+    .price{white-space:nowrap}
   </style>
 </head>
 <body class="min-h-screen bg-white text-neutral-900">
@@ -28,309 +25,196 @@
         <span class="font-semibold tracking-tight">The Back Porch — Kilgore, TX</span>
       </a>
       <nav class="hidden md:flex items-center gap-8 text-sm">
-        <a href="#finder" class="hover:opacity-70">Find a Table</a>
-        <a href="#features" class="hover:opacity-70">What it does</a>
-        <a href="#profile" class="hover:opacity-70">About</a>
-        <a href="#menu" class="hover:opacity-70">Menu highlights</a>
-        <a href="#reviews" class="hover:opacity-70">Reviews</a>
-        <a href="#demo" class="hover:opacity-70">Live Demo</a>
+        <a href="#menu" class="hover:opacity-70">Menu</a>
+        <a href="#visit" class="hover:opacity-70">Plan your visit</a>
+        <a href="#demo" class="hover:opacity-70">Ask the assistant</a>
       </nav>
-      <a href="#demo" class="rounded-md px-4 py-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white transition text-sm">Try the demo</a>
     </div>
   </header>
 
-  <!-- ===== Find a Table (request & slots) ===== -->
-  <section id="finder" class="bg-white border-b">
-    <div class="mx-auto container px-4 py-4">
-      <form id="findForm" class="flex flex-wrap gap-3 items-end">
-        <div>
-          <label class="block text-xs text-neutral-600 mb-1">Date</label>
-          <input id="fDate" type="date" class="border rounded px-3 py-2" required />
+  <!-- Hero -->
+  <section class="bg-neutral-950 text-white">
+    <div class="mx-auto container px-4 py-12 md:py-16 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <p class="text-xs uppercase tracking-widest text-neutral-400">904 Broadway Blvd, Kilgore</p>
+        <h1 class="mt-2 text-4xl md:text-5xl section-title">Back Porch favorites, from burgers to baked potatoes.</h1>
+        <p class="mt-4 text-neutral-200">See today’s menu with prices. Family-friendly spot with casual vibe and live music on select nights.</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#menu" class="rounded-md px-5 py-3 bg-white text-neutral-900 hover:opacity-90">View menu</a>
+          <a href="#visit" class="rounded-md px-5 py-3 border border-white/30 text-white hover:bg-white/10">Plan your visit</a>
         </div>
-        <div>
-          <label class="block text-xs text-neutral-600 mb-1">Time</label>
-          <input id="fTime" type="time" class="border rounded px-3 py-2" required />
-        </div>
-        <div>
-          <label class="block text-xs text-neutral-600 mb-1">Party size</label>
-          <select id="fParty" class="border rounded px-3 py-2">
-            <option>2</option><option>3</option><option selected>4</option>
-            <option>5</option><option>6</option><option>7</option><option>8</option>
-          </select>
-        </div>
-        <button class="rounded-md px-4 py-2 bg-neutral-900 text-white">Find a table</button>
-      </form>
-
-      <div id="slotWrap" class="mt-4 hidden">
-        <div class="text-sm text-neutral-600 mb-2">Available times (request; the host will confirm)</div>
-        <div id="slots" class="flex flex-wrap gap-2"></div>
-        <div id="slotMsg" class="text-xs text-neutral-500 mt-2"></div>
+      </div>
+      <div class="border border-white/15 rounded-lg p-4">
+        <div class="aspect-[16/9] rounded bg-white/5 flex items-center justify-center text-neutral-300 text-sm">Photo area</div>
+        <p class="mt-2 text-xs text-neutral-400">Add your hero photo here.</p>
       </div>
     </div>
   </section>
 
-  <!-- Hero -->
-  <section class="brand-gradient text-white">
-    <div class="mx-auto container px-4 pt-16 pb-20 grid md:grid-cols-2 gap-12 items-center">
-      <div>
-        <p class="text-xs uppercase tracking-widest text-neutral-300">Back Porch, Kilgore</p>
-        <h1 class="mt-2 text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
-          Quick answers. Easy booking requests.
-        </h1>
-        <p class="mt-5 text-lg text-neutral-200">
-          Guests ask about hours, parking, dress code, or the menu? The on-site AI assistant handles it and collects reservation details for the host team.
-        </p>
-        <div class="mt-8 flex flex-wrap items-center gap-3">
-          <a href="#demo" class="rounded-md px-5 py-3 bg-white text-neutral-900 hover:opacity-90">See live demo</a>
-          <a href="#menu" class="rounded-md px-5 py-3 border border-white/30 text-white hover:bg-white/10">Menu highlights</a>
-        </div>
-        <p class="mt-4 text-sm text-neutral-300">Location: 904 Broadway Blvd, Kilgore • Casual vibe • Live music on select nights</p>
+  <!-- MENU -->
+  <section id="menu" class="mx-auto container px-4 py-12 md:py-16">
+    <h2 class="text-3xl md:text-4xl section-title">Menu & Prices</h2>
+    <p class="mt-2 text-sm text-neutral-600">Prices shown are from the restaurant’s public item pages (captured Oct 22, 2025). Items and prices may change in-venue.</p>
+
+    <!-- Grid -->
+    <div class="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm leading-6">
+      <!-- Appetizers -->
+      <div class="border rounded-lg p-5">
+        <div class="font-semibold text-lg">Appetizers</div>
+        <ul class="mt-3 space-y-2 text-neutral-800">
+          <li class="flex justify-between gap-4"><span>Homemade Chips & Queso</span><span class="price">$7.99</span></li>
+          <li class="flex justify-between gap-4"><span>Hand Battered Onion Rings</span><span class="price">$7.99</span></li>
+          <li class="flex justify-between gap-4"><span>Fried Pickles</span><span class="price">$6.99</span></li>
+          <li class="flex justify-between gap-4"><span>Bacon-Wrapped Stuffed Jalapeño Peppers</span><span class="price">$10.99</span></li>
+          <li class="flex justify-between gap-4"><span>Potato Skins</span><span class="price">$9.99</span></li>
+        </ul>
       </div>
 
-      <!-- Animated chat mockup (Back Porch–specific) -->
-      <div class="border border-white/20 rounded-lg p-5 shadow-soft bg-white/5">
-        <div class="aspect-[16/9] rounded-md overflow-hidden border border-white/20 bg-white/10">
-          <div id="rah-mock" class="h-full w-full flex items-center justify-center p-4">
-            <div class="w-full max-w-md bg-white/95 backdrop-blur rounded-xl border border-neutral-200 shadow-soft overflow-hidden">
-              <div class="px-4 py-3 border-b bg-neutral-50 text-sm font-semibold text-neutral-800">
-                The Back Porch — Assistant (Preview)
-              </div>
-              <div id="rah-feed" class="h-64 overflow-auto px-4 py-3 text-sm bg-white"></div>
-              <div class="flex items-center gap-2 border-t bg-neutral-50 px-3 py-2">
-                <div class="flex-1">
-                  <div class="w-full h-9 rounded-md border bg-white text-neutral-500 flex items-center px-3 text-xs">
-                    Ask about hours, parking, dress, menu, or reservations…
-                  </div>
-                </div>
-                <button class="px-3 py-2 text-xs rounded-md border">Send</button>
-              </div>
-            </div>
+      <!-- Salads & Soups -->
+      <div class="border rounded-lg p-5">
+        <div class="font-semibold text-lg">Salads & Bowls</div>
+        <ul class="mt-3 space-y-2 text-neutral-800">
+          <li class="flex justify-between gap-4"><span>Chef Salad</span><span class="price">$12.99</span></li>
+          <li class="flex justify-between gap-4"><span>Grilled Chicken Salad</span><span class="price">$11.99</span></li>
+          <li class="flex justify-between gap-4"><span>Hamburger Salad</span><span class="price">$10.99</span></li>
+          <li class="flex justify-between gap-4"><span>Vicki’s Sampler (pick any 3)</span><span class="price">$12.99</span></li>
+        </ul>
+        <p class="mt-2 text-xs text-neutral-500">Add avocado to any salad for $0.99.</p>
+      </div>
+
+      <!-- Baked Potatoes -->
+      <div class="border rounded-lg p-5">
+        <div class="font-semibold text-lg">Baked Potatoes</div>
+        <ul class="mt-3 space-y-2 text-neutral-800">
+          <li class="flex justify-between gap-4"><span>Plain Jane</span><span class="price">$7.99</span></li>
+          <li class="flex justify-between gap-4"><span>Fully Loaded</span><span class="price">$8.99</span></li>
+          <li class="flex justify-between gap-4"><span>Grilled Chicken Baked Potato</span><span class="price">$12.99</span></li>
+          <li class="flex justify-between gap-4"><span>Chicken Strip Baked Potato</span><span class="price">$12.99</span></li>
+          <li class="flex justify-between gap-4"><span>Burger Baked Potato</span><span class="price">$12.99</span></li>
+        </ul>
+      </div>
+
+      <!-- Gourmet Burgers -->
+      <div class="border rounded-lg p-5">
+        <div class="font-semibold text-lg">Gourmet Burgers</div>
+        <ul class="mt-3 space-y-2 text-neutral-800">
+          <li class="flex justify-between gap-4"><span>Old-Fashioned Homemade Cheeseburger</span><span class="price">$11.99</span></li>
+          <li class="flex justify-between gap-4"><span>Bacon Cheeseburger</span><span class="price">$13.99</span></li>
+          <li class="flex justify-between gap-4"><span>Chili Cheese Burger</span><span class="price">$13.99</span></li>
+          <li class="flex justify-between gap-4"><span>Farmhouse Cheeseburger</span><span class="price">$14.99</span></li>
+          <li class="flex justify-between gap-4"><span>Cheeseburger Sliders (4)</span><span class="price">$12.99</span></li>
+          <li class="flex justify-between gap-4"><span>The Big Double (1 lb)</span><span class="price">$16.99</span></li>
+        </ul>
+      </div>
+
+      <!-- Sandwiches, Wraps & Melts -->
+      <div class="border rounded-lg p-5">
+        <div class="font-semibold text-lg">Sandwiches, Wraps & Melts</div>
+        <ul class="mt-3 space-y-2 text-neutral-800">
+          <li class="flex justify-between gap-4"><span>BLT (Texas Toast)</span><span class="price">$10.99</span></li>
+          <li class="flex justify-between gap-4"><span>Chicken Fried Steak Sandwich</span><span class="price">$14.99</span></li>
+          <li class="flex justify-between gap-4"><span>Philly Cheesesteak</span><span class="price">$13.99</span></li>
+          <li class="flex justify-between gap-4"><span>Grilled Chicken Quesadilla</span><span class="price">$12.99</span></li>
+        </ul>
+      </div>
+
+      <!-- Dinners -->
+      <div class="border rounded-lg p-5">
+        <div class="font-semibold text-lg">Dinners</div>
+        <ul class="mt-3 space-y-2 text-neutral-800">
+          <li class="flex justify-between gap-4"><span>Chicken Strip Basket (with fries & cream gravy)</span><span class="price">$10.99</span></li>
+          <li class="flex justify-between gap-4"><span>Cowboy Dinner (hamburger steak, chili, cheese, onions)</span><span class="price">$16.99</span></li>
+          <li class="flex justify-between gap-4"><span>Sirloin (6 oz, garlic butter)</span><span class="price">$19.99</span></li>
+          <li class="flex justify-between gap-4"><span>BP Mixer (sirloin + grilled chicken + cheddar cubes, dips)</span><span class="price">$29.99</span></li>
+          <li class="flex justify-between gap-4"><span>Chicken Fried Chicken Dinner (cream gravy)</span><span class="price">$16.99</span></li>
+        </ul>
+      </div>
+
+      <!-- Sides -->
+      <div class="border rounded-lg p-5">
+        <div class="font-semibold text-lg">Sides</div>
+        <ul class="mt-3 space-y-2 text-neutral-800">
+          <li class="flex justify-between gap-4"><span>Loaded Baked Potato (side)</span><span class="price">$3.99</span></li>
+          <!-- Add more sides as needed -->
+        </ul>
+        <p class="mt-2 text-xs text-neutral-500">Ask staff for daily sides and dessert options.</p>
+      </div>
+    </div>
+
+    <p class="mt-6 text-xs text-neutral-500">
+      Sources: official item pages for <em>Homemade Chips & Queso</em>, <em>Onion Rings</em>, <em>Fried Pickles</em>, <em>Potato Skins</em>, <em>Chef Salad</em>, <em>Grilled Chicken Salad</em>, 
+      <em>Hamburger Salad</em>, <em>Vicki’s Sampler</em>, <em>Plain Jane</em>, <em>Fully Loaded</em>, <em>Grilled Chicken Baked Potato</em>, <em>Chicken Strip Baked Potato</em>, 
+      <em>Burger Baked Potato</em>, <em>Old-Fashioned Cheeseburger</em>, <em>Bacon Cheeseburger</em>, <em>Chili Cheese Burger</em>, <em>Farmhouse Cheeseburger</em>, 
+      <em>Cheeseburger Sliders</em>, <em>The Big Double</em>, <em>BLT</em>, <em>Chicken Fried Steak Sandwich</em>, <em>Philly Cheesesteak</em>, 
+      <em>Grilled Chicken Quesadilla</em>, <em>Chicken Strip Basket</em>, <em>Cowboy Dinner</em>, <em>Sirloin</em>, <em>BP Mixer</em>, <em>Chicken Fried Chicken Dinner</em>.
+    </p>
+  </section>
+
+  <!-- Visit info -->
+  <section id="visit" class="bg-neutral-50">
+    <div class="mx-auto container px-4 py-12 md:py-16 grid md:grid-cols-3 gap-8">
+      <div class="md:col-span-2">
+        <h2 class="text-3xl md:text-4xl section-title">Plan your visit</h2>
+        <div class="mt-4 grid sm:grid-cols-2 gap-6 text-sm">
+          <div class="border rounded-lg p-5 bg-white">
+            <div class="font-semibold">Address</div>
+            <p class="mt-1">904 Broadway Blvd, Kilgore, TX 75662</p>
+          </div>
+          <div class="border rounded-lg p-5 bg-white">
+            <div class="font-semibold">Phone</div>
+            <p class="mt-1">(903) 984-8141</p>
+          </div>
+          <div class="border rounded-lg p-5 bg-white">
+            <div class="font-semibold">Parking</div>
+            <p class="mt-1">On-site lot; nearby parking on busy event nights.</p>
+          </div>
+          <div class="border rounded-lg p-5 bg-white">
+            <div class="font-semibold">Dress</div>
+            <p class="mt-1">Casual to smart-casual. Comfortable attire welcome.</p>
           </div>
         </div>
-        <p class="mt-3 text-xs text-neutral-300">Preview of common questions for Back Porch guests.</p>
-      </div>
-    </div>
-  </section>
 
-  <!-- What it does -->
-  <section id="features" class="mx-auto container px-4 py-16">
-    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">What it does</h2>
-    <div class="mt-10 grid md:grid-cols-3 gap-6">
-      <div class="border rounded-lg p-6 hover:shadow-soft transition">
-        <div class="text-lg font-semibold">Instant FAQs</div>
-        <p class="mt-2 text-sm text-neutral-600">Hours, address, parking lot info, dress guidance—accurate and consistent.</p>
+        <div class="mt-6 flex flex-wrap gap-3 text-sm">
+          <a href="https://www.thebackporchkilgore.com/live-music" class="rounded-md px-4 py-2 border hover:bg-neutral-100">Live Music</a>
+          <a href="https://www.thebackporchkilgore.com/bpmixeddrinks" class="rounded-md px-4 py-2 border hover:bg-neutral-100">Mixed Drinks</a>
+          <a href="https://www.thebackporchkilgore.com/menu" class="rounded-md px-4 py-2 border hover:bg-neutral-100">Full Menu on Website</a>
+        </div>
       </div>
-      <div class="border rounded-lg p-6 hover:shadow-soft transition">
-        <div class="text-lg font-semibold">Menu guidance</div>
-        <p class="mt-2 text-sm text-neutral-600">Highlights categories like Appetizers, Salads & Soups, Baked Potatoes, Gourmet Burgers, Sandwiches & Melts, Dinners.</p>
-      </div>
-      <div class="border rounded-lg p-6 hover:shadow-soft transition">
-        <div class="text-lg font-semibold">Reservation intake</div>
-        <p class="mt-2 text-sm text-neutral-600">Collects name, party, date/time, phone; host confirms—no POS changes needed.</p>
-      </div>
-    </div>
-  </section>
 
-  <!-- Menu highlights (based on published menu structure) -->
-  <section id="menu" class="mx-auto container px-4 py-16">
-    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Menu highlights</h2>
-    <p class="mt-2 text-neutral-600 text-sm">Representative categories and guest favorites (names vary by season).</p>
-
-    <div class="mt-8 grid md:grid-cols-3 gap-6 text-sm">
-      <div class="border rounded-lg p-5">
-        <div class="font-semibold">Appetizers</div>
-        <ul class="mt-2 list-disc list-inside text-neutral-700">
-          <li>Homemade Chips & Queso</li>
-          <li>Bacon-Wrapped Stuffed Jalapeño Peppers</li>
-          <li>Fried Pickles</li>
-        </ul>
-      </div>
-      <div class="border rounded-lg p-5">
-        <div class="font-semibold">Salads & Soups</div>
-        <ul class="mt-2 list-disc list-inside text-neutral-700">
-          <li>House or Caesar, add chicken</li>
-          <li>Chili or Soup of the Day</li>
-        </ul>
-      </div>
-      <div class="border rounded-lg p-5">
-        <div class="font-semibold">Baked Potatoes</div>
-        <ul class="mt-2 list-disc list-inside text-neutral-700">
-          <li>Classic Butter & Sour Cream</li>
-          <li>Grilled Chicken Baked Potato</li>
-        </ul>
-      </div>
-      <div class="border rounded-lg p-5">
-        <div class="font-semibold">Gourmet Burgers</div>
-        <ul class="mt-2 list-disc list-inside text-neutral-700">
-          <li>Old-Fashioned Homemade Cheeseburger</li>
-          <li>Patty Melt</li>
-          <li>Buffalo Burger (varies)</li>
-        </ul>
-      </div>
-      <div class="border rounded-lg p-5">
-        <div class="font-semibold">Sandwiches, Wraps & Melts</div>
-        <ul class="mt-2 list-disc list-inside text-neutral-700">
-          <li>Grilled Chicken Quesadilla</li>
-          <li>Club / Chicken Sandwich</li>
-        </ul>
-      </div>
-      <div class="border rounded-lg p-5">
-        <div class="font-semibold">Dinners</div>
-        <ul class="mt-2 list-disc list-inside text-neutral-700">
-          <li>Chicken Strip Basket</li>
-          <li>Hamburger Steak Dinner with Brown Gravy</li>
-        </ul>
-      </div>
-    </div>
-    <p class="mt-4 text-xs text-neutral-500">Ask in chat for today’s hours, parking, dress, and item availability.</p>
-  </section>
-
-  <!-- About / Location -->
-  <section id="profile" class="mx-auto container px-4 py-16">
-    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">About The Back Porch</h2>
-    <div class="mt-6 grid md:grid-cols-3 gap-8">
-      <div class="md:col-span-2 text-sm text-neutral-700 leading-6">
-        <p>Relaxed, long-running Kilgore spot serving hearty burgers, baskets, baked potatoes, and more—with live music on select nights. Family-friendly and community-rooted.</p>
-        <div class="mt-6">
-          <div class="font-semibold">Hours</div>
-          <p class="mt-1">Lunch & dinner daily; later bar hours some nights (check the site or call ahead).</p>
-        </div>
-        <div class="mt-6">
-          <div class="font-semibold">Dress</div>
-          <p class="mt-1">Casual to smart-casual. Comfortable attire welcome.</p>
-        </div>
-        <div class="mt-6">
-          <div class="font-semibold">Parking</div>
-          <p class="mt-1">On-site lot; additional nearby parking during events.</p>
-        </div>
-      </div>
-      <aside>
-        <div class="border rounded-lg overflow-hidden">
-          <iframe
-            src="https://www.google.com/maps?q=904+Broadway+Blvd,+Kilgore,+TX+75662&output=embed"
-            class="w-full h-64"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
-        <div class="mt-4 text-sm">
-          <div class="font-semibold">Address</div>
-          <div>904 Broadway Blvd, Kilgore, TX 75662</div>
-          <div class="mt-2"><span class="font-semibold">Phone:</span> (903) 984-8141</div>
-        </div>
+      <aside class="border rounded-lg overflow-hidden bg-white">
+        <iframe
+          src="https://www.google.com/maps?q=904+Broadway+Blvd,+Kilgore,+TX+75662&output=embed"
+          class="w-full h-80"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
       </aside>
     </div>
   </section>
 
-  <!-- Reviews (generic) -->
-  <section id="reviews" class="bg-neutral-50 border-y">
-    <div class="mx-auto container px-4 py-16">
-      <h2 class="text-3xl md:text-4xl font-bold tracking-tight">What guests say</h2>
-      <div class="mt-6 grid md:grid-cols-3 gap-6">
-        <article class="border rounded-lg p-5 bg-white">
-          <div class="font-semibold">Great burgers, friendly staff</div>
-          <p class="mt-2 text-sm text-neutral-700">The classic cheeseburger and fries are hard to beat. Quick service even on busy nights.</p>
-          <div class="mt-3 text-xs text-neutral-500">— Recent diner</div>
-        </article>
-        <article class="border rounded-lg p-5 bg-white">
-          <div class="font-semibold">Perfect for groups</div>
-          <p class="mt-2 text-sm text-neutral-700">Plenty of space and live music—our go-to for casual get-togethers.</p>
-          <div class="mt-3 text-xs text-neutral-500">— Local regular</div>
-        </article>
-        <article class="border rounded-lg p-5 bg-white">
-          <div class="font-semibold">Good variety</div>
-          <p class="mt-2 text-sm text-neutral-700">From baked potatoes to quesadillas and baskets, there’s something for everyone.</p>
-          <div class="mt-3 text-xs text-neutral-500">— Family of four</div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- LIVE DEMO -->
-  <section id="demo" class="bg-neutral-50 border-t">
-    <div class="mx-auto container px-4 py-16">
-      <div class="md:flex md:items-center md:justify-between gap-6">
-        <div>
-          <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Live Demo</h2>
-          <p class="mt-2 text-neutral-600">Watch the assistant handle Back Porch–specific questions. Pause and try your own.</p>
-        </div>
-        <div class="mt-6 md:mt-0 text-sm">
-          <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">Live</span>
-        </div>
+  <!-- Optional: AI assistant demo (no reservations) -->
+  <section id="demo" class="mx-auto container px-4 py-12 md:py-16">
+    <h2 class="text-3xl md:text-4xl section-title">Ask the assistant</h2>
+    <p class="mt-2 text-neutral-600 text-sm">Try typical questions (hours, parking, menu guidance). Reservation requests are disabled on this page.</p>
+    <div class="mt-6 grid md:grid-cols-2 gap-8 items-start">
+      <div class="panel bg-white border rounded-lg overflow-hidden">
+        <div class="px-4 py-3 border-b font-semibold">Assistant</div>
+        <div id="log" class="h-[380px] overflow-auto px-4 py-4 text-sm"></div>
+        <form id="form" class="flex border-t">
+          <input id="input" class="flex-1 px-4 py-3 outline-none" placeholder="Type a message…" />
+          <button class="px-4 py-3 border-l bg-neutral-50 hover:bg-neutral-100" type="submit">Send</button>
+        </form>
+        <div class="px-4 py-3 text-xs text-neutral-500 border-t">Example: “Recommend a burger and side.”</div>
       </div>
 
-      <!-- Demo controls -->
-      <div class="mt-6 grid md:grid-cols-2 gap-4">
-        <div class="panel bg-white border rounded-lg p-4">
-          <div class="flex flex-wrap items-center gap-3">
-            <button id="demoPlay" class="rounded-md px-3 py-2 bg-neutral-900 text-white">Play</button>
-            <button id="demoPause" class="rounded-md px-3 py-2 border">Pause</button>
-            <button id="demoReset" class="rounded-md px-3 py-2 border">Reset</button>
-
-            <label class="ml-2 text-sm text-neutral-700">Scenario
-              <select id="demoScenario" class="ml-2 border rounded-md px-2 py-1 text-sm">
-                <option value="faq" selected>Back Porch FAQ</option>
-                <option value="diet">Dietary</option>
-                <option value="reserve">Reservation</option>
-                <option value="mixed">Mixed</option>
-              </select>
-            </label>
-
-            <label class="ml-2 text-sm text-neutral-700">Speed
-              <select id="demoSpeed" class="ml-2 border rounded-md px-2 py-1 text-sm">
-                <option value="1">1×</option>
-                <option value="1.5" selected>1.5×</option>
-                <option value="2">2×</option>
-              </select>
-            </label>
-
-            <label class="ml-2 text-sm text-neutral-700 inline-flex items-center gap-2">
-              <input id="demoTypeFX" type="checkbox" class="accent-neutral-900" checked />
-              Typing effect
-            </label>
-          </div>
-          <p class="mt-2 text-xs text-neutral-500">This hits your live API for replies; content reflects Back Porch info.</p>
-        </div>
-
-        <!-- Presets -->
-        <div class="panel bg-white border rounded-lg p-4">
-          <div class="text-sm font-medium">Quick prompts</div>
-          <div class="mt-3 grid sm:grid-cols-2 gap-3">
-            <button class="preset border rounded-md px-3 py-2 bg-white hover:bg-neutral-50 text-left">What are today’s hours?</button>
-            <button class="preset border rounded-md px-3 py-2 bg-white hover:bg-neutral-50 text-left">Do you have on-site parking?</button>
-            <button class="preset border rounded-md px-3 py-2 bg-white hover:bg-neutral-50 text-left">Is there a dress code?</button>
-            <button class="preset border rounded-md px-3 py-2 bg-white hover:bg-neutral-50 text-left">Recommend a burger + side</button>
-            <button class="preset border rounded-md px-3 py-2 bg-white hover:bg-neutral-50 text-left">Gluten-conscious options?</button>
-            <button class="preset border rounded-md px-3 py-2 bg-white hover:bg-neutral-50 text-left">Request a table Friday 7:30</button>
-          </div>
-        </div>
+      <div class="panel bg-white border rounded-lg p-5">
+        <div class="font-semibold">Notes</div>
+        <ul class="mt-2 text-sm text-neutral-700 space-y-2 list-disc list-inside">
+          <li>Answers reflect Back Porch menu structure and typical guest info.</li>
+          <li>Exact prices shown above are from the restaurant’s public item pages.</li>
+          <li>For private events or large groups, please call for details.</li>
+        </ul>
       </div>
-
-      <!-- Chat panel -->
-      <section class="mt-8 grid md:grid-cols-2 gap-8 items-start">
-        <div class="panel bg-white border rounded-lg overflow-hidden">
-          <div class="px-4 py-3 border-b font-semibold">Assistant</div>
-          <div id="log" class="h-[420px] overflow-auto px-4 py-4 text-sm"></div>
-          <form id="form" class="flex border-t">
-            <input id="input" class="flex-1 px-4 py-3 outline-none" placeholder="Type a message…" />
-            <button class="px-4 py-3 border-l bg-neutral-50 hover:bg-neutral-100" type="submit">Send</button>
-          </form>
-        </div>
-
-        <aside>
-          <div class="panel bg-white border rounded-lg p-5">
-            <div class="font-semibold">What to watch</div>
-            <ul class="mt-3 text-sm text-neutral-700 space-y-2 list-disc list-inside">
-              <li>Back Porch hours/parking/dress answers.</li>
-              <li>Menu guidance (burgers, baskets, baked potatoes, salads & soups).</li>
-              <li>Reservation request flow (host confirms).</li>
-            </ul>
-            <div class="mt-5 text-xs text-neutral-500">
-              Demo content based on Back Porch’s public menu and pages; availability is simulated.
-            </div>
-          </div>
-        </aside>
-      </section>
     </div>
   </section>
 
@@ -339,122 +223,28 @@
     <div class="mx-auto container px-4 py-8 text-sm text-neutral-500 flex items-center justify-between">
       <span id="year"></span>
       <div class="flex items-center gap-4">
-        <a href="#privacy" class="hover:opacity-70">Privacy</a>
-        <a href="#terms" class="hover:opacity-70">Terms</a>
+        <a href="https://www.thebackporchkilgore.com/contact" class="hover:opacity-70">Contact</a>
+        <a href="#menu" class="hover:opacity-70">Menu</a>
       </div>
     </div>
   </footer>
 
-  <!-- Sticky CTA -->
-  <div id="ctaBar" class="fixed inset-x-0 bottom-0 z-40 bg-white/95 border-t hidden">
-    <div class="mx-auto container px-4 py-3 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
-      <div class="text-sm">
-        <span class="font-semibold">See it with your menu.</span>
-        <span class="text-neutral-600">We’ll load dishes and allergy flags for a private walkthrough.</span>
-      </div>
-      <a href="#demo" class="rounded-md px-4 py-2 bg-neutral-900 text-white text-center hover:opacity-90">Get a demo</a>
-    </div>
-  </div>
-
-  <!-- Cookie banner -->
-  <div id="cookieBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 z-50 bg-white border rounded-lg p-4 shadow-soft hidden">
-    <div class="text-sm text-neutral-800">
-      We use cookies/analytics to improve your experience. See our <a href="#privacy" class="underline">Privacy Policy</a>.
-    </div>
-    <div class="mt-2 text-right">
-      <button id="cookieAccept" class="rounded-md px-3 py-1.5 bg-neutral-900 text-white text-sm">OK</button>
-    </div>
-  </div>
-
-  <!-- ===== Animated preview styles ===== -->
-  <style>
-    @keyframes rahFadeUp { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
-    .rah-bubble { animation: rahFadeUp .28s ease-out both; }
-  </style>
-
-  <!-- ===== Animated chat preview (Back Porch–specific) ===== -->
-  <script>
-  (function(){
-    const feed = document.getElementById('rah-feed');
-    if (!feed) return;
-    const bubbles = [
-      { role:'ai',  text:"Welcome to The Back Porch in Kilgore—how can I help today?" },
-      { role:'you', text:"What are your hours tonight and do you have parking?" },
-      { role:'ai',  text:"We serve lunch and dinner daily; some nights run later around live music. There’s an on-site lot and nearby parking during events." },
-      { role:'you', text:"Is there a dress code?" },
-      { role:'ai',  text:"Casual to smart-casual fits the room. Come comfortable." },
-      { role:'you', text:"What’s a popular starter?" },
-      { role:'ai',  text:"Guests love the Homemade Chips & Queso and the Bacon-Wrapped Stuffed Jalapeños. Fried pickles are a hit, too." },
-      { role:'you', text:"Recommend a burger + side?" },
-      { role:'ai',  text:"The Old-Fashioned Homemade Cheeseburger with fries is a classic. Patty Melt’s another favorite." },
-      { role:'you', text:"Can I request a table for Friday 7:30 for four?" },
-      { role:'ai',  text:"Sure—share your name and mobile number, and I’ll send the request to the host team to confirm." }
-    ];
-    function escapeHTML(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-    function bubble(role, text){
-      const row = document.createElement('div');
-      row.className = 'rah-bubble my-1';
-      row.innerHTML = role === 'you'
-        ? '<div class="text-right"><span class="inline-block max-w-[80%] rounded-md bg-neutral-900 text-white px-3 py-2">'+escapeHTML(text)+'</span></div>'
-        : '<div class="text-left"><span class="inline-block max-w-[80%] rounded-md bg-neutral-100 text-neutral-900 px-3 py-2">'+escapeHTML(text)+'</span></div>';
-      feed.appendChild(row); feed.scrollTop = feed.scrollHeight;
-    }
-    let i = 0;
-    (function run(){
-      if (i >= bubbles.length) return setTimeout(()=>{ feed.innerHTML=''; i=0; run(); }, 3200);
-      const msg = bubbles[i++]; const delay = msg.role === 'ai' ? 720 : 520;
-      setTimeout(()=>{ bubble(msg.role, msg.text); run(); }, delay);
-    })();
-  })();
-  </script>
-
-  <!-- Demo player (talks to your API) -->
+  <!-- Chat logic (same API, no reservations) -->
   <script>
   (function(){
     const API = document.querySelector('meta[name="rai-api"]').content;
-
     const logEl = document.getElementById('log');
     const formEl = document.getElementById('form');
     const inputEl = document.getElementById('input');
-    const playBtn = document.getElementById('demoPlay');
-    const pauseBtn = document.getElementById('demoPause');
-    const resetBtn = document.getElementById('demoReset');
-    const speedSel = document.getElementById('demoSpeed');
-    const scenarioSel = document.getElementById('demoScenario');
-    const typeFxChk = document.getElementById('demoTypeFX');
 
-    const SCENARIOS = {
-      faq: [
-        "What are your hours today?",
-        "Do you have on-site parking?",
-        "Is there a dress code?"
-      ],
-      diet: [
-        "Any gluten-conscious options?",
-        "Which salads can add grilled chicken?",
-        "Do you have baked potatoes?"
-      ],
-      reserve: [
-        "Can I request a table?",
-        "Table for 4 at 7:30 Friday",
-        "My name is Taylor, phone 555-1234"
-      ],
-      mixed: [
-        "What’s a popular appetizer?",
-        "Recommend a burger and a side.",
-        "Where can I park?",
-        "Reservation for 6 tomorrow at 8pm"
-      ]
-    };
-
-    let playing=false, step=0, timer=null;
     function escapeHtml(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
     function say(role, text){
-      const row = document.createElement('div'); row.className='mb-2';
+      const row = document.createElement('div');
+      row.className = 'mb-2';
       row.innerHTML = role==='you'
         ? `<div class="text-right"><span class="inline-block rounded-md bg-neutral-900 text-white px-3 py-2">${escapeHtml(text)}</span></div>`
         : `<div class="text-left"><span class="inline-block rounded-md bg-neutral-100 px-3 py-2">${escapeHtml(text)}</span></div>`;
-      logEl.appendChild(row); logEl.scrollTop=logEl.scrollHeight;
+      logEl.appendChild(row); logEl.scrollTop = logEl.scrollHeight;
     }
     async function ask(q){
       if(!q.trim()) return; say('you', q); say('ai','…');
@@ -466,170 +256,15 @@
         logEl.lastChild.innerHTML = '<div class="text-left"><span class="inline-block rounded-md bg-red-50 text-red-700 px-3 py-2">Can’t reach the demo API right now.</span></div>';
       }
     }
-    function sleep(ms){ return new Promise(r=> timer=setTimeout(r,ms)); }
-    async function typeEffect(text,speed=1){ inputEl.value=''; for(const ch of text){ inputEl.value+=ch; await sleep(22/speed);} }
+    formEl?.addEventListener('submit', (e)=>{ e.preventDefault(); const v=inputEl.value; inputEl.value=''; ask(v); });
 
-    async function play(){
-      if(playing) return; playing=true;
-      const speed=parseFloat(speedSel?.value||'1'); const msgs=SCENARIOS[scenarioSel?.value]||SCENARIOS.faq;
-      if(step===0 && logEl.childElementCount===0){ say('ai','Hi from The Back Porch—ask about hours, parking, dress, or the menu.'); await sleep(600/speed); }
-      while(playing && step<msgs.length){
-        const q=msgs[step];
-        if (typeFxChk?.checked){ await typeEffect(q,speed); await sleep(180/speed);} else { inputEl.value=q; }
-        await ask(q); step+=1; await sleep(1200/speed);
-      }
-      playing=false;
-    }
-    function pause(){ playing=false; if(timer) clearTimeout(timer); }
-    function reset(){ pause(); step=0; logEl.innerHTML=''; inputEl.value=''; }
-
-    playBtn?.addEventListener('click', play);
-    pauseBtn?.addEventListener('click', pause);
-    resetBtn?.addEventListener('click', reset);
-    scenarioSel?.addEventListener('change', reset);
-    document.querySelectorAll('.preset').forEach(b=> b.addEventListener('click', ()=>{ pause(); ask(b.textContent.trim()); }));
-    formEl?.addEventListener('submit', e=>{ e.preventDefault(); pause(); const v=inputEl.value; inputEl.value=''; ask(v); });
+    // Seed a helpful opening line
+    say('ai', 'Hi! I can help with hours, parking, dress, and menu suggestions at The Back Porch.');
   })();
   </script>
 
-  <!-- Find a Table logic (prefills drawer) -->
   <script>
-  (function(){
-    const API = document.querySelector('meta[name="rai-api"]')?.content || '';
-    const form = document.getElementById('findForm');
-    const slotWrap = document.getElementById('slotWrap');
-    const slotsEl = document.getElementById('slots');
-    const slotMsg = document.getElementById('slotMsg');
-
-    function fmtDate(d){ return d.toISOString().slice(0,10); }
-    function fmtTime(d){ return d.toTimeString().slice(0,5); }
-
-    try{
-      const now = new Date();
-      document.getElementById('fDate').value = fmtDate(now);
-      document.getElementById('fTime').value = fmtTime(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 19, 0));
-    }catch{}
-
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      slotWrap.classList.remove('hidden');
-      slotsEl.innerHTML=''; slotMsg.textContent='Searching…';
-
-      const date = document.getElementById('fDate').value;
-      const time = document.getElementById('fTime').value;
-      const party = document.getElementById('fParty').value;
-
-      try{
-        const url = new URL(API + '/availability');
-        url.searchParams.set('date', date);
-        url.searchParams.set('time', time);
-        url.searchParams.set('party', party);
-
-        const r = await fetch(url);
-        const j = await r.json();
-
-        slotsEl.innerHTML='';
-        slotMsg.textContent = (j && Array.isArray(j.slots) && j.slots.length) ? 'Tap a time to request a reservation.' : 'No exact matches. Showing nearby times.';
-
-        (j.slots || []).forEach(ts=>{
-          const b = document.createElement('button');
-          b.type='button'; b.className='px-3 py-2 border rounded hover:bg-neutral-50'; b.textContent=ts;
-          b.addEventListener('click', ()=>{
-            const drawer = document.getElementById('resvDrawer');
-            const dt = document.querySelector('#resvForm input[name="ts"]');
-            if (dt) dt.value = date + 'T' + to24(ts);
-            drawer?.classList.remove('hidden');
-          });
-          slotsEl.appendChild(b);
-        });
-
-        function to24(label){
-          try{
-            const m = label.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-            if (!m) return '19:00';
-            let hh = parseInt(m[1],10), mm = m[2];
-            const ampm = m[3].toUpperCase();
-            if (ampm==='PM' && hh!==12) hh+=12;
-            if (ampm==='AM' && hh===12) hh=0;
-            return String(hh).padStart(2,'0')+':'+mm;
-          }catch{ return '19:00'; }
-        }
-      }catch{
-        slotMsg.textContent = 'Could not load availability right now.';
-      }
-    });
-  })();
-  </script>
-
-  <!-- Simple helpers (accordion, CTA, cookie, year) -->
-  <script>
-  (function(){
-    const bar = document.getElementById('ctaBar'); if(!bar) return;
-    let shown=false; function onScroll(){ if(shown) return; if(window.scrollY>600){ bar.classList.remove('hidden'); shown=true; } }
-    window.addEventListener('scroll', onScroll, { passive:true });
-  })();
-  (function(){
-    try{
-      const banner = document.getElementById('cookieBanner');
-      const btn = document.getElementById('cookieAccept');
-      if (!banner || !btn) return;
-      if (!localStorage.getItem('cookie-ok')) banner.classList.remove('hidden');
-      btn.addEventListener('click',()=>{ localStorage.setItem('cookie-ok','1'); banner.classList.add('hidden'); });
-    }catch(e){}
-  })();
-  document.getElementById('year').textContent = `© ${new Date().getFullYear()} Restaurant AI Helper`;
-  </script>
-
-  <!-- ===== Reservation drawer ===== -->
-  <div id="resvDrawer" class="fixed right-4 bottom-20 w-[360px] max-w-[90vw] bg-white border rounded-xl shadow-soft hidden z-50">
-    <div class="px-4 py-3 border-b font-semibold">Request a reservation</div>
-    <form id="resvForm" class="p-4 text-sm space-y-2">
-      <input required name="guest_name" placeholder="Full name" class="w-full border rounded px-3 py-2"/>
-      <input required name="phone" placeholder="Mobile number" class="w-full border rounded px-3 py-2"/>
-      <div class="flex gap-2">
-        <input required type="number" min="1" name="party_size" placeholder="Party size" class="w-1/3 border rounded px-3 py-2"/>
-        <input required type="datetime-local" name="ts" class="flex-1 border rounded px-3 py-2"/>
-      </div>
-      <textarea name="notes" placeholder="Notes (optional)" class="w-full border rounded px-3 py-2"></textarea>
-      <button class="w-full rounded-md px-4 py-2 bg-neutral-900 text-white">Send request</button>
-      <div id="resvMsg" class="text-xs text-neutral-600"></div>
-    </form>
-  </div>
-
-  <script>
-  (function(){
-    const API = document.querySelector('meta[name="rai-api"]')?.content || '';
-    const drawer = document.getElementById('resvDrawer');
-    const form = document.getElementById('resvForm');
-    const msg = document.getElementById('resvMsg');
-    const log = document.getElementById('log');
-
-    const triggerWords = ['reservation','book a table','book','table','host will confirm'];
-    const observer = new MutationObserver(() => {
-      const text = log?.lastChild?.innerText?.toLowerCase() || '';
-      if (triggerWords.some(w => text.includes(w))) drawer.classList.remove('hidden');
-    });
-    if (log) observer.observe(log, { childList: true });
-
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      msg.textContent = 'Sending...';
-      const fd = new FormData(form);
-      const payload = Object.fromEntries(fd.entries());
-      payload.party_size = Number(payload.party_size || 0);
-
-      try{
-        const r = await fetch(API + '/reservations', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify(payload)
-        });
-        const j = await r.json();
-        if (j.ok) { msg.textContent = 'Request sent. The host team will follow up to confirm.'; form.reset(); setTimeout(()=> drawer.classList.add('hidden'), 1500); }
-        else { msg.textContent = 'Could not send right now.'; }
-      }catch{ msg.textContent = 'Network error. Try again.'; }
-    });
-  })();
+    document.getElementById('year').textContent = `© ${new Date().getFullYear()} The Back Porch Kilgore`;
   </script>
 </body>
 </html>
