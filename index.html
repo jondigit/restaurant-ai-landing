@@ -4,12 +4,61 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Restaurant AI Helper — Turn Visitors into Bookings</title>
-  <meta name="description" content="An AI assistant for restaurants that answers FAQs, menu questions, and gathers reservation details 24/7." />
+  <meta name="description" content="An AI assistant for restaurants that answers FAQs, menu questions, and captures reservation details 24/7." />
   <meta name="theme-color" content="#0B0F19" />
-  <meta property="og:title" content="Restaurant AI Helper" />
-  <meta property="og:description" content="Instant answers for hours, parking, and menu. Capture reservation details 24/7." />
-  <meta property="og:type" content="website" />
   <link rel="icon" href="/favicon.ico" />
+
+  <!-- Centralized API base (edit this if your API URL changes) -->
+  <meta name="rai-api" content="https://restaurant-ai-landing.onrender.com" />
+
+  <!-- Open Graph / Twitter (SEO & sharing) -->
+  <meta property="og:url" content="https://restaurantaihelper.com" />
+  <meta property="og:title" content="Restaurant AI Helper — Turn Visitors into Bookings" />
+  <meta property="og:description" content="Instant answers for hours, parking, and menu. Capture reservation details 24/7." />
+  <meta property="og:image" content="https://restaurantaihelper.com/og-cover.jpg" />
+  <meta property="og:image:alt" content="Restaurant AI Helper – turn visitors into bookings" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Restaurant AI Helper — Turn Visitors into Bookings" />
+  <meta name="twitter:description" content="Instant answers for hours, parking, menu. Capture reservation details 24/7." />
+  <meta name="twitter:image" content="https://restaurantaihelper.com/og-cover.jpg" />
+  <link rel="canonical" href="https://restaurantaihelper.com" />
+
+  <!-- JSON-LD: Organization + Product -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Restaurant AI Helper",
+    "url":"https://restaurantaihelper.com",
+    "logo":"https://restaurantaihelper.com/logo.png",
+    "sameAs":[]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Product",
+    "name":"Restaurant AI Helper",
+    "description":"AI assistant for restaurants that answers FAQs, menu questions, and captures reservation details.",
+    "brand":{"@type":"Brand","name":"Restaurant AI Helper"},
+    "offers":{
+      "@type":"AggregateOffer",
+      "priceCurrency":"USD",
+      "lowPrice":"99",
+      "highPrice":"179",
+      "offerCount":"3"
+    }
+  }
+  </script>
+
+  <!-- Google Analytics 4 (replace G-XXXXXXXXXX with your GA4 ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date()); gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .container { max-width: 1200px; }
@@ -52,6 +101,7 @@
         <div class="mt-8 flex flex-wrap items-center gap-3">
           <a href="#demo" class="rounded-md px-5 py-3 bg-white text-neutral-900 hover:opacity-90">See a live demo</a>
           <a href="#features" class="rounded-md px-5 py-3 border border-white/30 text-white hover:bg-white/10">Explore features</a>
+          <a href="#" id="openSchedule" class="rounded-md px-5 py-3 border border-white/30 text-white hover:bg-white/10">Book a walkthrough</a>
         </div>
         <p class="mt-4 text-sm text-neutral-300">No POS changes • Install in minutes • On-brand responses</p>
       </div>
@@ -64,21 +114,26 @@
     </div>
   </section>
 
+  <!-- Logo strip (social proof) -->
+  <section class="bg-white border-b">
+    <div class="mx-auto container px-4 py-8">
+      <div class="text-center text-sm text-neutral-600 mb-4">Trusted by hospitality teams</div>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-6 items-center opacity-80">
+        <img src="/logos/logo1.svg" alt="Brand 1" class="h-8 mx-auto">
+        <img src="/logos/logo2.svg" alt="Brand 2" class="h-8 mx-auto">
+        <img src="/logos/logo3.svg" alt="Brand 3" class="h-8 mx-auto">
+        <img src="/logos/logo4.svg" alt="Brand 4" class="h-8 mx-auto">
+        <img src="/logos/logo5.svg" alt="Brand 5" class="h-8 mx-auto">
+      </div>
+    </div>
+  </section>
+
   <!-- Trust/Stats -->
   <section class="bg-white">
     <div class="mx-auto container px-4 py-12 grid md:grid-cols-3 gap-6 text-center">
-      <div>
-        <div class="text-3xl font-bold">80%+</div>
-        <div class="text-sm text-neutral-600">Common questions auto-answered</div>
-      </div>
-      <div>
-        <div class="text-3xl font-bold">&lt;5s</div>
-        <div class="text-sm text-neutral-600">Typical response time</div>
-      </div>
-      <div>
-        <div class="text-3xl font-bold">24/7</div>
-        <div class="text-sm text-neutral-600">After-hours coverage</div>
-      </div>
+      <div><div class="text-3xl font-bold">80%+</div><div class="text-sm text-neutral-600">Common questions auto-answered</div></div>
+      <div><div class="text-3xl font-bold">&lt;5s</div><div class="text-sm text-neutral-600">Typical response time</div></div>
+      <div><div class="text-3xl font-bold">24/7</div><div class="text-sm text-neutral-600">After-hours coverage</div></div>
     </div>
   </section>
 
@@ -119,22 +174,10 @@
   <section id="how" class="mx-auto container px-4 py-16">
     <h2 class="text-3xl md:text-4xl font-bold tracking-tight">How it works</h2>
     <div class="mt-8 grid md:grid-cols-4 gap-6 text-sm">
-      <div class="border rounded-lg p-6">
-        <div class="font-semibold">1. Add your menu</div>
-        <p class="mt-2 text-neutral-600">Upload a CSV/JSON or paste from your website.</p>
-      </div>
-      <div class="border rounded-lg p-6">
-        <div class="font-semibold">2. Install the widget</div>
-        <p class="mt-2 text-neutral-600">Drop one script tag on your site. Done.</p>
-      </div>
-      <div class="border rounded-lg p-6">
-        <div class="font-semibold">3. Review answers</div>
-        <p class="mt-2 text-neutral-600">Tune tone and allergy language.</p>
-      </div>
-      <div class="border rounded-lg p-6">
-        <div class="font-semibold">4. Go live</div>
-        <p class="mt-2 text-neutral-600">Reduce calls and capture higher-intent bookings.</p>
-      </div>
+      <div class="border rounded-lg p-6"><div class="font-semibold">1. Add your menu</div><p class="mt-2 text-neutral-600">Upload a CSV/JSON or paste from your website.</p></div>
+      <div class="border rounded-lg p-6"><div class="font-semibold">2. Install the widget</div><p class="mt-2 text-neutral-600">Drop one script tag on your site. Done.</p></div>
+      <div class="border rounded-lg p-6"><div class="font-semibold">3. Review answers</div><p class="mt-2 text-neutral-600">Tune tone and allergy language.</p></div>
+      <div class="border rounded-lg p-6"><div class="font-semibold">4. Go live</div><p class="mt-2 text-neutral-600">Reduce calls and capture higher-intent bookings.</p></div>
     </div>
   </section>
 
@@ -184,6 +227,36 @@
       <div class="border rounded-lg p-5"><div class="font-medium">How do we keep the menu updated?</div><div class="mt-1 text-neutral-600">Upload a file or use a small admin page; specials and 86 toggles included.</div></div>
       <div class="border rounded-lg p-5"><div class="font-medium">What about allergies?</div><div class="mt-1 text-neutral-600">Conservative language with staff escalation when unsure.</div></div>
       <div class="border rounded-lg p-5"><div class="font-medium">Do we need to change our POS?</div><div class="mt-1 text-neutral-600">No. It works alongside your current tools.</div></div>
+    </div>
+  </section>
+
+  <!-- Testimonials (carousel) -->
+  <section class="bg-neutral-50 border-y" id="testimonials">
+    <div class="mx-auto container px-4 py-14">
+      <h3 class="text-2xl md:text-3xl font-bold tracking-tight text-center">What operators say</h3>
+      <div class="mt-8 relative max-w-3xl mx-auto">
+        <div class="overflow-hidden rounded-lg border bg-white">
+          <div id="tape" class="p-6 text-neutral-800">
+            <figure class="slide">
+              <blockquote class="text-lg">“Guests get instant answers. Our team gets time back.”</blockquote>
+              <figcaption class="mt-3 text-sm text-neutral-500">Neighborhood bistro</figcaption>
+            </figure>
+            <figure class="slide hidden">
+              <blockquote class="text-lg">“Easy install, on-brand replies, and fewer phone calls.”</blockquote>
+              <figcaption class="mt-3 text-sm text-neutral-500">Modern sushi bar</figcaption>
+            </figure>
+            <figure class="slide hidden">
+              <blockquote class="text-lg">“86’d items stopped being recommended. That alone was worth it.”</blockquote>
+              <figcaption class="mt-3 text-sm text-neutral-500">Steakhouse group</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="flex justify-center gap-2 mt-4">
+          <button class="dot h-2 w-2 rounded-full bg-neutral-300" aria-label="1"></button>
+          <button class="dot h-2 w-2 rounded-full bg-neutral-300" aria-label="2"></button>
+          <button class="dot h-2 w-2 rounded-full bg-neutral-300" aria-label="3"></button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -274,6 +347,23 @@
     </div>
   </section>
 
+  <!-- Scheduler modal (Calendly or similar) -->
+  <div id="scheduleModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="bg-white rounded-lg w-full max-w-3xl overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 border-b">
+          <div class="font-semibold">Book a 20-minute walkthrough</div>
+          <button id="closeSchedule" class="text-neutral-500 hover:opacity-70" aria-label="Close">&times;</button>
+        </div>
+        <div class="aspect-[16/9]">
+          <!-- Replace with your real scheduling link -->
+          <iframe src="https://calendly.com/YOUR-BOOKING-LINK/intro" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="border-t">
     <div class="mx-auto container px-4 py-8 text-sm text-neutral-500 flex items-center justify-between">
@@ -285,10 +375,50 @@
     </div>
   </footer>
 
+  <!-- Sticky CTA -->
+  <div id="ctaBar" class="fixed inset-x-0 bottom-0 z-40 bg-white/95 border-t hidden">
+    <div class="mx-auto container px-4 py-3 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+      <div class="text-sm">
+        <span class="font-semibold">See it with your menu.</span>
+        <span class="text-neutral-600">We’ll load your dishes and allergy flags for a private walkthrough.</span>
+      </div>
+      <a href="#demo" class="rounded-md px-4 py-2 bg-neutral-900 text-white text-center hover:opacity-90">Get a demo</a>
+    </div>
+  </div>
+
+  <!-- Cookie consent -->
+  <div id="cookieBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 z-50 bg-white border rounded-lg p-4 shadow-soft hidden">
+    <div class="text-sm text-neutral-800">
+      We use cookies/analytics to improve your experience. See our <a href="#privacy" class="underline">Privacy Policy</a>.
+    </div>
+    <div class="mt-2 text-right">
+      <button id="cookieAccept" class="rounded-md px-3 py-1.5 bg-neutral-900 text-white text-sm">OK</button>
+    </div>
+  </div>
+
+  <!-- Testimonials carousel script -->
+  <script>
+  (function(){
+    const slides = Array.from(document.querySelectorAll('#tape .slide'));
+    const dots = Array.from(document.querySelectorAll('#testimonials .dot'));
+    if (!slides.length) return;
+    let i = 0, timer;
+    function show(n){
+      slides.forEach((s,idx)=>{ s.classList.toggle('hidden', idx!==n); });
+      dots.forEach((d,idx)=>{ d.style.background = idx===n ? '#111827' : '#d1d5db'; });
+      i = n;
+    }
+    function next(){ show((i+1) % slides.length); }
+    dots.forEach((d,idx)=> d.addEventListener('click', ()=>{ show(idx); reset(); }));
+    function reset(){ clearInterval(timer); timer = setInterval(next, 4000); }
+    show(0); reset();
+  })();
+  </script>
+
   <!-- DEMO LOGIC (autoplay, talks to your live API) -->
   <script>
   (function(){
-    const API = "https://restaurant-ai-landing.onrender.com"; // your live API
+    const API = document.querySelector('meta[name="rai-api"]').content; // centralized API
 
     // Elements
     const logEl = document.getElementById('log');
@@ -373,8 +503,8 @@
       if (playing) return;
       playing = true;
 
-      const speed = parseFloat(speedSel.value || '1');
-      const msgs = SCENARIOS[scenarioSel.value] || SCENARIOS.mixed;
+      const speed = parseFloat(speedSel?.value || '1');
+      const msgs = SCENARIOS[scenarioSel?.value] || SCENARIOS.mixed;
 
       // If starting fresh, add greeting
       if (step === 0 && logEl.childElementCount === 0){
@@ -385,7 +515,7 @@
       while (playing && step < msgs.length){
         const q = msgs[step];
 
-        if (typeFxChk.checked){
+        if (typeFxChk?.checked){
           await typeEffect(q, speed);
           await sleep(200 / speed);
         } else {
@@ -415,10 +545,10 @@
     }
 
     // Wire controls
-    playBtn.addEventListener('click', play);
-    pauseBtn.addEventListener('click', pause);
-    resetBtn.addEventListener('click', reset);
-    scenarioSel.addEventListener('change', () => { reset(); });
+    playBtn?.addEventListener('click', play);
+    pauseBtn?.addEventListener('click', pause);
+    resetBtn?.addEventListener('click', reset);
+    scenarioSel?.addEventListener('change', () => { reset(); });
 
     // Manual quick buttons
     document.querySelectorAll('.preset').forEach(btn => {
@@ -429,15 +559,73 @@
     });
 
     // Manual input still works
-    if (formEl) {
-      formEl.addEventListener('submit', (e) => {
-        e.preventDefault();
-        pause();
-        const v = inputEl.value;
-        inputEl.value = '';
-        ask(v);
+    formEl?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      pause();
+      const v = inputEl.value;
+      inputEl.value = '';
+      ask(v);
+    });
+  })();
+  </script>
+
+  <!-- FAQ accordion -->
+  <script>
+  (function(){
+    document.querySelectorAll('#faq .border.rounded-lg').forEach(card=>{
+      const title = card.querySelector('.font-medium');
+      const answer = card.querySelector('div.mt-1');
+      if (!title || !answer) return;
+      answer.style.display = 'none';
+      title.style.cursor = 'pointer';
+      title.addEventListener('click', ()=>{
+        const open = answer.style.display !== 'none';
+        answer.style.display = open ? 'none' : 'block';
       });
+    });
+  })();
+  </script>
+
+  <!-- Sticky CTA show after scroll -->
+  <script>
+  (function(){
+    const bar = document.getElementById('ctaBar');
+    if (!bar) return;
+    let shown = false;
+    function onScroll(){
+      if (shown) return;
+      if (window.scrollY > 600) { bar.classList.remove('hidden'); shown = true; }
     }
+    window.addEventListener('scroll', onScroll, { passive:true });
+  })();
+  </script>
+
+  <!-- Cookie consent logic -->
+  <script>
+  (function(){
+    try{
+      const banner = document.getElementById('cookieBanner');
+      const btn = document.getElementById('cookieAccept');
+      if (!banner || !btn) return;
+      if (!localStorage.getItem('cookie-ok')) banner.classList.remove('hidden');
+      btn.addEventListener('click',()=>{
+        localStorage.setItem('cookie-ok','1');
+        banner.classList.add('hidden');
+      });
+    }catch(e){}
+  })();
+  </script>
+
+  <!-- Scheduler modal logic -->
+  <script>
+  (function(){
+    const openBtn = document.getElementById('openSchedule');
+    const modal = document.getElementById('scheduleModal');
+    const closeBtn = document.getElementById('closeSchedule');
+    if (!openBtn || !modal || !closeBtn) return;
+    openBtn.addEventListener('click', (e)=>{ e.preventDefault(); modal.classList.remove('hidden'); });
+    closeBtn.addEventListener('click', ()=> modal.classList.add('hidden'));
+    modal.addEventListener('click', (e)=>{ if (e.target === modal.firstElementChild) modal.classList.add('hidden'); });
   })();
   </script>
 
