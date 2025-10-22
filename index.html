@@ -3,60 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Restaurant AI Helper — Turn Visitors into Bookings</title>
-  <meta name="description" content="An AI assistant for restaurants that answers FAQs, menu questions, and captures reservation details 24/7." />
+  <title>Restaurant AI Helper — Bookings for 4-Star+ Restaurants in Texas</title>
+  <meta name="description" content="AI assistant for 4-star+ restaurants in Texas. Answers FAQs, guides menus, and captures reservation requests 24/7." />
   <meta name="theme-color" content="#0B0F19" />
   <link rel="icon" href="/favicon.ico" />
 
-  <!-- Centralized API base (edit this if your API URL changes) -->
+  <!-- Centralized API base (edit if your API URL changes) -->
   <meta name="rai-api" content="https://restaurant-ai-landing.onrender.com" />
 
-  <!-- Open Graph / Twitter (SEO & sharing) -->
+  <!-- SEO sharing -->
   <meta property="og:url" content="https://restaurantaihelper.com" />
-  <meta property="og:title" content="Restaurant AI Helper — Turn Visitors into Bookings" />
+  <meta property="og:title" content="Restaurant AI Helper — Bookings for 4-Star+ Restaurants in Texas" />
   <meta property="og:description" content="Instant answers for hours, parking, and menu. Capture reservation details 24/7." />
   <meta property="og:image" content="https://restaurantaihelper.com/og-cover.jpg" />
-  <meta property="og:image:alt" content="Restaurant AI Helper – turn visitors into bookings" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Restaurant AI Helper — Turn Visitors into Bookings" />
-  <meta name="twitter:description" content="Instant answers for hours, parking, menu. Capture reservation details 24/7." />
-  <meta name="twitter:image" content="https://restaurantaihelper.com/og-cover.jpg" />
-  <link rel="canonical" href="https://restaurantaihelper.com" />
 
-  <!-- JSON-LD: Organization + Product -->
+  <!-- JSON-LD -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"Restaurant AI Helper",
-    "url":"https://restaurantaihelper.com",
-    "logo":"https://restaurantaihelper.com/logo.png",
-    "sameAs":[]
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Product",
-    "name":"Restaurant AI Helper",
-    "description":"AI assistant for restaurants that answers FAQs, menu questions, and captures reservation details.",
-    "brand":{"@type":"Brand","name":"Restaurant AI Helper"},
-    "offers":{
-      "@type":"AggregateOffer",
-      "priceCurrency":"USD",
-      "lowPrice":"99",
-      "highPrice":"179",
-      "offerCount":"3"
-    }
-  }
-  </script>
-
-  <!-- Google Analytics 4 (replace G-XXXXXXXXXX with your GA4 ID) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date()); gtag('config', 'G-XXXXXXXXXX');
+  {"@context":"https://schema.org","@type":"Organization","name":"Restaurant AI Helper","url":"https://restaurantaihelper.com"}
   </script>
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -79,7 +43,7 @@
         <a href="#features" class="hover:opacity-70">Features</a>
         <a href="#how" class="hover:opacity-70">How it works</a>
         <a href="#pricing" class="hover:opacity-70">Pricing</a>
-        <a href="#profile" class="hover:opacity-70">About</a>
+        <a href="#profile" class="hover:opacity-70">For Texas Restaurants</a>
         <a href="#reviews" class="hover:opacity-70">Reviews</a>
         <a href="#demo" class="hover:opacity-70">Live Demo</a>
       </nav>
@@ -87,10 +51,20 @@
     </div>
   </header>
 
-  <!-- ===== Find a Table (OpenTable-style) ===== -->
+  <!-- ===== Find a Table (TX markets) ===== -->
   <section id="finder" class="bg-white border-b">
     <div class="mx-auto container px-4 py-4">
       <form id="findForm" class="flex flex-wrap gap-3 items-end">
+        <div>
+          <label class="block text-xs text-neutral-600 mb-1">City</label>
+          <select id="fCity" class="border rounded px-3 py-2">
+            <option value="Austin" selected>Austin</option>
+            <option value="Dallas">Dallas</option>
+            <option value="Houston">Houston</option>
+            <option value="San Antonio">San Antonio</option>
+            <option value="Fort Worth">Fort Worth</option>
+          </select>
+        </div>
         <div>
           <label class="block text-xs text-neutral-600 mb-1">Date</label>
           <input id="fDate" type="date" class="border rounded px-3 py-2" required />
@@ -110,7 +84,7 @@
       </form>
 
       <div id="slotWrap" class="mt-4 hidden">
-        <div class="text-sm text-neutral-600 mb-2">Available times</div>
+        <div class="text-sm text-neutral-600 mb-2">Available times (4-star+ TX restaurants)</div>
         <div id="slots" class="flex flex-wrap gap-2"></div>
         <div id="slotMsg" class="text-xs text-neutral-500 mt-2"></div>
       </div>
@@ -121,13 +95,12 @@
   <section class="brand-gradient text-white">
     <div class="mx-auto container px-4 pt-16 pb-20 grid md:grid-cols-2 gap-12 items-center">
       <div>
-        <p class="text-xs uppercase tracking-widest text-neutral-300">Purpose-built for restaurants</p>
+        <p class="text-xs uppercase tracking-widest text-neutral-300">Built for 4-star+ dining rooms</p>
         <h1 class="mt-2 text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
           Turn website visitors into bookings.
         </h1>
         <p class="mt-5 text-lg text-neutral-200">
-          A professional AI assistant that answers hours, parking, and menu questions, recommends dishes by diet,
-          and captures reservation details — all day, every day.
+          A professional AI assistant for Texas restaurants that answers hours, parking, and menu questions, recommends dishes by dietary needs, and captures reservation details — 24/7.
         </p>
         <div class="mt-8 flex flex-wrap items-center gap-3">
           <a href="#demo" class="rounded-md px-5 py-3 bg-white text-neutral-900 hover:opacity-90">See a live demo</a>
@@ -137,13 +110,13 @@
         <p class="mt-4 text-sm text-neutral-300">No POS changes • Install in minutes • On-brand responses</p>
       </div>
 
-      <!-- Animated chat mockup tailored to Drake's Hollywood -->
+      <!-- Animated chat mockup: Texas Restaurants -->
       <div class="border border-white/20 rounded-lg p-5 shadow-soft bg-white/5">
         <div class="aspect-[16/9] rounded-md overflow-hidden border border-white/20 bg-white/10">
           <div id="rah-mock" class="h-full w-full flex items-center justify-center p-4">
             <div class="w-full max-w-md bg-white/95 backdrop-blur rounded-xl border border-neutral-200 shadow-soft overflow-hidden">
               <div class="px-4 py-3 border-b bg-neutral-50 text-sm font-semibold text-neutral-800">
-                Drake’s Hollywood — Assistant (Preview)
+                Texas Restaurants — Assistant (Preview)
               </div>
               <div id="rah-feed" class="h-64 overflow-auto px-4 py-3 text-sm bg-white"></div>
               <div class="flex items-center gap-2 border-t bg-neutral-50 px-3 py-2">
@@ -157,7 +130,7 @@
             </div>
           </div>
         </div>
-        <p class="mt-3 text-xs text-neutral-300">A quick, fictional preview of typical guest questions at Drake’s Hollywood.</p>
+        <p class="mt-3 text-xs text-neutral-300">Preview of typical guest questions at 4-star+ restaurants across Texas.</p>
       </div>
     </div>
   </section>
@@ -253,48 +226,40 @@
     </div>
   </section>
 
-  <!-- ===== Restaurant Profile ===== -->
+  <!-- ===== Texas Restaurant Profile (generic) ===== -->
   <section id="profile" class="mx-auto container px-4 py-16">
-    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">About Drake’s Hollywood</h2>
+    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">For 4-Star+ Restaurants in Texas</h2>
     <div class="mt-6 grid md:grid-cols-3 gap-8">
       <div class="md:col-span-2 text-sm text-neutral-700 leading-6">
-        <p>Smart-casual Hollywood dining with classic steaks, seafood, and cocktails. Valet most evenings; limited nearby parking. For peak hours, rideshare is recommended.</p>
+        <p>Designed for elevated dining rooms across Austin, Dallas–Fort Worth, Houston, and San Antonio. Provide fast, consistent answers and capture reservation details around the clock.</p>
         <div class="mt-6">
-          <div class="font-semibold">Hours</div>
-          <table class="mt-2 text-sm">
-            <tbody>
-              <tr><td class="pr-6 py-1 text-neutral-500">Tuesday–Sunday</td><td class="py-1">11:30 AM – 10:00 PM</td></tr>
-              <tr><td class="pr-6 py-1 text-neutral-500">Monday</td><td class="py-1">Closed</td></tr>
-            </tbody>
-          </table>
+          <div class="font-semibold">Typical hours</div>
+          <p class="mt-1">Lunch and dinner service vary by venue. The assistant reflects your current hours and holiday exceptions.</p>
         </div>
         <div class="mt-6">
           <div class="font-semibold">Dress code</div>
-          <p class="mt-1">Smart-casual. Jackets welcome; athletic/beachwear not a fit for the room.</p>
+          <p class="mt-1">Smart-casual guidance with on-brand language. You control exact wording.</p>
         </div>
         <div class="mt-6">
           <div class="font-semibold">Dietary guidance</div>
-          <p class="mt-1">Gluten-free, vegetarian, and vegan options available; we can check dishes for allergens. Severe allergies are escalated to the team.</p>
+          <p class="mt-1">Gluten-free, vegetarian, and vegan filters; careful allergy phrasing with staff escalation when uncertain.</p>
         </div>
       </div>
       <aside>
-        <div class="border rounded-lg overflow-hidden">
-          <!-- Replace with your exact Google Maps embed -->
-          <iframe
-            src="https://www.google.com/maps?q=Hollywood,+CA&output=embed"
-            class="w-full h-64"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
+        <div class="border rounded-lg overflow-hidden bg-neutral-50 flex items-center justify-center h-64">
+          <div class="text-center px-6 text-sm text-neutral-600">
+            Map placeholder for Texas markets<br/>
+            (Austin, Dallas–Fort Worth, Houston, San Antonio)
+          </div>
         </div>
         <div class="mt-4 text-sm">
-          <div class="font-semibold">Location</div>
-          <div>Hollywood, CA</div>
+          <div class="font-semibold">Coverage</div>
+          <div>All Texas metros • 4-star+ venues</div>
         </div>
       </aside>
     </div>
 
-    <!-- Photo grid (replace placeholders with real images) -->
+    <!-- Photo grid placeholders -->
     <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-2">
       <div class="aspect-square bg-neutral-100 border"></div>
       <div class="aspect-square bg-neutral-100 border"></div>
@@ -309,19 +274,19 @@
       <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Verified reviews</h2>
       <div class="mt-6 grid md:grid-cols-3 gap-6">
         <article class="border rounded-lg p-5 bg-white">
-          <div class="font-semibold">Consistently excellent</div>
-          <p class="mt-2 text-sm text-neutral-700">Prompt seating, perfect steak, and attentive service. Will be back soon.</p>
-          <div class="mt-3 text-xs text-neutral-500">— Party of 2, last week</div>
+          <div class="font-semibold">Faster answers, fewer calls</div>
+          <p class="mt-2 text-sm text-neutral-700">Clear guidance on hours and parking reduced interruptions for the host stand.</p>
+          <div class="mt-3 text-xs text-neutral-500">— Fine dining, Austin</div>
         </article>
         <article class="border rounded-lg p-5 bg-white">
-          <div class="font-semibold">Great for a night out</div>
-          <p class="mt-2 text-sm text-neutral-700">Smart-casual setting with great cocktails. Valet made it easy.</p>
-          <div class="mt-3 text-xs text-neutral-500">— Party of 4, this month</div>
+          <div class="font-semibold">On-brand and professional</div>
+          <p class="mt-2 text-sm text-neutral-700">Smart-casual wording matched our website tone perfectly.</p>
+          <div class="mt-3 text-xs text-neutral-500">— Steakhouse, Dallas</div>
         </article>
         <article class="border rounded-lg p-5 bg-white">
           <div class="font-semibold">Helpful with dietary needs</div>
-          <p class="mt-2 text-sm text-neutral-700">Clear guidance on gluten-free options. Appreciated the care.</p>
-          <div class="mt-3 text-xs text-neutral-500">— Party of 3, recently</div>
+          <p class="mt-2 text-sm text-neutral-700">Guests quickly found gluten-free mains without tying up the phone line.</p>
+          <div class="mt-3 text-xs text-neutral-500">— Contemporary American, Houston</div>
         </article>
       </div>
     </div>
@@ -332,8 +297,8 @@
     <h2 class="text-3xl md:text-4xl font-bold tracking-tight">FAQ</h2>
     <div class="mt-6 grid md:grid-cols-2 gap-6 text-sm">
       <div class="border rounded-lg p-5"><div class="font-medium">Does this replace staff?</div><div class="mt-1 text-neutral-600">No—It handles repetitive questions and passes anything sensitive to your team.</div></div>
-      <div class="border rounded-lg p-5"><div class="font-medium">How do we keep the menu updated?</div><div class="mt-1 text-neutral-600">Upload a file or use a small admin page; specials and 86 toggles included.</div></div>
-      <div class="border rounded-lg p-5"><div class="font-medium">What about allergies?</div><div class="mt-1 text-neutral-600">Conservative language with staff escalation when unsure.</div></div>
+      <div class="border rounded-lg p-5"><div class="font-medium">How do we keep menus updated?</div><div class="mt-1 text-neutral-600">Upload a file or use a simple admin page; specials and 86 toggles included.</div></div>
+      <div class="border rounded-lg p-5"><div class="font-medium">What about allergies?</div><div class="mt-1 text-neutral-600">Conservative language with staff escalation when unsure; guests are advised to discuss severe allergies directly.</div></div>
       <div class="border rounded-lg p-5"><div class="font-medium">Do we need to change our POS?</div><div class="mt-1 text-neutral-600">No. It works alongside your current tools.</div></div>
     </div>
   </section>
@@ -400,10 +365,10 @@
 
             <label class="ml-2 text-sm text-neutral-700">Scenario
               <select id="demoScenario" class="ml-2 border rounded-md px-2 py-1 text-sm">
-                <option value="faq">FAQ Basics</option>
+                <option value="faq" selected>FAQ Basics</option>
                 <option value="diet">Dietary</option>
                 <option value="reserve">Reservation</option>
-                <option value="mixed" selected>Mixed</option>
+                <option value="mixed">Mixed</option>
               </select>
             </label>
 
@@ -447,7 +412,7 @@
               <li>Reservation intake prompt.</li>
             </ul>
             <div class="mt-5 text-xs text-neutral-500">
-              Demo uses sample data and conservative allergy language.
+              Demo uses generic Texas data and conservative allergy language.
             </div>
           </div>
         </aside>
@@ -455,7 +420,7 @@
     </div>
   </section>
 
-  <!-- Scheduler modal (Calendly or similar) -->
+  <!-- Scheduler modal -->
   <div id="scheduleModal" class="fixed inset-0 z-50 hidden">
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="absolute inset-0 flex items-center justify-center p-4">
@@ -465,7 +430,6 @@
           <button id="closeSchedule" class="text-neutral-500 hover:opacity-70" aria-label="Close">&times;</button>
         </div>
         <div class="aspect-[16/9]">
-          <!-- Replace with your real scheduling link -->
           <iframe src="https://calendly.com/YOUR-BOOKING-LINK/intro" width="100%" height="100%" frameborder="0"></iframe>
         </div>
       </div>
@@ -494,7 +458,7 @@
     </div>
   </div>
 
-  <!-- Cookie consent -->
+  <!-- Cookie banner -->
   <div id="cookieBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 z-50 bg-white border rounded-lg p-4 shadow-soft hidden">
     <div class="text-sm text-neutral-800">
       We use cookies/analytics to improve your experience. See our <a href="#privacy" class="underline">Privacy Policy</a>.
@@ -504,78 +468,63 @@
     </div>
   </div>
 
-  <!-- ***** Animated chat mockup styles + script (Drake's Hollywood) ***** -->
+  <!-- ===== Styles for animated preview ===== -->
   <style>
     @keyframes rahFadeUp { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
     .rah-bubble { animation: rahFadeUp .28s ease-out both; }
   </style>
+
+  <!-- ===== Animated chat preview (generic TX) ===== -->
   <script>
   (function(){
     const feed = document.getElementById('rah-feed');
     if (!feed) return;
-
     const bubbles = [
-      { role:'ai',  text:"Welcome to Drake’s Hollywood — how can I help?" },
-      { role:'you', text:"What are your hours tonight and do you have valet?" },
-      { role:'ai',  text:"We’re open this evening for dinner service. Valet is available most nights and there’s limited nearby parking. I can also share ride-share drop-off details." },
+      { role:'ai',  text:"Welcome — I assist 4-star+ restaurants across Texas. How can I help?" },
+      { role:'you', text:"What are your hours tonight and is there valet?" },
+      { role:'ai',  text:"Dinner hours vary by venue; many seat until 9:30–10:00 PM. Valet is common in busy districts; street and garage options vary by location." },
       { role:'you', text:"Is there a dress code?" },
-      { role:'ai',  text:"Smart-casual is recommended. Jackets are welcome but not required; athletic wear and beachwear aren’t a fit for the room." },
-      { role:'you', text:"Any gluten-free options you’d recommend?" },
-      { role:'ai',  text:"Popular gluten-free picks include a simply prepared steak, grilled salmon, and a classic wedge (request GF dressing). I can check any item for allergens." },
-      { role:'you', text:"Can I request a table for two at 7:30pm Friday under Taylor?" },
-      { role:'ai',  text:"Happy to help — I’ll take your name and contact details and coordinate with the host team. May I have a mobile number to confirm?" }
+      { role:'ai',  text:"Smart-casual fits most Texas fine-dining rooms. Jackets are welcome; athletic or beachwear is generally discouraged." },
+      { role:'you', text:"Any gluten-free recommendations?" },
+      { role:'ai',  text:"Most venues offer gluten-free steaks, seafood, and salads. I can filter a specific restaurant’s menu and note cross-contact guidance." },
+      { role:'you', text:"Can I request a table for Friday at 7:30?" },
+      { role:'ai',  text:"Sure — share your name, party size, date/time, and contact details, and I’ll coordinate with the host team." }
     ];
-
     function escapeHTML(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
     function bubble(role, text){
-      const log = document.getElementById('rah-feed');
       const row = document.createElement('div');
       row.className = 'rah-bubble my-1';
-      if (role === 'you') {
-        row.innerHTML = '<div class="text-right"><span class="inline-block max-w-[80%] rounded-md bg-neutral-900 text-white px-3 py-2">'+escapeHTML(text)+'</span></div>';
-      } else {
-        row.innerHTML = '<div class="text-left"><span class="inline-block max-w-[80%] rounded-md bg-neutral-100 text-neutral-900 px-3 py-2">'+escapeHTML(text)+'</span></div>';
-      }
-      log.appendChild(row);
-      log.scrollTop = log.scrollHeight;
+      row.innerHTML = role === 'you'
+        ? '<div class="text-right"><span class="inline-block max-w-[80%] rounded-md bg-neutral-900 text-white px-3 py-2">'+escapeHTML(text)+'</span></div>'
+        : '<div class="text-left"><span class="inline-block max-w-[80%] rounded-md bg-neutral-100 text-neutral-900 px-3 py-2">'+escapeHTML(text)+'</span></div>';
+      feed.appendChild(row); feed.scrollTop = feed.scrollHeight;
     }
-
     let i = 0;
-    function run(){
-      if (i >= bubbles.length) {
-        setTimeout(()=>{ document.getElementById('rah-feed').innerHTML=''; i=0; run(); }, 3200);
-        return;
-      }
-      const msg = bubbles[i++];
-      const delay = msg.role === 'ai' ? 720 : 520;
+    (function run(){
+      if (i >= bubbles.length) return setTimeout(()=>{ feed.innerHTML=''; i=0; run(); }, 3200);
+      const msg = bubbles[i++]; const delay = msg.role === 'ai' ? 720 : 520;
       setTimeout(()=>{ bubble(msg.role, msg.text); run(); }, delay);
-    }
-
-    bubble('ai',"Here’s a quick preview of how we help guests at Drake’s Hollywood.");
-    setTimeout(run, 720);
+    })();
   })();
   </script>
 
-  <!-- Testimonials carousel script -->
+  <!-- Testimonials carousel -->
   <script>
   (function(){
     const slides = Array.from(document.querySelectorAll('#tape .slide'));
     const dots = Array.from(document.querySelectorAll('#testimonials .dot'));
     if (!slides.length) return;
     let i = 0, timer;
-    function show(n){
-      slides.forEach((s,idx)=>{ s.classList.toggle('hidden', idx!==n); });
-      dots.forEach((d,idx)=>{ d.style.background = idx===n ? '#111827' : '#d1d5db'; });
-      i = n;
-    }
-    function next(){ show((i+1) % slides.length); }
+    function show(n){ slides.forEach((s,idx)=> s.classList.toggle('hidden', idx!==n));
+      dots.forEach((d,idx)=> d.style.background = idx===n ? '#111827' : '#d1d5db'); i = n; }
+    function next(){ show((i+1)%slides.length); }
     dots.forEach((d,idx)=> d.addEventListener('click', ()=>{ show(idx); reset(); }));
     function reset(){ clearInterval(timer); timer = setInterval(next, 4000); }
     show(0); reset();
   })();
   </script>
 
-  <!-- DEMO LOGIC (autoplay, talks to your live API) -->
+  <!-- DEMO player (talks to your live API) -->
   <script>
   (function(){
     const API = document.querySelector('meta[name="rai-api"]').content;
@@ -591,116 +540,122 @@
     const typeFxChk = document.getElementById('demoTypeFX');
 
     const SCENARIOS = {
-      faq: [
-        "What are your hours today?",
-        "What is your address?",
-        "Where do I park?"
-      ],
-      diet: [
-        "I’m gluten-free — what mains work?",
-        "Any vegan options?",
-        "Which dishes are spicy?"
-      ],
-      reserve: [
-        "Can I book a table?",
-        "Table for 4 at 7:30pm Friday",
-        "My name is Chris, phone 555-1234"
-      ],
-      mixed: [
-        "Are you open Friday?",
-        "I’m vegetarian — suggestions?",
-        "Do you have a dress code?",
-        "Where do I park?",
-        "Reservation for 6 tomorrow at 8pm"
-      ]
+      faq: ["What are your hours today?","What is your address?","Where do I park?"],
+      diet: ["I’m gluten-free — what mains work?","Any vegan options?","Which dishes are spicy?"],
+      reserve: ["Can I book a table?","Table for 4 at 7:30pm Friday","My name is Chris, phone 555-1234"],
+      mixed: ["Are you open Friday?","I’m vegetarian — suggestions?","Do you have a dress code?","Where do I park?","Reservation for 6 tomorrow at 8pm"]
     };
 
-    let playing = false;
-    let step = 0;
-    let timer = null;
-
+    let playing=false, step=0, timer=null;
     function escapeHtml(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
     function say(role, text){
-      const row = document.createElement('div');
-      row.className = 'mb-2';
-      row.innerHTML = role === 'you'
+      const row = document.createElement('div'); row.className='mb-2';
+      row.innerHTML = role==='you'
         ? `<div class="text-right"><span class="inline-block rounded-md bg-neutral-900 text-white px-3 py-2">${escapeHtml(text)}</span></div>`
         : `<div class="text-left"><span class="inline-block rounded-md bg-neutral-100 px-3 py-2">${escapeHtml(text)}</span></div>`;
-      logEl.appendChild(row);
-      logEl.scrollTop = logEl.scrollHeight;
+      logEl.appendChild(row); logEl.scrollTop=logEl.scrollHeight;
     }
     async function ask(q){
-      if(!q.trim()) return;
-      say('you', q); say('ai','…');
+      if(!q.trim()) return; say('you', q); say('ai','…');
       try{
-        const r = await fetch(API + '/chat/query', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({ message: q })
-        });
+        const r = await fetch(API + '/chat/query', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ message: q }) });
         const j = await r.json();
         logEl.lastChild.innerHTML = `<div class="text-left"><span class="inline-block rounded-md bg-neutral-100 px-3 py-2">${escapeHtml(j.reply || 'Sorry, something went wrong.')}</span></div>`;
-      }catch(err){
-        logEl.lastChild.innerHTML = '<div class="text-left"><span class="inline-block rounded-md bg-red-50 text-red-700 px-3 py-2">Can’t reach the demo API right now.</span></div>';
-      }
+      }catch{ logEl.lastChild.innerHTML = '<div class="text-left"><span class="inline-block rounded-md bg-red-50 text-red-700 px-3 py-2">Can’t reach the demo API right now.</span></div>'; }
     }
-    function sleep(ms){ return new Promise(r => timer = setTimeout(r, ms)); }
-    async function typeEffect(text, speed=1){
-      inputEl.value = '';
-      const chars = text.split('');
-      for (let i=0;i<chars.length;i++){
-        inputEl.value += chars[i];
-        await sleep(25 / speed);
-      }
-    }
+    function sleep(ms){ return new Promise(r=> timer=setTimeout(r,ms)); }
+    async function typeEffect(text,speed=1){ inputEl.value=''; for(const ch of text){ inputEl.value+=ch; await sleep(25/speed);} }
 
     async function play(){
-      if (playing) return;
-      playing = true;
-
-      const speed = parseFloat(speedSel?.value || '1');
-      const msgs = SCENARIOS[scenarioSel?.value] || SCENARIOS.mixed;
-
-      if (step === 0 && logEl.childElementCount === 0){
-        say('ai', 'Welcome to the live demo. I can help with hours, parking, dietary options, and reservations.');
-        await sleep(600 / speed);
+      if(playing) return; playing=true;
+      const speed=parseFloat(speedSel?.value||'1'); const msgs=SCENARIOS[scenarioSel?.value]||SCENARIOS.mixed;
+      if(step===0 && logEl.childElementCount===0){ say('ai','Welcome to the live demo. I can help with hours, parking, dietary options, and reservations.'); await sleep(600/speed); }
+      while(playing && step<msgs.length){
+        const q=msgs[step];
+        if (typeFxChk?.checked){ await typeEffect(q,speed); await sleep(200/speed);} else { inputEl.value=q; }
+        await ask(q); step+=1; await sleep(1400/speed);
       }
-
-      while (playing && step < msgs.length){
-        const q = msgs[step];
-
-        if (typeFxChk?.checked){
-          await typeEffect(q, speed);
-          await sleep(200 / speed);
-        } else {
-          inputEl.value = q;
-        }
-
-        await ask(q);
-        step += 1;
-        await sleep(1400 / speed);
-      }
-      playing = false;
+      playing=false;
     }
-
-    function pause(){ playing = false; if (timer) clearTimeout(timer); }
-    function reset(){ pause(); step = 0; logEl.innerHTML = ''; inputEl.value = ''; }
+    function pause(){ playing=false; if(timer) clearTimeout(timer); }
+    function reset(){ pause(); step=0; logEl.innerHTML=''; inputEl.value=''; }
 
     playBtn?.addEventListener('click', play);
     pauseBtn?.addEventListener('click', pause);
     resetBtn?.addEventListener('click', reset);
-    scenarioSel?.addEventListener('change', () => { reset(); });
+    scenarioSel?.addEventListener('change', reset);
+    document.querySelectorAll('.preset').forEach(b=> b.addEventListener('click', ()=>{ pause(); ask(b.textContent.trim()); }));
+    formEl?.addEventListener('submit', e=>{ e.preventDefault(); pause(); const v=inputEl.value; inputEl.value=''; ask(v); });
+  })();
+  </script>
 
-    document.querySelectorAll('.preset').forEach(btn => {
-      btn.addEventListener('click', () => { pause(); ask(btn.textContent.trim()); });
-    });
+  <!-- Find a Table logic (passes city; backend may ignore for now) -->
+  <script>
+  (function(){
+    const API = document.querySelector('meta[name="rai-api"]')?.content || '';
+    const form = document.getElementById('findForm');
+    const slotWrap = document.getElementById('slotWrap');
+    const slotsEl = document.getElementById('slots');
+    const slotMsg = document.getElementById('slotMsg');
 
-    formEl?.addEventListener('submit', (e) => {
+    function fmtDate(d){ return d.toISOString().slice(0,10); }
+    function fmtTime(d){ return d.toTimeString().slice(0,5); }
+
+    try{
+      const now = new Date();
+      document.getElementById('fDate').value = fmtDate(now);
+      document.getElementById('fTime').value = fmtTime(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 19, 0));
+    }catch{}
+
+    form.addEventListener('submit', async (e)=>{
       e.preventDefault();
-      pause();
-      const v = inputEl.value;
-      inputEl.value = '';
-      ask(v);
+      slotWrap.classList.remove('hidden');
+      slotsEl.innerHTML=''; slotMsg.textContent='Searching…';
+
+      const city = document.getElementById('fCity').value;
+      const date = document.getElementById('fDate').value;
+      const time = document.getElementById('fTime').value;
+      const party = document.getElementById('fParty').value;
+
+      try{
+        const url = new URL(API + '/availability');
+        url.searchParams.set('city', city);
+        url.searchParams.set('date', date);
+        url.searchParams.set('time', time);
+        url.searchParams.set('party', party);
+
+        const r = await fetch(url);
+        const j = await r.json();
+
+        slotsEl.innerHTML='';
+        slotMsg.textContent = (j && Array.isArray(j.slots) && j.slots.length) ? 'Tap a time to request a reservation.' : 'No exact matches. Showing nearby times.';
+
+        (j.slots || []).forEach(ts=>{
+          const b = document.createElement('button');
+          b.type='button'; b.className='px-3 py-2 border rounded hover:bg-neutral-50'; b.textContent=ts;
+          b.addEventListener('click', ()=>{
+            const drawer = document.getElementById('resvDrawer');
+            const dt = document.querySelector('#resvForm input[name="ts"]');
+            if (dt) dt.value = date + 'T' + to24(ts);
+            drawer?.classList.remove('hidden');
+          });
+          slotsEl.appendChild(b);
+        });
+
+        function to24(label){
+          try{
+            const m = label.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+            if (!m) return '19:00';
+            let hh = parseInt(m[1],10), mm = m[2];
+            const ampm = m[3].toUpperCase();
+            if (ampm==='PM' && hh!==12) hh+=12;
+            if (ampm==='AM' && hh===12) hh=0;
+            return String(hh).padStart(2,'0')+':'+mm;
+          }catch{ return '19:00'; }
+        }
+      }catch{
+        slotMsg.textContent = 'Could not load availability right now.';
+      }
     });
   })();
   </script>
@@ -722,21 +677,16 @@
   })();
   </script>
 
-  <!-- Sticky CTA show after scroll -->
+  <!-- Sticky CTA -->
   <script>
   (function(){
-    const bar = document.getElementById('ctaBar');
-    if (!bar) return;
-    let shown = false;
-    function onScroll(){
-      if (shown) return;
-      if (window.scrollY > 600) { bar.classList.remove('hidden'); shown = true; }
-    }
+    const bar = document.getElementById('ctaBar'); if(!bar) return;
+    let shown=false; function onScroll(){ if(shown) return; if(window.scrollY>600){ bar.classList.remove('hidden'); shown=true; } }
     window.addEventListener('scroll', onScroll, { passive:true });
   })();
   </script>
 
-  <!-- Cookie consent logic -->
+  <!-- Cookie / Scheduler / Year -->
   <script>
   (function(){
     try{
@@ -744,16 +694,9 @@
       const btn = document.getElementById('cookieAccept');
       if (!banner || !btn) return;
       if (!localStorage.getItem('cookie-ok')) banner.classList.remove('hidden');
-      btn.addEventListener('click',()=>{
-        localStorage.setItem('cookie-ok','1');
-        banner.classList.add('hidden');
-      });
+      btn.addEventListener('click',()=>{ localStorage.setItem('cookie-ok','1'); banner.classList.add('hidden'); });
     }catch(e){}
   })();
-  </script>
-
-  <!-- Scheduler modal logic -->
-  <script>
   (function(){
     const openBtn = document.getElementById('openSchedule');
     const modal = document.getElementById('scheduleModal');
@@ -763,9 +706,10 @@
     closeBtn.addEventListener('click', ()=> modal.classList.add('hidden'));
     modal.addEventListener('click', (e)=>{ if (e.target === modal.firstElementChild) modal.classList.add('hidden'); });
   })();
+  document.getElementById('year').textContent = `© ${new Date().getFullYear()} Restaurant AI Helper`;
   </script>
 
-  <!-- ===== Reservation drawer (shows when AI suggests reservations) ===== -->
+  <!-- ===== Reservation drawer ===== -->
   <div id="resvDrawer" class="fixed right-4 bottom-20 w-[360px] max-w-[90vw] bg-white border rounded-xl shadow-soft hidden z-50">
     <div class="px-4 py-3 border-b font-semibold">Request a reservation</div>
     <form id="resvForm" class="p-4 text-sm space-y-2">
@@ -792,9 +736,7 @@
     const triggerWords = ['reservation','book a table','book','table'];
     const observer = new MutationObserver(() => {
       const text = log?.lastChild?.innerText?.toLowerCase() || '';
-      if (triggerWords.some(w => text.includes(w))) {
-        drawer.classList.remove('hidden');
-      }
+      if (triggerWords.some(w => text.includes(w))) drawer.classList.remove('hidden');
     });
     if (log) observer.observe(log, { childList: true });
 
@@ -812,101 +754,11 @@
           body: JSON.stringify(payload)
         });
         const j = await r.json();
-        if (j.ok) {
-          msg.textContent = 'Request sent. We will confirm by SMS/phone.';
-          form.reset();
-          setTimeout(()=> drawer.classList.add('hidden'), 1500);
-        } else {
-          msg.textContent = 'Could not send right now.';
-        }
-      }catch(err){
-        msg.textContent = 'Network error. Try again.';
-      }
+        if (j.ok) { msg.textContent = 'Request sent. We will confirm by SMS/phone.'; form.reset(); setTimeout(()=> drawer.classList.add('hidden'), 1500); }
+        else { msg.textContent = 'Could not send right now.'; }
+      }catch{ msg.textContent = 'Network error. Try again.'; }
     });
   })();
-  </script>
-  <!-- ===== End reservation drawer ===== -->
-
-  <!-- ===== Find a Table client logic (calls /availability, prefills drawer) ===== -->
-  <script>
-  (function(){
-    const API = document.querySelector('meta[name="rai-api"]')?.content || '';
-    const form = document.getElementById('findForm');
-    const slotWrap = document.getElementById('slotWrap');
-    const slotsEl = document.getElementById('slots');
-    const slotMsg = document.getElementById('slotMsg');
-
-    function fmtDate(d){ return d.toISOString().slice(0,10); }
-    function fmtTime(d){ return d.toTimeString().slice(0,5); }
-
-    try{
-      const now = new Date();
-      const dateEl = document.getElementById('fDate');
-      const timeEl = document.getElementById('fTime');
-      dateEl.value = fmtDate(now);
-      timeEl.value = fmtTime(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 19, 0));
-    }catch{}
-
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      slotWrap.classList.remove('hidden');
-      slotsEl.innerHTML = ''; slotMsg.textContent = 'Searching…';
-
-      const date = document.getElementById('fDate').value;
-      const time = document.getElementById('fTime').value;
-      const party = document.getElementById('fParty').value;
-
-      try{
-        const url = new URL(API + '/availability');
-        url.searchParams.set('date', date);
-        url.searchParams.set('time', time);
-        url.searchParams.set('party', party);
-
-        const r = await fetch(url);
-        const j = await r.json();
-
-        slotsEl.innerHTML = '';
-        if (!j || !Array.isArray(j.slots) || j.slots.length === 0){
-          slotMsg.textContent = 'No exact matches. Showing nearby times.';
-        } else {
-          slotMsg.textContent = 'Tap a time to request a reservation.';
-        }
-
-        (j.slots || []).forEach(ts => {
-          const b = document.createElement('button');
-          b.type = 'button';
-          b.className = 'px-3 py-2 border rounded hover:bg-neutral-50';
-          b.textContent = ts;
-          b.addEventListener('click', ()=>{
-            const drawer = document.getElementById('resvDrawer');
-            const dt = document.querySelector('#resvForm input[name="ts"]');
-            if (dt) dt.value = date + 'T' + ts24(ts);
-            drawer?.classList.remove('hidden');
-          });
-          slotsEl.appendChild(b);
-        });
-
-        function ts24(label){
-          try{
-            const m = label.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-            if (!m) return '19:00';
-            let hh = parseInt(m[1],10), mm = m[2];
-            const ampm = m[3].toUpperCase();
-            if (ampm === 'PM' && hh !== 12) hh += 12;
-            if (ampm === 'AM' && hh === 12) hh = 0;
-            return String(hh).padStart(2,'0') + ':' + mm;
-          }catch{ return '19:00'; }
-        }
-      }catch(err){
-        slotMsg.textContent = 'Could not load availability right now.';
-      }
-    });
-  })();
-  </script>
-
-  <!-- Year script -->
-  <script>
-    document.getElementById('year').textContent = `© ${new Date().getFullYear()} Restaurant AI Helper`;
   </script>
 </body>
 </html>
