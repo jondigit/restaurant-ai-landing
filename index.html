@@ -1,26 +1,28 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Restaurant AI Helper — Find a Table | Texas</title>
-  <meta name="description" content="OpenTable-style search for Texas restaurants. Find a table by city, date, time, and party size. Instant answers with an AI assistant." />
-  <meta name="theme-color" content="#0B0F19" />
-  <link rel="icon" href="/favicon.ico" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Restaurant AI Helper — Texas Dining</title>
+  <meta name="description" content="Discover 100+ Texas restaurants. Browse menus with prices, hours, dress code, parking, and more. Ask the AI assistant for quick answers."/>
+  <meta name="theme-color" content="#0B0F19"/>
+  <link rel="icon" href="/favicon.ico"/>
   <!-- Your live API base (Render) -->
-  <meta name="rai-api" content="https://restaurant-ai-landing.onrender.com" />
+  <meta name="rai-api" content="https://restaurant-ai-landing.onrender.com"/>
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .container { max-width: 1200px; }
-    .panel { box-shadow: 0 8px 30px rgba(0,0,0,.08); }
-    .shadow-soft { box-shadow: 0 2px 10px rgba(0,0,0,.06); }
-    .section-title { font-weight: 800; letter-spacing: -.02em; }
-    .chip { border: 1px solid #e5e7eb; border-radius: .5rem; padding: .5rem .75rem; font-size: .875rem; }
-    .chip[aria-pressed="true"] { background: #111827; color: #fff; border-color: #111827; }
-    .card:hover { transform: translateY(-2px); transition: transform .18s ease; }
-    @media (max-width: 640px) { .search-grid { grid-template-columns: 1fr; } }
+    .container{max-width:1200px}
+    .panel{box-shadow:0 8px 30px rgba(0,0,0,.08)}
+    .shadow-soft{box-shadow:0 2px 10px rgba(0,0,0,.06)}
+    .section-title{font-weight:800;letter-spacing:-.02em}
+    .chip{border:1px solid #e5e7eb;border-radius:.5rem;padding:.4rem .65rem;font-size:.85rem}
+    .chip[aria-pressed="true"]{background:#111827;color:#fff;border-color:#111827}
+    .card:hover{transform:translateY(-2px);transition:transform .18s ease}
+    .tab-btn[aria-selected="true"]{border-color:#111827}
+    @keyframes rahFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .rah-bubble{animation:rahFadeUp .28s ease-out both}
+    .truncate-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   </style>
 </head>
 <body class="bg-white text-neutral-900">
@@ -28,204 +30,128 @@
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
     <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-3">
+      <a href="#/" class="flex items-center gap-3">
         <div class="h-8 w-8 rounded-md bg-neutral-900"></div>
         <span class="font-semibold tracking-tight">Restaurant AI Helper</span>
       </a>
       <nav class="hidden md:flex items-center gap-8 text-sm">
-        <a href="#search" class="hover:opacity-70">Find a table</a>
-        <a href="#discover" class="hover:opacity-70">Discover</a>
-        <a href="#pricing" class="hover:opacity-70">Pricing</a>
-        <a href="#demo" class="hover:opacity-70">Live demo</a>
+        <a href="#/" class="hover:opacity-70">Home</a>
+        <a href="#/discover" class="hover:opacity-70">Discover</a>
+        <a href="#/demo" class="hover:opacity-70">Live Demo</a>
+        <a href="#/import" class="hover:opacity-70">Import Data</a>
       </nav>
-      <a href="#demo" class="rounded-md px-4 py-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white transition text-sm">Try demo</a>
+      <a href="#/demo" class="rounded-md px-4 py-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white transition text-sm">Try demo</a>
     </div>
   </header>
 
-  <!-- Hero + Global Search -->
-  <section id="search" class="bg-neutral-950 text-white">
-    <div class="container mx-auto px-4 py-10 md:py-14">
-      <h1 class="text-4xl md:text-5xl section-title">Find a table in Texas</h1>
-      <p class="mt-2 text-neutral-300">Search by city, date, time, and party size — get instant answers and availability.</p>
+  <!-- Hero + Global Search + Autoplay visual -->
+  <section id="hero" class="bg-neutral-950 text-white">
+    <div class="container mx-auto px-4 py-10 md:py-14 grid md:grid-cols-2 gap-10 items-start">
+      <div>
+        <h1 class="text-4xl md:text-5xl section-title">Find a great table in Texas</h1>
+        <p class="mt-2 text-neutral-300">Browse menus with prices, hours, dress code, parking, and more. Filter by city, cuisine, price, and rating.</p>
 
-      <!-- Search bar -->
-      <form id="findForm" class="mt-6 grid grid-cols-1 md:grid-cols-5 gap-3">
-        <div>
-          <label class="block text-xs text-neutral-400 mb-1">City</label>
-          <select id="fCity" class="w-full rounded-md px-3 py-2 border text-neutral-900">
-            <option value="Austin" selected>Austin</option>
-            <option value="Dallas">Dallas</option>
-            <option value="Houston">Houston</option>
-            <option value="San Antonio">San Antonio</option>
-            <option value="Fort Worth">Fort Worth</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs text-neutral-400 mb-1">Date</label>
-          <input id="fDate" type="date" class="w-full rounded-md px-3 py-2 border text-neutral-900" required />
-        </div>
-        <div>
-          <label class="block text-xs text-neutral-400 mb-1">Time</label>
-          <input id="fTime" type="time" class="w-full rounded-md px-3 py-2 border text-neutral-900" required />
-        </div>
-        <div>
-          <label class="block text-xs text-neutral-400 mb-1">Party</label>
-          <select id="fParty" class="w-full rounded-md px-3 py-2 border text-neutral-900">
-            <option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
-          </select>
-        </div>
-        <div class="flex items-end">
-          <button class="w-full rounded-md px-4 py-2 bg-white text-neutral-900 font-medium">Find a table</button>
-        </div>
-      </form>
+        <!-- Search/filter bar -->
+        <form id="searchForm" class="mt-6 grid grid-cols-2 md:grid-cols-6 gap-3">
+          <div class="col-span-2">
+            <label class="block text-xs text-neutral-400 mb-1">Search</label>
+            <input id="q" class="w-full rounded-md px-3 py-2 border text-neutral-900" placeholder="Name, dish, keyword…"/>
+          </div>
+          <div>
+            <label class="block text-xs text-neutral-400 mb-1">City</label>
+            <select id="city" class="w-full rounded-md px-3 py-2 border text-neutral-900">
+              <option value="">All</option>
+              <option>Austin</option><option>Dallas</option><option>Houston</option>
+              <option>San Antonio</option><option>Fort Worth</option><option>El Paso</option>
+              <option>Plano</option><option>Arlington</option><option>Irving</option><option>Kilgore</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-neutral-400 mb-1">Cuisine</label>
+            <select id="cuisine" class="w-full rounded-md px-3 py-2 border text-neutral-900">
+              <option value="">All</option>
+              <option>American</option><option>Steakhouse</option><option>Seafood</option>
+              <option>Mexican</option><option>Sushi</option><option>Barbecue</option><option>Vegan</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-neutral-400 mb-1">Price</label>
+            <select id="price" class="w-full rounded-md px-3 py-2 border text-neutral-900">
+              <option value="">All</option>
+              <option>$</option><option>$$</option><option>$$$</option><option>$$$$</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-neutral-400 mb-1">Rating</label>
+            <select id="rating" class="w-full rounded-md px-3 py-2 border text-neutral-900">
+              <option value="">Any</option>
+              <option value="4.0">4.0+</option><option value="4.3">4.3+</option>
+              <option value="4.5">4.5+</option><option value="4.7">4.7+</option>
+            </select>
+          </div>
+          <div class="col-span-2 md:col-span-1 flex items-end">
+            <button class="w-full rounded-md px-4 py-2 bg-white text-neutral-900 font-medium">Search</button>
+          </div>
+        </form>
 
-      <!-- Slots -->
-      <div id="slotWrap" class="mt-5 hidden">
-        <div class="text-sm text-neutral-300 mb-2">Available times</div>
-        <div id="slots" class="flex flex-wrap gap-2"></div>
-        <div id="slotMsg" class="text-xs text-neutral-400 mt-2"></div>
+        <!-- Cuisine chips -->
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button class="chip" data-chip="Steakhouse">Steakhouse</button>
+          <button class="chip" data-chip="Seafood">Seafood</button>
+          <button class="chip" data-chip="American">American</button>
+          <button class="chip" data-chip="Barbecue">Barbecue</button>
+          <button class="chip" data-chip="Mexican">Mexican</button>
+          <button class="chip" data-chip="Sushi">Sushi</button>
+          <button class="chip" data-chip="Vegan">Vegan</button>
+        </div>
+      </div>
+
+      <!-- Autoplay “video-like” chat preview -->
+      <div class="border border-white/15 rounded-lg p-4">
+        <div class="aspect-[16/9] rounded bg-white/5 flex items-center justify-center p-4">
+          <div class="w-full max-w-md bg-white/95 backdrop-blur rounded-xl border border-neutral-200 shadow-soft overflow-hidden">
+            <div class="px-4 py-3 border-b bg-neutral-50 text-sm font-semibold text-neutral-800">
+              Assistant Preview — Texas Restaurants
+            </div>
+            <div id="rah-feed" class="h-64 overflow-auto px-4 py-3 text-sm bg-white"></div>
+            <div class="flex items-center gap-2 border-t bg-neutral-50 px-3 py-2">
+              <div class="flex-1">
+                <div class="w-full h-9 rounded-md border bg-white text-neutral-500 flex items-center px-3 text-xs">
+                  Ask about hours, parking, dress, or menu…
+                </div>
+              </div>
+              <button class="px-3 py-2 text-xs rounded-md border">Send</button>
+            </div>
+          </div>
+        </div>
+        <p class="mt-2 text-xs text-neutral-400">Autoplay preview of typical guest Q&A.</p>
       </div>
     </div>
   </section>
 
-  <!-- Discover: Featured Cities, Cuisines, Top Restaurants -->
-  <section id="discover" class="container mx-auto px-4 py-12 md:py-16">
-    <h2 class="text-3xl md:text-4xl section-title">Discover</h2>
-
-    <!-- Featured cities -->
-    <div class="mt-6">
-      <div class="text-sm text-neutral-600">Popular Texas cities</div>
-      <div class="mt-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-        <a class="border rounded-lg p-4 hover:bg-neutral-50 block" data-city="Austin">Austin</a>
-        <a class="border rounded-lg p-4 hover:bg-neutral-50 block" data-city="Dallas">Dallas</a>
-        <a class="border rounded-lg p-4 hover:bg-neutral-50 block" data-city="Houston">Houston</a>
-        <a class="border rounded-lg p-4 hover:bg-neutral-50 block" data-city="San Antonio">San Antonio</a>
-        <a class="border rounded-lg p-4 hover:bg-neutral-50 block" data-city="Fort Worth">Fort Worth</a>
-      </div>
+  <!-- Results / Discover -->
+  <section id="results" class="container mx-auto px-4 py-10 md:py-12">
+    <div class="flex items-center justify-between">
+      <h2 class="text-2xl md:text-3xl section-title">Browse restaurants</h2>
+      <div class="text-sm text-neutral-600" id="countInfo"></div>
     </div>
 
-    <!-- Cuisines filter -->
-    <div class="mt-8">
-      <div class="text-sm text-neutral-600">Cuisines</div>
-      <div class="mt-3 flex flex-wrap gap-2">
-        <button class="chip" data-cuisine="Steakhouse">Steakhouse</button>
-        <button class="chip" data-cuisine="Seafood">Seafood</button>
-        <button class="chip" data-cuisine="Contemporary American">Contemporary American</button>
-        <button class="chip" data-cuisine="Barbecue">Barbecue</button>
-        <button class="chip" data-cuisine="Mexican">Mexican</button>
-        <button class="chip" data-cuisine="Sushi">Sushi</button>
-        <button class="chip" data-cuisine="Vegan">Vegan</button>
-      </div>
-    </div>
-
-    <!-- Top restaurants (cards) -->
-    <div class="mt-10 grid md:grid-cols-3 gap-6" id="cardGrid">
-      <!-- Card template examples (replace images later) -->
-      <article class="card border rounded-lg overflow-hidden bg-white">
-        <div class="h-40 bg-neutral-100"></div>
-        <div class="p-4">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold">Back Porch (Kilgore)</h3>
-            <span class="text-xs px-2 py-1 rounded bg-neutral-100">Casual</span>
-          </div>
-          <div class="text-sm text-neutral-600">Burgers • American • Live music</div>
-          <div class="mt-2 text-xs text-neutral-500">Kilgore, TX</div>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <button class="chip open-detail" data-id="backporch">View details</button>
-            <button class="chip quick-slot" data-city="Kilgore" data-name="Back Porch">See times</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="card border rounded-lg overflow-hidden bg-white">
-        <div class="h-40 bg-neutral-100"></div>
-        <div class="p-4">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold">Austin Prime</h3>
-            <span class="text-xs px-2 py-1 rounded bg-neutral-100">Upscale</span>
-          </div>
-          <div class="text-sm text-neutral-600">Steakhouse • Seafood • Wine</div>
-          <div class="mt-2 text-xs text-neutral-500">Austin, TX</div>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <button class="chip open-detail" data-id="austinprime">View details</button>
-            <button class="chip quick-slot" data-city="Austin" data-name="Austin Prime">See times</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="card border rounded-lg overflow-hidden bg-white">
-        <div class="h-40 bg-neutral-100"></div>
-        <div class="p-4">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold">Bay & Vine</h3>
-            <span class="text-xs px-2 py-1 rounded bg-neutral-100">Upscale</span>
-          </div>
-          <div class="text-sm text-neutral-600">Seafood • Contemporary • Raw bar</div>
-          <div class="mt-2 text-xs text-neutral-500">Houston, TX</div>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <button class="chip open-detail" data-id="bayvine">View details</button>
-            <button class="chip quick-slot" data-city="Houston" data-name="Bay & Vine">See times</button>
-          </div>
-        </div>
-      </article>
+    <!-- Grid results (virtualized) -->
+    <div id="cardGrid" class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+    <div class="mt-6 flex items-center justify-center">
+      <button id="loadMore" class="hidden rounded-md px-4 py-2 border">Load more</button>
     </div>
   </section>
 
-  <!-- Trust / Metrics -->
-  <section class="bg-neutral-50 border-y">
-    <div class="container mx-auto px-4 py-12 grid md:grid-cols-3 gap-6 text-center">
-      <div><div class="text-3xl font-bold">80%+</div><div class="text-sm text-neutral-600">Common questions auto-answered</div></div>
-      <div><div class="text-3xl font-bold">&lt;5s</div><div class="text-sm text-neutral-600">Typical response time</div></div>
-      <div><div class="text-3xl font-bold">24/7</div><div class="text-sm text-neutral-600">After-hours coverage</div></div>
-    </div>
-  </section>
-
-  <!-- Pricing -->
-  <section id="pricing" class="container mx-auto px-4 py-12 md:py-16">
-    <h2 class="text-3xl md:text-4xl section-title">Simple pricing</h2>
-    <div class="mt-10 grid md:grid-cols-3 gap-6">
-      <div class="border rounded-lg p-6">
-        <div class="text-xl font-semibold">Basic</div>
-        <div class="mt-2 text-3xl font-extrabold">$99/mo</div>
-        <ul class="mt-4 text-sm text-neutral-700 space-y-1">
-          <li>• Website chat</li>
-          <li>• FAQ + Menu Q&A</li>
-          <li>• Email handoff</li>
-        </ul>
-      </div>
-      <div class="border rounded-lg p-6 ring-1 ring-neutral-200 shadow-soft">
-        <div class="text-xl font-semibold">Pro</div>
-        <div class="mt-2 text-3xl font-extrabold">$179/mo</div>
-        <ul class="mt-4 text-sm text-neutral-700 space-y-1">
-          <li>• Everything in Basic</li>
-          <li>• Slack handoff</li>
-          <li>• Daily specials & 86</li>
-          <li>• Multi-language</li>
-        </ul>
-      </div>
-      <div class="border rounded-lg p-6">
-        <div class="text-xl font-semibold">Pilot</div>
-        <div class="mt-2 text-3xl font-extrabold">Free (14 days)</div>
-        <ul class="mt-4 text-sm text-neutral-700 space-y-1">
-          <li>• Install for you</li>
-          <li>• Menu import</li>
-          <li>• Weekly report</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Live Demo -->
-  <section id="demo" class="bg-neutral-50 border-t">
+  <!-- Live Demo (chat to your API) -->
+  <section id="demoSection" class="bg-neutral-50 border-t">
     <div class="container mx-auto px-4 py-12 md:py-16">
       <div class="md:flex md:items-center md:justify-between gap-6">
         <div>
           <h2 class="text-3xl md:text-4xl section-title">Live demo</h2>
-          <p class="mt-2 text-neutral-600">Ask about hours, parking, dress, or menu guidance. This talks to your live API.</p>
+          <p class="mt-2 text-neutral-600">Ask about hours, parking, dress, or menu guidance. This calls your live `/chat/query` API.</p>
         </div>
-        <div class="mt-6 md:mt-0 text-sm">
-          <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">Live</span>
-        </div>
+        <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 mt-6 md:mt-0">Live</span>
       </div>
 
       <div class="mt-6 grid md:grid-cols-2 gap-8 items-start">
@@ -233,10 +159,10 @@
           <div class="px-4 py-3 border-b font-semibold">Assistant</div>
           <div id="log" class="h-[420px] overflow-auto px-4 py-4 text-sm"></div>
           <form id="form" class="flex border-t">
-            <input id="input" class="flex-1 px-4 py-3 outline-none" placeholder="Type a message…" />
+            <input id="input" class="flex-1 px-4 py-3 outline-none" placeholder="Type a message…"/>
             <button class="px-4 py-3 border-l bg-neutral-50 hover:bg-neutral-100" type="submit">Send</button>
           </form>
-          <div class="px-4 py-3 text-xs text-neutral-500 border-t">Example: “Recommend a burger and side.”</div>
+          <div class="px-4 py-3 text-xs text-neutral-500 border-t">Example: “Show gluten-free mains in Austin.”</div>
         </div>
 
         <aside>
@@ -244,11 +170,33 @@
             <div class="font-semibold">What to watch</div>
             <ul class="mt-3 text-sm text-neutral-700 space-y-2 list-disc list-inside">
               <li>Instant answers to hours, address, parking.</li>
-              <li>Dietary filters and safe allergy wording.</li>
-              <li>Optional booking requests (can re-enable later).</li>
+              <li>Dietary filters and conservative allergy language.</li>
+              <li>Menu lookups by dish or category.</li>
             </ul>
           </div>
         </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Import Data (upload/paste JSON) -->
+  <section id="import" class="container mx-auto px-4 py-12 md:py-16">
+    <h2 class="text-3xl md:text-4xl section-title">Import or replace data</h2>
+    <p class="mt-2 text-neutral-600 text-sm">Load your own JSON to swap in real restaurants, menus, prices, and details — no code changes.</p>
+
+    <div class="mt-6 grid md:grid-cols-2 gap-6">
+      <div class="border rounded-lg p-5">
+        <div class="font-semibold">Upload JSON file</div>
+        <input id="fileInput" type="file" accept="application/json" class="mt-3"/>
+        <p class="mt-2 text-xs text-neutral-500">Schema shown on the right; 1000+ records supported.</p>
+      </div>
+      <div class="border rounded-lg p-5">
+        <div class="font-semibold">Or paste JSON</div>
+        <textarea id="pasteInput" rows="8" class="mt-3 w-full border rounded p-2 font-mono text-xs" placeholder='[ { "id":"rest-1", "name":"...", "city":"Austin", "cuisines":["American"], "price":"$$", "rating":4.5, "address":"", "phone":"", "hours":{"Mon":"11–10"}, "dress":"Casual", "parking":"Valet", "menu":[{"category":"Burgers","items":[{"name":"Cheeseburger","price":11.99,"desc":"..."}]}], "coords":{"lat":30.26,"lng":-97.74}, "url":"https://...", "images":["/img1.jpg"], "about":"..." } ]'></textarea>
+        <div class="mt-2 flex gap-2">
+          <button id="applyPaste" class="rounded-md px-3 py-2 border">Apply</button>
+          <button id="downloadData" class="rounded-md px-3 py-2 border">Download current data</button>
+        </div>
       </div>
     </div>
   </section>
@@ -258,9 +206,9 @@
     <div class="container mx-auto px-4 py-8 text-sm text-neutral-500 flex items-center justify-between">
       <span id="year"></span>
       <div class="flex items-center gap-4">
-        <a href="#search" class="hover:opacity-70">Find a table</a>
-        <a href="#discover" class="hover:opacity-70">Discover</a>
-        <a href="#pricing" class="hover:opacity-70">Pricing</a>
+        <a href="#/" class="hover:opacity-70">Home</a>
+        <a href="#/discover" class="hover:opacity-70">Discover</a>
+        <a href="#/demo" class="hover:opacity-70">Live Demo</a>
       </div>
     </div>
   </footer>
@@ -269,257 +217,459 @@
   <div id="detailModal" class="fixed inset-0 z-50 hidden">
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="absolute inset-0 flex items-end md:items-center md:justify-center">
-      <div class="bg-white w-full md:max-w-3xl rounded-t-2xl md:rounded-2xl overflow-hidden">
+      <div class="bg-white w-full md:max-w-4xl rounded-t-2xl md:rounded-2xl overflow-hidden">
         <div class="flex items-center justify-between px-4 py-3 border-b">
-          <div class="font-semibold" id="detailName">Restaurant</div>
+          <div>
+            <div class="font-semibold text-lg" id="detailName">Restaurant</div>
+            <div class="text-xs text-neutral-500" id="detailMeta">City • Cuisine • Price</div>
+          </div>
           <button id="detailClose" class="text-neutral-500 hover:opacity-70" aria-label="Close">&times;</button>
         </div>
+
         <div class="grid md:grid-cols-2 gap-0">
+          <!-- Left: gallery & tabs -->
           <div class="p-4 space-y-3">
-            <div class="rounded bg-neutral-100 h-40"></div>
-            <div class="text-sm text-neutral-700" id="detailAbout">About copy.</div>
-            <div class="text-sm">
-              <div class="font-semibold">Hours</div>
-              <div id="detailHours" class="text-neutral-700">Varies by day</div>
+            <div id="detailGallery" class="rounded bg-neutral-100 h-40 flex items-center justify-center text-neutral-500 text-sm">Photo</div>
+
+            <div class="flex gap-2">
+              <button class="tab-btn border rounded px-3 py-1.5 text-sm" data-tab="overview" aria-selected="true">Overview</button>
+              <button class="tab-btn border rounded px-3 py-1.5 text-sm" data-tab="menu">Menu</button>
+              <button class="tab-btn border rounded px-3 py-1.5 text-sm" data-tab="info">Info</button>
+              <button class="tab-btn border rounded px-3 py-1.5 text-sm" data-tab="map">Map</button>
+              <button class="tab-btn border rounded px-3 py-1.5 text-sm" data-tab="reviews">Reviews</button>
             </div>
-            <div class="text-sm">
-              <div class="font-semibold">Dress code</div>
-              <div id="detailDress" class="text-neutral-700">Smart-casual</div>
+
+            <div id="tab-overview" class="text-sm text-neutral-700 leading-6"></div>
+            <div id="tab-menu" class="hidden">
+              <div class="text-sm" id="menuContent"></div>
             </div>
-            <div class="text-sm">
-              <div class="font-semibold">Parking</div>
-              <div id="detailParking" class="text-neutral-700">Street / garage / valet (varies)</div>
+            <div id="tab-info" class="hidden text-sm">
+              <div class="grid grid-cols-2 gap-3">
+                <div><div class="font-semibold">Address</div><div id="infoAddress" class="text-neutral-700"></div></div>
+                <div><div class="font-semibold">Phone</div><div id="infoPhone" class="text-neutral-700"></div></div>
+                <div><div class="font-semibold">Hours</div><div id="infoHours" class="text-neutral-700"></div></div>
+                <div><div class="font-semibold">Dress</div><div id="infoDress" class="text-neutral-700"></div></div>
+                <div><div class="font-semibold">Parking</div><div id="infoParking" class="text-neutral-700"></div></div>
+                <div><div class="font-semibold">Website</div><div id="infoUrl" class="text-neutral-700 break-all"></div></div>
+              </div>
             </div>
-            <div class="text-sm">
-              <a id="detailMenuLink" href="#" class="underline">View menu</a>
+            <div id="tab-reviews" class="hidden">
+              <div id="reviewList" class="text-sm text-neutral-700 space-y-3"></div>
             </div>
           </div>
+
+          <!-- Right: Map -->
           <div class="p-4">
-            <iframe id="detailMap" class="w-full h-64 border rounded" loading="lazy"></iframe>
+            <iframe id="detailMap" class="w-full h-80 border rounded" loading="lazy"></iframe>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- ====== Data (seed 100+ entries) ====== -->
   <script>
-    // Helpers
-    function fmtDate(d){ return d.toISOString().slice(0,10); }
-    function fmtTime(d){ return d.toTimeString().slice(0,5); }
-    function to24(label){
-      try{
-        const m = label.match(/(\\d{1,2}):(\\d{2})\\s*(AM|PM)/i);
-        if (!m) return '19:00';
-        let hh = parseInt(m[1],10), mm = m[2];
-        const ampm = m[3].toUpperCase();
-        if (ampm==='PM' && hh!==12) hh+=12;
-        if (ampm==='AM' && hh===12) hh=0;
-        return String(hh).padStart(2,'0')+':'+mm;
-      }catch{ return '19:00'; }
+  /**
+   * Restaurant schema (per record)
+   * {
+   *  id, name, city, cuisines:[], price:'$'|'$$'|'$$$'|'$$$$', rating:number,
+   *  address, phone, hours:{Mon:'',...}, dress, parking,
+   *  about, url, images:[], coords:{lat,lng},
+   *  menu:[{category, items:[{name, price, desc}]}],
+   *  reviews:[{author, rating, text, ago}]
+   * }
+   */
+
+  // 1) Real example: The Back Porch (Kilgore) — sample menu with exact prices
+  const backPorch = {
+    id: "back-porch-kilgore",
+    name: "The Back Porch",
+    city: "Kilgore",
+    cuisines: ["American","Burgers"],
+    price: "$",
+    rating: 4.4,
+    address: "904 Broadway Blvd, Kilgore, TX 75662",
+    phone: "(903) 984-8141",
+    hours: { Tue:"11:00–22:00", Wed:"11:00–22:00", Thu:"11:00–22:00", Fri:"11:00–23:00", Sat:"11:00–23:00", Sun:"11:00–21:00", Mon:"Closed" },
+    dress: "Casual to smart-casual",
+    parking: "On-site lot; additional nearby parking during events",
+    about: "Relaxed, long-running spot serving hearty burgers, baskets, baked potatoes, and more — with live music on select nights.",
+    url: "https://www.thebackporchkilgore.com/menu",
+    images: [],
+    coords: { lat: 32.389, lng: -94.874 },
+    menu: [
+      { category:"Appetizers", items:[
+        { name:"Homemade Chips & Queso", price:7.99, desc:"Crispy chips with house queso" },
+        { name:"Hand Battered Onion Rings", price:7.99, desc:"Thick-cut, fried golden" },
+        { name:"Fried Pickles", price:6.99, desc:"Crispy dill chips, ranch" },
+        { name:"Bacon-Wrapped Stuffed Jalapeño Peppers", price:10.99, desc:"Savory stuffed jalapeños" },
+        { name:"Potato Skins", price:9.99, desc:"Cheese, bacon, sour cream" }
+      ]},
+      { category:"Salads & Bowls", items:[
+        { name:"Chef Salad", price:12.99 },
+        { name:"Grilled Chicken Salad", price:11.99 },
+        { name:"Hamburger Salad", price:10.99 },
+        { name:"Vicki’s Sampler (pick any 3)", price:12.99 }
+      ]},
+      { category:"Baked Potatoes", items:[
+        { name:"Plain Jane", price:7.99 },
+        { name:"Fully Loaded", price:8.99 },
+        { name:"Grilled Chicken Baked Potato", price:12.99 },
+        { name:"Chicken Strip Baked Potato", price:12.99 },
+        { name:"Burger Baked Potato", price:12.99 }
+      ]},
+      { category:"Gourmet Burgers", items:[
+        { name:"Old-Fashioned Homemade Cheeseburger", price:11.99 },
+        { name:"Bacon Cheeseburger", price:13.99 },
+        { name:"Chili Cheese Burger", price:13.99 },
+        { name:"Farmhouse Cheeseburger", price:14.99 },
+        { name:"Cheeseburger Sliders (4)", price:12.99 },
+        { name:"The Big Double (1 lb)", price:16.99 }
+      ]},
+      { category:"Sandwiches, Wraps & Melts", items:[
+        { name:"BLT (Texas Toast)", price:10.99 },
+        { name:"Chicken Fried Steak Sandwich", price:14.99 },
+        { name:"Philly Cheesesteak", price:13.99 },
+        { name:"Grilled Chicken Quesadilla", price:12.99 }
+      ]},
+      { category:"Dinners", items:[
+        { name:"Chicken Strip Basket (with fries & cream gravy)", price:10.99 },
+        { name:"Cowboy Dinner (hamburger steak, chili, cheese, onions)", price:16.99 },
+        { name:"Sirloin (6 oz, garlic butter)", price:19.99 },
+        { name:"BP Mixer (sirloin + grilled chicken + cheddar cubes, dips)", price:29.99 },
+        { name:"Chicken Fried Chicken Dinner (cream gravy)", price:16.99 }
+      ]},
+      { category:"Sides", items:[
+        { name:"Loaded Baked Potato (side)", price:3.99 }
+      ]}
+    ],
+    reviews: [
+      { author:"Recent diner", rating:5, text:"Great burgers and fast service, even on music nights.", ago:"1w" },
+      { author:"Local regular", rating:4, text:"Perfect for groups; love the live music.", ago:"3w" }
+    ]
+  };
+
+  // 2) Generate 120 placeholder restaurants to reach 100+ (replace later with real data)
+  const CITIES = ["Austin","Dallas","Houston","San Antonio","Fort Worth","Plano","Arlington","Irving","El Paso","Waco"];
+  const CUISINES = [["Steakhouse"],["Seafood"],["Contemporary American"],["Mexican"],["Sushi"],["Barbecue"],["Vegan"],["American"]];
+  const PRICES = ["$","$$","$$$","$$$$"];
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function genRestaurant(i){
+    const city = rnd(CITIES);
+    const cuisines = rnd(CUISINES);
+    const price = rnd(PRICES);
+    const rating = +(4 + Math.random()*1).toFixed(1);
+    const id = `tx-rest-${i}`;
+    return {
+      id, name:`Sample ${cuisines[0]} ${i}`, city, cuisines, price, rating,
+      address:`${100+i} Market St, ${city}, TX`, phone:"(555) 000-0000",
+      hours:{Mon:"11:00–22:00",Tue:"11:00–22:00",Wed:"11:00–22:00",Thu:"11:00–22:00",Fri:"11:00–23:00",Sat:"10:00–23:00",Sun:"10:00–21:00"},
+      dress:"Smart-casual", parking:"Street & garage",
+      about:`Modern ${cuisines[0].toLowerCase()} spot with seasonal ingredients and craft beverages.`,
+      url:"#", images:[], coords:{lat:30+Math.random()*5,lng:-97+Math.random()*5},
+      menu:[
+        {category:"Starters", items:[{name:"Seasonal Appetizer", price:12.00, desc:"Chef’s selection"}]},
+        {category:"Mains", items:[{name:"Signature Dish", price:28.00, desc:"House specialty"}]},
+        {category:"Desserts", items:[{name:"Classic Dessert", price:9.00, desc:"Sweet finish"}]}
+      ],
+      reviews:[
+        {author:"Guest", rating:5, text:"Fantastic service and flavors.", ago:"2w"},
+        {author:"Local", rating:4, text:"Great ambiance.", ago:"1m"}
+      ]
+    };
+  }
+  const PLACEHOLDERS = Array.from({length:120}, (_,i)=>genRestaurant(i+1));
+
+  // Master dataset (starts with 121 records total)
+  let DATA = [backPorch, ...PLACEHOLDERS];
+  </script>
+
+  <!-- ====== App Logic ====== -->
+  <script>
+  const API = document.querySelector('meta[name="rai-api"]')?.content || '';
+
+  // --- Autoplay assistant preview (top-right) ---
+  (function(){
+    const feed = document.getElementById('rah-feed'); if(!feed) return;
+    const bubbles = [
+      {role:'ai',  text:"Welcome — I can help you find a table in Texas."},
+      {role:'you', text:"Which restaurants in Austin have seafood?"},
+      {role:'ai',  text:"I can filter by city and cuisine, show menus with prices, and provide hours and parking details."},
+      {role:'you', text:"Any casual spots with burgers?"},
+      {role:'ai',  text:"Yes — here are a few popular options. Want to see menu pricing now?"}
+    ];
+    function esc(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+    function bubble(role, text){
+      const row=document.createElement('div'); row.className='rah-bubble my-1';
+      row.innerHTML = role==='you'
+        ? `<div class="text-right"><span class="inline-block max-w-[80%] rounded-md bg-neutral-900 text-white px-3 py-2">${esc(text)}</span></div>`
+        : `<div class="text-left"><span class="inline-block max-w-[80%] rounded-md bg-neutral-100 text-neutral-900 px-3 py-2">${esc(text)}</span></div>`;
+      feed.appendChild(row); feed.scrollTop=feed.scrollHeight;
     }
-    const API = document.querySelector('meta[name="rai-api"]')?.content || '';
-  </script>
-
-  <!-- Initialize search defaults -->
-  <script>
-    (function(){
-      const now = new Date();
-      const dateEl = document.getElementById('fDate');
-      const timeEl = document.getElementById('fTime');
-      if (dateEl) dateEl.value = fmtDate(now);
-      if (timeEl) timeEl.value = fmtTime(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 19, 0));
+    let i=0; (function run(){ if(i>=bubbles.length) return setTimeout(()=>{feed.innerHTML=''; i=0; run();}, 3000);
+      const msg=bubbles[i++]; const d=msg.role==='ai'?720:520; setTimeout(()=>{bubble(msg.role,msg.text); run();}, d);
     })();
-  </script>
+  })();
 
-  <!-- Find a table: call /availability and render time chips -->
-  <script>
-    (function(){
-      const form = document.getElementById('findForm');
-      const slotWrap = document.getElementById('slotWrap');
-      const slotsEl = document.getElementById('slots');
-      const slotMsg = document.getElementById('slotMsg');
+  // --- Live Chat demo (calls your API) ---
+  (function(){
+    const logEl=document.getElementById('log'), formEl=document.getElementById('form'), inputEl=document.getElementById('input');
+    if(!logEl) return;
+    function esc(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+    function say(role, text){
+      const row=document.createElement('div'); row.className='mb-2';
+      row.innerHTML=role==='you'
+        ? `<div class="text-right"><span class="inline-block rounded-md bg-neutral-900 text-white px-3 py-2">${esc(text)}</span></div>`
+        : `<div class="text-left"><span class="inline-block rounded-md bg-neutral-100 px-3 py-2">${esc(text)}</span></div>`;
+      logEl.appendChild(row); logEl.scrollTop=logEl.scrollHeight;
+    }
+    async function ask(q){ if(!q.trim()) return; say('you', q); say('ai','…');
+      try{
+        const r=await fetch(API+'/chat/query',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:q})});
+        const j=await r.json();
+        logEl.lastChild.innerHTML=`<div class="text-left"><span class="inline-block rounded-md bg-neutral-100 px-3 py-2">${esc(j.reply||'Sorry, something went wrong.')}</span></div>`;
+      }catch{ logEl.lastChild.innerHTML='<div class="text-left"><span class="inline-block rounded-md bg-red-50 text-red-700 px-3 py-2">Can’t reach the demo API right now.</span></div>'; }
+    }
+    formEl?.addEventListener('submit',e=>{e.preventDefault(); const v=inputEl.value; inputEl.value=''; ask(v);});
+    say('ai','Hi! Ask about hours, parking, dress, or menus across Texas restaurants.');
+  })();
 
-      async function fetchSlots(city, date, time, party){
-        const url = new URL(API + '/availability');
-        url.searchParams.set('city', city);
-        url.searchParams.set('date', date);
-        url.searchParams.set('time', time);
-        url.searchParams.set('party', party);
-        const r = await fetch(url);
-        return r.json();
+  // --- Router (hash) for simple navigation ---
+  (function(){
+    function show(id){ document.querySelectorAll('section[id]').forEach(s=> s.id==='hero'||s.id==='results'||s.id+'Section'===id? s.classList.remove('hidden'): s.classList.add('hidden')); }
+    function onRoute(){
+      const h=location.hash||'#/';
+      if (h.startsWith('#/demo')) { document.getElementById('demoSection').scrollIntoView({behavior:'smooth'}); }
+      else if (h.startsWith('#/import')) { document.getElementById('import').scrollIntoView({behavior:'smooth'}); }
+      else { document.getElementById('hero').scrollIntoView({behavior:'smooth'}); }
+    }
+    window.addEventListener('hashchange', onRoute); onRoute();
+  })();
+
+  // --- Rendering / Filtering / Virtualization ---
+  (function(){
+    const grid = document.getElementById('cardGrid');
+    const loadMoreBtn = document.getElementById('loadMore');
+    const countInfo = document.getElementById('countInfo');
+
+    // State
+    let filtered = DATA.slice();
+    let page = 0;
+    const PAGE_SIZE = 18;
+
+    // Filters
+    function applyFilters(){
+      const q = document.getElementById('q').value.toLowerCase().trim();
+      const city = document.getElementById('city').value;
+      const cuisine = document.getElementById('cuisine').value;
+      const price = document.getElementById('price').value;
+      const rating = parseFloat(document.getElementById('rating').value || '0');
+
+      filtered = DATA.filter(r=>{
+        if (city && r.city !== city) return false;
+        if (cuisine && !r.cuisines.includes(cuisine)) return false;
+        if (price && r.price !== price) return false;
+        if (rating && (r.rating||0) < rating) return false;
+        if (q) {
+          const hay = (r.name+' '+r.city+' '+r.cuisines.join(' ')+' '+(r.about||'')+' '+(r.menu||[]).map(c=>c.category+' '+c.items.map(i=>i.name).join(' ')).join(' ')).toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      // sort: rating desc then price asc
+      filtered.sort((a,b)=> (b.rating||0)-(a.rating||0) || (a.price||'$').length-(b.price||'$').length);
+      page = 0;
+      renderPage(true);
+      countInfo.textContent = `${filtered.length} restaurants • page ${page+1} of ${Math.max(1, Math.ceil(filtered.length/PAGE_SIZE))}`;
+    }
+
+    // Card template
+    function card(r){
+      const cuisines = r.cuisines.join(', ');
+      return `
+      <article class="card border rounded-lg overflow-hidden bg-white flex flex-col" data-id="${r.id}">
+        <div class="h-40 bg-neutral-100"></div>
+        <div class="p-4 flex-1 flex flex-col">
+          <div class="flex items-start justify-between gap-2">
+            <h3 class="font-semibold leading-tight">${r.name}</h3>
+            <span class="text-xs px-2 py-1 rounded bg-neutral-100">${r.price||'$'}</span>
+          </div>
+          <div class="text-sm text-neutral-600 truncate-2 mt-0.5">${cuisines}</div>
+          <div class="mt-1 text-xs text-neutral-500">${r.city}, TX • ${r.rating ? r.rating.toFixed(1):'—'}★</div>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <button class="chip open-detail" data-id="${r.id}">View details</button>
+            <a href="${r.url||'#'}" target="_blank" class="chip">Menu</a>
+          </div>
+        </div>
+      </article>`;
+    }
+
+    function renderPage(reset=false){
+      const start = page * PAGE_SIZE;
+      const end = Math.min(filtered.length, start + PAGE_SIZE);
+      if (reset) grid.innerHTML = '';
+      const fragment = document.createDocumentFragment();
+      for (let i=start;i<end;i++){
+        const div = document.createElement('div');
+        div.innerHTML = card(filtered[i]);
+        fragment.appendChild(div.firstElementChild);
       }
+      grid.appendChild(fragment);
 
-      form.addEventListener('submit', async (e)=>{
-        e.preventDefault();
-        slotWrap.classList.remove('hidden');
-        slotsEl.innerHTML = '';
-        slotMsg.textContent = 'Searching…';
+      loadMoreBtn.classList.toggle('hidden', end >= filtered.length);
+      page++;
+      countInfo.textContent = `${filtered.length} restaurants • page ${Math.max(1,page)} of ${Math.max(1, Math.ceil(filtered.length/PAGE_SIZE))}`;
+      wireCardButtons();
+    }
 
-        const city = document.getElementById('fCity').value;
-        const date = document.getElementById('fDate').value;
-        const time = document.getElementById('fTime').value;
-        const party = document.getElementById('fParty').value;
-
-        try{
-          const j = await fetchSlots(city, date, time, party);
-          slotsEl.innerHTML = '';
-          if (!j || !Array.isArray(j.slots) || j.slots.length === 0){
-            slotMsg.textContent = 'No exact matches. Showing nearby times.';
-          } else {
-            slotMsg.textContent = 'Tap a time to proceed.';
-          }
-          (j.slots || []).forEach(ts=>{
-            const b = document.createElement('button');
-            b.type='button';
-            b.className='px-3 py-2 border rounded hover:bg-neutral-50';
-            b.textContent=ts;
-            b.addEventListener('click', ()=>{
-              // At this stage we just acknowledge; reservation intake disabled by design.
-              slotMsg.textContent = `Selected ${ts} — reservation requests are handled by staff.`;
-            });
-            slotsEl.appendChild(b);
-          });
-        }catch{
-          slotMsg.textContent = 'Could not load availability right now.';
-        }
+    function wireCardButtons(){
+      grid.querySelectorAll('.open-detail').forEach(btn=>{
+        btn.onclick = () => openDetail(btn.getAttribute('data-id'));
       });
+    }
 
-      // Quick “See times” on cards uses the same flow
-      document.querySelectorAll('.quick-slot').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const date = document.getElementById('fDate').value;
-          const time = document.getElementById('fTime').value;
-          const party = document.getElementById('fParty').value;
-          document.getElementById('fCity').value = btn.dataset.city || 'Austin';
-          form.requestSubmit();
-          document.getElementById('search').scrollIntoView({ behavior:'smooth' });
-        });
-      });
-    })();
-  </script>
-
-  <!-- City & Cuisine filters (front-end only demo) -->
-  <script>
-    (function(){
-      const chips = document.querySelectorAll('[data-cuisine]');
-      chips.forEach(ch =>{
-        ch.addEventListener('click', ()=>{
-          const pressed = ch.getAttribute('aria-pressed') === 'true';
-          chips.forEach(x=> x.setAttribute('aria-pressed','false'));
-          ch.setAttribute('aria-pressed', pressed ? 'false' : 'true');
-          // Filter demo: in real app, refetch list; here we just change opacity.
-          document.querySelectorAll('#cardGrid article').forEach(card=>{
-            card.style.opacity = pressed ? '1' : (Math.random() > 0.5 ? '1' : '.45');
-          });
-        });
-      });
-      // Featured cities quick set
-      document.querySelectorAll('[data-city]').forEach(el=>{
-        el.addEventListener('click', ()=>{
-          const city = el.getAttribute('data-city');
-          const select = document.getElementById('fCity');
-          if (select) select.value = city;
-          document.getElementById('search').scrollIntoView({ behavior:'smooth' });
-        });
-      });
-    })();
-  </script>
-
-  <!-- Restaurant detail drawer -->
-  <script>
-    (function(){
-      const data = {
-        backporch: {
-          name: 'Back Porch (Kilgore)',
-          about: 'Relaxed, long-running Kilgore spot known for burgers, baskets, baked potatoes, and live music nights.',
-          hours: 'Lunch & dinner; later on music nights',
-          dress: 'Casual to smart-casual',
-          parking: 'On-site lot; additional nearby parking for events',
-          menu: 'https://www.thebackporchkilgore.com/menu',
-          map: 'https://www.google.com/maps?q=904+Broadway+Blvd,+Kilgore,+TX+75662&output=embed'
-        },
-        austinprime: {
-          name: 'Austin Prime',
-          about: 'Modern steakhouse featuring prime cuts, seafood, and a deep wine list.',
-          hours: 'Dinner nightly; weekend brunch',
-          dress: 'Smart-casual',
-          parking: 'Valet & nearby garages',
-          menu: '#',
-          map: 'https://www.google.com/maps?q=Austin,+TX&output=embed'
-        },
-        bayvine: {
-          name: 'Bay & Vine',
-          about: 'Seafood-forward dining with raw bar and coastal wines.',
-          hours: 'Dinner nightly',
-          dress: 'Smart-casual',
-          parking: 'Garage & street parking',
-          menu: '#',
-          map: 'https://www.google.com/maps?q=Houston,+TX&output=embed'
-        }
-      };
-
+    // Detail modal
+    function openDetail(id){
+      const r = DATA.find(x=>x.id===id); if(!r) return;
       const modal = document.getElementById('detailModal');
-      const closeBtn = document.getElementById('detailClose');
+      document.getElementById('detailName').textContent = r.name;
+      document.getElementById('detailMeta').textContent = `${r.city}, TX • ${r.cuisines.join(', ')} • ${r.price||'$'} • ${r.rating? r.rating.toFixed(1):'—'}★`;
+      document.getElementById('detailGallery').textContent = (r.images&&r.images.length?'Photo':'Photo');
+      document.getElementById('tab-overview').textContent = r.about || '';
+      document.getElementById('infoAddress').textContent = r.address || '';
+      document.getElementById('infoPhone').textContent = r.phone || '';
+      document.getElementById('infoHours').innerHTML = r.hours ? Object.entries(r.hours).map(([d,h])=>`${d}: ${h}`).join('<br>') : '—';
+      document.getElementById('infoDress').textContent = r.dress || '—';
+      document.getElementById('infoParking').textContent = r.parking || '—';
+      document.getElementById('infoUrl').innerHTML = r.url ? `<a class="underline" href="${r.url}" target="_blank">${r.url}</a>` : '—';
+      // Menu
+      const menuDiv = document.getElementById('menuContent');
+      menuDiv.innerHTML = (r.menu||[]).map(cat=>{
+        const items = cat.items.map(i=>`
+          <div class="flex justify-between gap-3">
+            <div><div class="font-medium">${i.name}</div>${i.desc?`<div class="text-xs text-neutral-500">${i.desc}</div>`:''}</div>
+            <div class="price text-sm whitespace-nowrap">${(i.price!=null)?`$${Number(i.price).toFixed(2)}`:'—'}</div>
+          </div>`).join('<div class="h-2"></div>');
+        return `<div class="mb-4"><div class="font-semibold">${cat.category}</div><div class="mt-2 space-y-2">${items}</div></div>`;
+      }).join('');
 
-      document.querySelectorAll('.open-detail').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const id = btn.getAttribute('data-id');
-          const d = data[id];
-          if (!d) return;
-          document.getElementById('detailName').textContent = d.name;
-          document.getElementById('detailAbout').textContent = d.about;
-          document.getElementById('detailHours').textContent = d.hours;
-          document.getElementById('detailDress').textContent = d.dress;
-          document.getElementById('detailParking').textContent = d.parking;
-          document.getElementById('detailMenuLink').href = d.menu || '#';
-          document.getElementById('detailMap').src = d.map;
-          modal.classList.remove('hidden');
+      // Map
+      const map = document.getElementById('detailMap');
+      const q = r.address ? encodeURIComponent(r.address) : encodeURIComponent(`${r.city}, TX`);
+      map.src = `https://www.google.com/maps?q=${q}&output=embed`;
+
+      // Reviews
+      const rl = document.getElementById('reviewList');
+      rl.innerHTML = (r.reviews||[]).map(v=>`
+        <article class="border rounded p-3">
+          <div class="font-semibold text-sm">${v.author} • ${v.rating? v.rating.toFixed(1):'—'}★</div>
+          <div class="text-xs text-neutral-500">${v.ago||''}</div>
+          <p class="mt-1 text-sm">${v.text||''}</p>
+        </article>`).join('') || '<div class="text-sm text-neutral-500">No reviews yet.</div>';
+
+      // Tabs
+      document.querySelectorAll('.tab-btn').forEach(b=> b.setAttribute('aria-selected','false'));
+      document.querySelector('[data-tab="overview"]').setAttribute('aria-selected','true');
+      document.getElementById('tab-overview').classList.remove('hidden');
+      document.getElementById('tab-menu').classList.add('hidden');
+      document.getElementById('tab-info').classList.add('hidden');
+      document.getElementById('tab-reviews').classList.add('hidden');
+
+      modal.classList.remove('hidden');
+    }
+
+    document.getElementById('detailClose').onclick = ()=> document.getElementById('detailModal').classList.add('hidden');
+    document.getElementById('detailModal').addEventListener('click', e=>{
+      if (e.target === document.getElementById('detailModal').firstElementChild) document.getElementById('detailModal').classList.add('hidden');
+    });
+    document.querySelectorAll('.tab-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.tab-btn').forEach(b=> b.setAttribute('aria-selected','false'));
+        btn.setAttribute('aria-selected','true');
+        const tab = btn.dataset.tab;
+        ['overview','menu','info','map','reviews'].forEach(id=>{
+          document.getElementById('tab-'+id)?.classList.toggle('hidden', id!==tab && id!=='map');
         });
+        if (tab==='menu') { document.getElementById('tab-menu').classList.remove('hidden'); document.getElementById('tab-overview').classList.add('hidden'); }
+        if (tab==='info') { document.getElementById('tab-info').classList.remove('hidden'); document.getElementById('tab-overview').classList.add('hidden'); }
+        if (tab==='reviews') { document.getElementById('tab-reviews').classList.remove('hidden'); document.getElementById('tab-overview').classList.add('hidden'); }
+        if (tab==='overview') { document.getElementById('tab-overview').classList.remove('hidden'); }
       });
+    });
 
-      closeBtn.addEventListener('click', ()=> modal.classList.add('hidden'));
-      modal.addEventListener('click', (e)=>{ if (e.target === modal.firstElementChild) modal.classList.add('hidden'); });
-    })();
-  </script>
+    // Submit filters
+    document.getElementById('searchForm').addEventListener('submit', e=>{ e.preventDefault(); applyFilters(); });
 
-  <!-- AI demo chat (unchanged endpoint) -->
-  <script>
-    (function(){
-      const logEl = document.getElementById('log');
-      const formEl = document.getElementById('form');
-      const inputEl = document.getElementById('input');
+    // Cuisine chips quick toggle
+    document.querySelectorAll('[data-chip]').forEach(ch=>{
+      ch.addEventListener('click', ()=>{
+        const on = ch.getAttribute('aria-pressed')==='true';
+        document.getElementById('cuisine').value = on ? '' : ch.dataset.chip;
+        document.querySelectorAll('[data-chip]').forEach(x=>x.setAttribute('aria-pressed','false'));
+        ch.setAttribute('aria-pressed', on?'false':'true');
+        applyFilters();
+      });
+    });
 
-      function escapeHtml(s){ return s.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-      function say(role, text){
-        const row = document.createElement('div');
-        row.className = 'mb-2';
-        row.innerHTML = role==='you'
-          ? `<div class="text-right"><span class="inline-block rounded-md bg-neutral-900 text-white px-3 py-2">${escapeHtml(text)}</span></div>`
-          : `<div class="text-left"><span class="inline-block rounded-md bg-neutral-100 px-3 py-2">${escapeHtml(text)}</span></div>`;
-        logEl.appendChild(row); logEl.scrollTop = logEl.scrollHeight;
-      }
-      async function ask(q){
-        if(!q.trim()) return; say('you', q); say('ai','…');
-        try{
-          const r = await fetch(API + '/chat/query', {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ message: q })
-          });
-          const j = await r.json();
-          logEl.lastChild.innerHTML = `<div class="text-left"><span class="inline-block rounded-md bg-neutral-100 px-3 py-2">${escapeHtml(j.reply || 'Sorry, something went wrong.')}</span></div>`;
-        }catch{
-          logEl.lastChild.innerHTML = '<div class="text-left"><span class="inline-block rounded-md bg-red-50 text-red-700 px-3 py-2">Can’t reach the demo API right now.</span></div>';
-        }
-      }
-      formEl?.addEventListener('submit', (e)=>{ e.preventDefault(); const v=inputEl.value; inputEl.value=''; ask(v); });
-      say('ai', 'Hi! I can help with hours, parking, dress, and menu suggestions across Texas restaurants.');
-    })();
-  </script>
+    // Load more
+    loadMoreBtn.addEventListener('click', ()=> renderPage(false));
 
-  <script>
-    document.getElementById('year').textContent = `© ${new Date().getFullYear()} Restaurant AI Helper`;
+    // Initial render
+    applyFilters();
+  })();
+
+  // --- Import / Export data controls ---
+  (function(){
+    const fileInput = document.getElementById('fileInput');
+    const pasteInput = document.getElementById('pasteInput');
+    const applyBtn = document.getElementById('applyPaste');
+    const downloadBtn = document.getElementById('downloadData');
+
+    function validate(arr){
+      if (!Array.isArray(arr)) throw new Error('JSON root must be an array of restaurants.');
+      arr.forEach((r,idx)=>{
+        if (!r.id || !r.name) throw new Error(`Record ${idx} missing id or name`);
+        r.menu = Array.isArray(r.menu) ? r.menu : [];
+        r.cuisines = Array.isArray(r.cuisines) ? r.cuisines : [];
+        r.reviews = Array.isArray(r.reviews) ? r.reviews : [];
+      });
+      return arr;
+    }
+
+    async function reload(newData){
+      window.DATA = validate(newData);
+      // Re-run filter render
+      document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+      alert('Data loaded. Listing refreshed.');
+    }
+
+    fileInput?.addEventListener('change', async (e)=>{
+      const f=e.target.files?.[0]; if(!f) return;
+      try{
+        const txt = await f.text();
+        const json = JSON.parse(txt);
+        reload(json);
+      }catch(err){ alert('Failed to load JSON: '+err.message); }
+    });
+
+    applyBtn?.addEventListener('click', ()=>{
+      try{
+        const txt = pasteInput.value.trim(); if(!txt) return;
+        const json = JSON.parse(txt);
+        reload(json);
+      }catch(err){ alert('Invalid JSON: '+err.message); }
+    });
+
+    downloadBtn?.addEventListener('click', ()=>{
+      const blob = new Blob([JSON.stringify(window.DATA||[], null, 2)], {type:'application/json'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'restaurants.json'; a.click();
+      URL.revokeObjectURL(a.href);
+    });
+  })();
+
+  // Year
+  document.getElementById('year').textContent = `© ${new Date().getFullYear()} Restaurant AI Helper`;
   </script>
 </body>
 </html>
