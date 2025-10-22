@@ -114,20 +114,6 @@
     </div>
   </section>
 
-  <!-- Logo strip (social proof) -->
-  <section class="bg-white border-b">
-    <div class="mx-auto container px-4 py-8">
-      <div class="text-center text-sm text-neutral-600 mb-4">Trusted by hospitality teams</div>
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-6 items-center opacity-80">
-        <img src="/logos/logo1.svg" alt="Brand 1" class="h-8 mx-auto">
-        <img src="/logos/logo2.svg" alt="Brand 2" class="h-8 mx-auto">
-        <img src="/logos/logo3.svg" alt="Brand 3" class="h-8 mx-auto">
-        <img src="/logos/logo4.svg" alt="Brand 4" class="h-8 mx-auto">
-        <img src="/logos/logo5.svg" alt="Brand 5" class="h-8 mx-auto">
-      </div>
-    </div>
-  </section>
-
   <!-- Trust/Stats -->
   <section class="bg-white">
     <div class="mx-auto container px-4 py-12 grid md:grid-cols-3 gap-6 text-center">
@@ -463,7 +449,7 @@
     let timer = null;
 
     // Utils
-    function escapeHtml(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+    function escapeHtml(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39'}[m])); }
     function say(role, text){
       const row = document.createElement('div');
       row.className = 'mb-2';
