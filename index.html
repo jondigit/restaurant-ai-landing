@@ -79,12 +79,43 @@
         <a href="#features" class="hover:opacity-70">Features</a>
         <a href="#how" class="hover:opacity-70">How it works</a>
         <a href="#pricing" class="hover:opacity-70">Pricing</a>
-        <a href="#faq" class="hover:opacity-70">FAQ</a>
+        <a href="#profile" class="hover:opacity-70">About</a>
+        <a href="#reviews" class="hover:opacity-70">Reviews</a>
         <a href="#demo" class="hover:opacity-70">Live Demo</a>
       </nav>
       <a href="#demo" class="rounded-md px-4 py-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white transition text-sm">Get a demo</a>
     </div>
   </header>
+
+  <!-- ===== Find a Table (OpenTable-style) ===== -->
+  <section id="finder" class="bg-white border-b">
+    <div class="mx-auto container px-4 py-4">
+      <form id="findForm" class="flex flex-wrap gap-3 items-end">
+        <div>
+          <label class="block text-xs text-neutral-600 mb-1">Date</label>
+          <input id="fDate" type="date" class="border rounded px-3 py-2" required />
+        </div>
+        <div>
+          <label class="block text-xs text-neutral-600 mb-1">Time</label>
+          <input id="fTime" type="time" class="border rounded px-3 py-2" required />
+        </div>
+        <div>
+          <label class="block text-xs text-neutral-600 mb-1">Party size</label>
+          <select id="fParty" class="border rounded px-3 py-2">
+            <option>2</option><option>3</option><option selected>4</option>
+            <option>5</option><option>6</option><option>7</option><option>8</option>
+          </select>
+        </div>
+        <button class="rounded-md px-4 py-2 bg-neutral-900 text-white">Find a table</button>
+      </form>
+
+      <div id="slotWrap" class="mt-4 hidden">
+        <div class="text-sm text-neutral-600 mb-2">Available times</div>
+        <div id="slots" class="flex flex-wrap gap-2"></div>
+        <div id="slotMsg" class="text-xs text-neutral-500 mt-2"></div>
+      </div>
+    </div>
+  </section>
 
   <!-- Hero -->
   <section class="brand-gradient text-white">
@@ -114,9 +145,7 @@
               <div class="px-4 py-3 border-b bg-neutral-50 text-sm font-semibold text-neutral-800">
                 Drake’s Hollywood — Assistant (Preview)
               </div>
-              <div id="rah-feed" class="h-64 overflow-auto px-4 py-3 text-sm bg-white">
-                <!-- Bubbles get injected here -->
-              </div>
+              <div id="rah-feed" class="h-64 overflow-auto px-4 py-3 text-sm bg-white"></div>
               <div class="flex items-center gap-2 border-t bg-neutral-50 px-3 py-2">
                 <div class="flex-1">
                   <div class="w-full h-9 rounded-md border bg-white text-neutral-500 flex items-center px-3 text-xs">
@@ -220,6 +249,80 @@
           <li>• Weekly report</li>
         </ul>
         <a href="#demo" class="mt-6 rounded-md px-4 py-2 bg-neutral-900 text-white text-center hover:opacity-90">Start demo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Restaurant Profile ===== -->
+  <section id="profile" class="mx-auto container px-4 py-16">
+    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">About Drake’s Hollywood</h2>
+    <div class="mt-6 grid md:grid-cols-3 gap-8">
+      <div class="md:col-span-2 text-sm text-neutral-700 leading-6">
+        <p>Smart-casual Hollywood dining with classic steaks, seafood, and cocktails. Valet most evenings; limited nearby parking. For peak hours, rideshare is recommended.</p>
+        <div class="mt-6">
+          <div class="font-semibold">Hours</div>
+          <table class="mt-2 text-sm">
+            <tbody>
+              <tr><td class="pr-6 py-1 text-neutral-500">Tuesday–Sunday</td><td class="py-1">11:30 AM – 10:00 PM</td></tr>
+              <tr><td class="pr-6 py-1 text-neutral-500">Monday</td><td class="py-1">Closed</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-6">
+          <div class="font-semibold">Dress code</div>
+          <p class="mt-1">Smart-casual. Jackets welcome; athletic/beachwear not a fit for the room.</p>
+        </div>
+        <div class="mt-6">
+          <div class="font-semibold">Dietary guidance</div>
+          <p class="mt-1">Gluten-free, vegetarian, and vegan options available; we can check dishes for allergens. Severe allergies are escalated to the team.</p>
+        </div>
+      </div>
+      <aside>
+        <div class="border rounded-lg overflow-hidden">
+          <!-- Replace with your exact Google Maps embed -->
+          <iframe
+            src="https://www.google.com/maps?q=Hollywood,+CA&output=embed"
+            class="w-full h-64"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+        <div class="mt-4 text-sm">
+          <div class="font-semibold">Location</div>
+          <div>Hollywood, CA</div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Photo grid (replace placeholders with real images) -->
+    <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div class="aspect-square bg-neutral-100 border"></div>
+      <div class="aspect-square bg-neutral-100 border"></div>
+      <div class="aspect-square bg-neutral-100 border"></div>
+      <div class="aspect-square bg-neutral-100 border"></div>
+    </div>
+  </section>
+
+  <!-- ===== Reviews ===== -->
+  <section id="reviews" class="bg-neutral-50 border-y">
+    <div class="mx-auto container px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Verified reviews</h2>
+      <div class="mt-6 grid md:grid-cols-3 gap-6">
+        <article class="border rounded-lg p-5 bg-white">
+          <div class="font-semibold">Consistently excellent</div>
+          <p class="mt-2 text-sm text-neutral-700">Prompt seating, perfect steak, and attentive service. Will be back soon.</p>
+          <div class="mt-3 text-xs text-neutral-500">— Party of 2, last week</div>
+        </article>
+        <article class="border rounded-lg p-5 bg-white">
+          <div class="font-semibold">Great for a night out</div>
+          <p class="mt-2 text-sm text-neutral-700">Smart-casual setting with great cocktails. Valet made it easy.</p>
+          <div class="mt-3 text-xs text-neutral-500">— Party of 4, this month</div>
+        </article>
+        <article class="border rounded-lg p-5 bg-white">
+          <div class="font-semibold">Helpful with dietary needs</div>
+          <p class="mt-2 text-sm text-neutral-700">Clear guidance on gluten-free options. Appreciated the care.</p>
+          <div class="mt-3 text-xs text-neutral-500">— Party of 3, recently</div>
+        </article>
       </div>
     </div>
   </section>
@@ -411,7 +514,6 @@
     const feed = document.getElementById('rah-feed');
     if (!feed) return;
 
-    // Fictional, brand-tailored preview for Drake's Hollywood
     const bubbles = [
       { role:'ai',  text:"Welcome to Drake’s Hollywood — how can I help?" },
       { role:'you', text:"What are your hours tonight and do you have valet?" },
@@ -426,6 +528,7 @@
 
     function escapeHTML(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
     function bubble(role, text){
+      const log = document.getElementById('rah-feed');
       const row = document.createElement('div');
       row.className = 'rah-bubble my-1';
       if (role === 'you') {
@@ -433,8 +536,8 @@
       } else {
         row.innerHTML = '<div class="text-left"><span class="inline-block max-w-[80%] rounded-md bg-neutral-100 text-neutral-900 px-3 py-2">'+escapeHTML(text)+'</span></div>';
       }
-      document.getElementById('rah-feed').appendChild(row);
-      document.getElementById('rah-feed').scrollTop = document.getElementById('rah-feed').scrollHeight;
+      log.appendChild(row);
+      log.scrollTop = log.scrollHeight;
     }
 
     let i = 0;
@@ -723,6 +826,83 @@
   })();
   </script>
   <!-- ===== End reservation drawer ===== -->
+
+  <!-- ===== Find a Table client logic (calls /availability, prefills drawer) ===== -->
+  <script>
+  (function(){
+    const API = document.querySelector('meta[name="rai-api"]')?.content || '';
+    const form = document.getElementById('findForm');
+    const slotWrap = document.getElementById('slotWrap');
+    const slotsEl = document.getElementById('slots');
+    const slotMsg = document.getElementById('slotMsg');
+
+    function fmtDate(d){ return d.toISOString().slice(0,10); }
+    function fmtTime(d){ return d.toTimeString().slice(0,5); }
+
+    try{
+      const now = new Date();
+      const dateEl = document.getElementById('fDate');
+      const timeEl = document.getElementById('fTime');
+      dateEl.value = fmtDate(now);
+      timeEl.value = fmtTime(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 19, 0));
+    }catch{}
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      slotWrap.classList.remove('hidden');
+      slotsEl.innerHTML = ''; slotMsg.textContent = 'Searching…';
+
+      const date = document.getElementById('fDate').value;
+      const time = document.getElementById('fTime').value;
+      const party = document.getElementById('fParty').value;
+
+      try{
+        const url = new URL(API + '/availability');
+        url.searchParams.set('date', date);
+        url.searchParams.set('time', time);
+        url.searchParams.set('party', party);
+
+        const r = await fetch(url);
+        const j = await r.json();
+
+        slotsEl.innerHTML = '';
+        if (!j || !Array.isArray(j.slots) || j.slots.length === 0){
+          slotMsg.textContent = 'No exact matches. Showing nearby times.';
+        } else {
+          slotMsg.textContent = 'Tap a time to request a reservation.';
+        }
+
+        (j.slots || []).forEach(ts => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'px-3 py-2 border rounded hover:bg-neutral-50';
+          b.textContent = ts;
+          b.addEventListener('click', ()=>{
+            const drawer = document.getElementById('resvDrawer');
+            const dt = document.querySelector('#resvForm input[name="ts"]');
+            if (dt) dt.value = date + 'T' + ts24(ts);
+            drawer?.classList.remove('hidden');
+          });
+          slotsEl.appendChild(b);
+        });
+
+        function ts24(label){
+          try{
+            const m = label.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+            if (!m) return '19:00';
+            let hh = parseInt(m[1],10), mm = m[2];
+            const ampm = m[3].toUpperCase();
+            if (ampm === 'PM' && hh !== 12) hh += 12;
+            if (ampm === 'AM' && hh === 12) hh = 0;
+            return String(hh).padStart(2,'0') + ':' + mm;
+          }catch{ return '19:00'; }
+        }
+      }catch(err){
+        slotMsg.textContent = 'Could not load availability right now.';
+      }
+    });
+  })();
+  </script>
 
   <!-- Year script -->
   <script>
