@@ -10,8 +10,18 @@
   <!-- Your live API base (Render) -->
   <meta name="rai-api" content="https://restaurant-ai-landing.onrender.com"/>
 
+  <!-- Fonts + Tailwind -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    :root{
+      --accent:#FF7A00;
+      --charcoal:#222222;
+      --ok:#16a34a;
+      --no:#e11d48;
+    }
+    body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans"; color:var(--charcoal); }
+    h1,h2,.section-title{ font-family:Poppins, Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; }
     .container{max-width:1200px}
     .panel{box-shadow:0 8px 30px rgba(0,0,0,.08)}
     .shadow-soft{box-shadow:0 2px 10px rgba(0,0,0,.06)}
@@ -20,12 +30,31 @@
     .chip[aria-pressed="true"]{background:#111827;color:#fff;border-color:#111827}
     .card:hover{transform:translateY(-2px);transition:transform .18s ease}
     .tab-btn[aria-selected="true"]{border-color:#111827}
-    @keyframes rahFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-    .rah-bubble{animation:rahFadeUp .28s ease-out both}
+    .btn-accent{background:var(--accent);color:#fff}
+    .btn-accent:hover{filter:brightness(.95)}
+    .btn-outline-accent{border:1px solid var(--accent);color:var(--accent)}
+    .btn-outline-accent:hover{background:rgba(255,122,0,.08)}
     .truncate-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    /* Micro-animations */
+    .fade-up{opacity:0; transform:translateY(10px); animation:fadeUp .6s ease forwards}
+    @keyframes fadeUp{to{opacity:1; transform:translateY(0)}}
+    .bounce:hover{transform:translateY(-3px); transition:transform .18s ease}
+    /* Autoplay preview bubbles */
+    @keyframes rahFadeUp{from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)}}
+    .rah-bubble{animation:rahFadeUp .28s ease-out both}
+    /* Mobile sticky CTA */
+    .sticky-cta{position:fixed;left:0;right:0;bottom:14px;z-index:60;display:none}
+    @media (max-width:768px){ .sticky-cta{display:block} }
+    /* Simple hamburger */
+    #mobileMenu{display:none}
+    @media (max-width:768px){ #mobileMenu[aria-expanded="true"]{display:block} }
+    /* Small inline icons (SVG) for pricing table */
+    .icon{display:inline-block;vertical-align:-2px}
+    .icon-ok{color:var(--ok)}
+    .icon-x{color:var(--no)}
   </style>
 </head>
-<body class="bg-white text-neutral-900">
+<body class="bg-white">
 
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
@@ -35,79 +64,54 @@
         <span class="font-semibold tracking-tight">Restaurant AI Helper</span>
       </a>
       <nav class="hidden md:flex items-center gap-8 text-sm">
-        <a href="#/" class="hover:opacity-70">Home</a>
         <a href="#/discover" class="hover:opacity-70">Discover</a>
+        <a href="#how-it-works" class="hover:opacity-70">How it works</a>
+        <a href="#why-it-works" class="hover:opacity-70">Why it works</a>
+        <a href="#pricing" class="hover:opacity-70">Pricing</a>
+        <a href="#faq-trust" class="hover:opacity-70">FAQ</a>
         <a href="#/demo" class="hover:opacity-70">Live Demo</a>
         <a href="#/import" class="hover:opacity-70">Import Data</a>
       </nav>
-      <a href="#/demo" class="rounded-md px-4 py-2 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white transition text-sm">Try demo</a>
+      <div class="hidden md:flex items-center gap-3">
+        <a href="#pricing" class="rounded-md px-4 py-2 btn-outline-accent text-sm">See Pricing</a>
+        <a href="#/demo" class="rounded-md px-4 py-2 btn-accent text-sm">Try a Live Demo</a>
+      </div>
+      <button id="hamburger" class="md:hidden border rounded p-2" aria-controls="mobileMenu" aria-expanded="false" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div id="mobileMenu" class="md:hidden border-t bg-white" aria-expanded="false">
+      <div class="container mx-auto px-4 py-3 grid gap-2 text-sm">
+        <a href="#/discover" class="py-2">Discover</a>
+        <a href="#how-it-works" class="py-2">How it works</a>
+        <a href="#why-it-works" class="py-2">Why it works</a>
+        <a href="#pricing" class="py-2">Pricing</a>
+        <a href="#faq-trust" class="py-2">FAQ</a>
+        <a href="#/demo" class="py-2">Live Demo</a>
+        <a href="#/import" class="py-2">Import Data</a>
+      </div>
     </div>
   </header>
 
-  <!-- Hero + Global Search + Autoplay visual -->
+  <!-- HERO -->
   <section id="hero" class="bg-neutral-950 text-white">
     <div class="container mx-auto px-4 py-10 md:py-14 grid md:grid-cols-2 gap-10 items-start">
-      <div>
-        <h1 class="text-4xl md:text-5xl section-title">Find a great table in Texas</h1>
-        <p class="mt-2 text-neutral-300">Browse menus with prices, hours, dress code, parking, and more. Filter by city, cuisine, price, and rating.</p>
-
-        <!-- Search/filter bar -->
-        <form id="searchForm" class="mt-6 grid grid-cols-2 md:grid-cols-6 gap-3">
-          <div class="col-span-2">
-            <label class="block text-xs text-neutral-400 mb-1">Search</label>
-            <input id="q" class="w-full rounded-md px-3 py-2 border text-neutral-900" placeholder="Name, dish, keyword…"/>
-          </div>
-          <div>
-            <label class="block text-xs text-neutral-400 mb-1">City</label>
-            <select id="city" class="w-full rounded-md px-3 py-2 border text-neutral-900">
-              <option value="">All</option>
-              <option>Austin</option><option>Dallas</option><option>Houston</option>
-              <option>San Antonio</option><option>Fort Worth</option><option>El Paso</option>
-              <option>Plano</option><option>Arlington</option><option>Irving</option><option>Kilgore</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs text-neutral-400 mb-1">Cuisine</label>
-            <select id="cuisine" class="w-full rounded-md px-3 py-2 border text-neutral-900">
-              <option value="">All</option>
-              <option>American</option><option>Steakhouse</option><option>Seafood</option>
-              <option>Mexican</option><option>Sushi</option><option>Barbecue</option><option>Vegan</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs text-neutral-400 mb-1">Price</label>
-            <select id="price" class="w-full rounded-md px-3 py-2 border text-neutral-900">
-              <option value="">All</option>
-              <option>$</option><option>$$</option><option>$$$</option><option>$$$$</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs text-neutral-400 mb-1">Rating</label>
-            <select id="rating" class="w-full rounded-md px-3 py-2 border text-neutral-900">
-              <option value="">Any</option>
-              <option value="4.0">4.0+</option><option value="4.3">4.3+</option>
-              <option value="4.5">4.5+</option><option value="4.7">4.7+</option>
-            </select>
-          </div>
-          <div class="col-span-2 md:col-span-1 flex items-end">
-            <button class="w-full rounded-md px-4 py-2 bg-white text-neutral-900 font-medium">Search</button>
-          </div>
-        </form>
-
-        <!-- Cuisine chips -->
-        <div class="mt-4 flex flex-wrap gap-2">
-          <button class="chip" data-chip="Steakhouse">Steakhouse</button>
-          <button class="chip" data-chip="Seafood">Seafood</button>
-          <button class="chip" data-chip="American">American</button>
-          <button class="chip" data-chip="Barbecue">Barbecue</button>
-          <button class="chip" data-chip="Mexican">Mexican</button>
-          <button class="chip" data-chip="Sushi">Sushi</button>
-          <button class="chip" data-chip="Vegan">Vegan</button>
+      <div class="fade-up">
+        <h1 class="text-4xl md:text-5xl section-title leading-tight">Transform Your Restaurant’s Website into a 24/7 AI Assistant</h1>
+        <p class="mt-3 text-neutral-300 text-lg">Answer 80% of customer questions automatically — hours, menu, reservations — without lifting a finger.</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#/demo" class="rounded-md px-5 py-3 btn-accent font-medium">Try a Live Demo</a>
+          <a href="#pricing" class="rounded-md px-5 py-3 btn-outline-accent font-medium">See Pricing</a>
+        </div>
+        <div class="mt-5 flex flex-wrap gap-2 text-sm text-neutral-200">
+          <span class="px-3 py-1 rounded-full border border-white/20">Ask: “What’s gluten-free?”</span>
+          <span class="px-3 py-1 rounded-full border border-white/20">“Do you have parking?”</span>
+          <span class="px-3 py-1 rounded-full border border-white/20">“Book for 4 at 7:30”</span>
         </div>
       </div>
 
-      <!-- Autoplay “video-like” chat preview -->
-      <div class="border border-white/15 rounded-lg p-4">
+      <!-- Autoplay assistant preview -->
+      <div class="border border-white/15 rounded-lg p-4 fade-up" style="animation-delay:.12s">
         <div class="aspect-[16/9] rounded bg-white/5 flex items-center justify-center p-4">
           <div class="w-full max-w-md bg-white/95 backdrop-blur rounded-xl border border-neutral-200 shadow-soft overflow-hidden">
             <div class="px-4 py-3 border-b bg-neutral-50 text-sm font-semibold text-neutral-800">
@@ -124,32 +128,261 @@
             </div>
           </div>
         </div>
-        <p class="mt-2 text-xs text-neutral-400">Autoplay preview of typical guest Q&A.</p>
+        <p class="mt-2 text-xs text-neutral-400">Autoplay preview of typical guest Q&amp;A.</p>
       </div>
     </div>
   </section>
 
-  <!-- Results / Discover -->
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works" class="container mx-auto px-4 py-12 md:py-16">
+    <h2 class="text-3xl md:text-4xl section-title">How It Works</h2>
+    <p class="mt-2 text-neutral-600">Go live in minutes — no engineering team required.</p>
+
+    <div class="mt-8 grid md:grid-cols-4 gap-6">
+      <div class="border rounded-lg p-6 hover:shadow-soft transition bounce">
+        <div class="h-10 w-10 rounded-md bg-neutral-900 flex items-center justify-center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M7 7h10M7 12h10M7 17h6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="mt-4 font-semibold">Upload Menu</div>
+        <p class="text-sm text-neutral-700 mt-1">Upload a PDF, photo, spreadsheet, or paste a menu link.</p>
+      </div>
+
+      <div class="border rounded-lg p-6 hover:shadow-soft transition bounce">
+        <div class="h-10 w-10 rounded-md bg-neutral-900 flex items-center justify-center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"/><circle cx="9" cy="10" r="1.5" fill="#fff"/><circle cx="15" cy="10" r="1.5" fill="#fff"/><path d="M8 15c1.2 1 2.8 1.5 4 1.5S14.8 16 16 15" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="mt-4 font-semibold">Train Assistant</div>
+        <p class="text-sm text-neutral-700 mt-1">Our AI learns your offerings and safe allergy wording.</p>
+      </div>
+
+      <div class="border rounded-lg p-6 hover:shadow-soft transition bounce">
+        <div class="h-10 w-10 rounded-md bg-neutral-900 flex items-center justify-center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 2v6M16 2v6M4 10h16M12 14v8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="mt-4 font-semibold">Add to Website</div>
+        <p class="text-sm text-neutral-700 mt-1">Copy a single script tag. Matches your brand.</p>
+      </div>
+
+      <div class="border rounded-lg p-6 hover:shadow-soft transition bounce">
+        <div class="h-10 w-10 rounded-md bg-neutral-900 flex items-center justify-center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 20V8m6 12V4m6 16v-8m4 8H2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="mt-4 font-semibold">Go Live</div>
+        <p class="text-sm text-neutral-700 mt-1">Deflect calls, increase bookings, and measure results.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY IT WORKS -->
+  <section id="why-it-works" class="bg-neutral-50 border-y">
+    <div class="container mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-10 items-center">
+      <div class="panel bg-white border rounded-lg p-6">
+        <div class="flex items-center justify-between">
+          <div class="font-semibold">Assistant Analytics</div>
+          <div class="text-xs text-neutral-500">Last 30 days</div>
+        </div>
+        <div class="mt-4 grid grid-cols-3 gap-4">
+          <div class="border rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold">85%</div>
+            <div class="text-xs text-neutral-600">Inquiries answered</div>
+          </div>
+          <div class="border rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold">5 hrs</div>
+            <div class="text-xs text-neutral-600">Staff time saved / day</div>
+          </div>
+          <div class="border rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold">+25%</div>
+            <div class="text-xs text-neutral-600">More online bookings</div>
+          </div>
+        </div>
+        <div class="mt-6">
+          <div class="h-36 rounded bg-neutral-100 flex items-center justify-center text-neutral-500 text-sm">Chart placeholder</div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-2xl md:text-3xl section-title">Why restaurants love it</h3>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li class="flex items-start gap-3"><span class="mt-1 inline-block h-5 w-5 rounded bg-emerald-600"></span> Saves staff time during peak hours</li>
+          <li class="flex items-start gap-3"><span class="mt-1 inline-block h-5 w-5 rounded bg-emerald-600"></span> Increases online bookings by up to 25%</li>
+          <li class="flex items-start gap-3"><span class="mt-1 inline-block h-5 w-5 rounded bg-emerald-600"></span> Keeps customers engaged 24/7</li>
+        </ul>
+
+        <div class="mt-6 border rounded-lg overflow-hidden bg-white">
+          <div id="tape" class="p-5">
+            <figure class="slide">
+              <div class="flex items-center gap-3">
+                <div class="h-9 w-9 rounded-full bg-neutral-200"></div>
+                <div>
+                  <div class="text-sm font-semibold">Owner, Austin Bistro</div>
+                  <div class="text-xs text-neutral-500">Austin, TX</div>
+                </div>
+              </div>
+              <blockquote class="mt-3 text-neutral-800">“Guests get instant answers. Our team gets time back.”</blockquote>
+            </figure>
+            <figure class="slide hidden">
+              <div class="flex items-center gap-3">
+                <div class="h-9 w-9 rounded-full bg-neutral-200"></div>
+                <div>
+                  <div class="text-sm font-semibold">GM, Dallas Steakhouse</div>
+                  <div class="text-xs text-neutral-500">Dallas, TX</div>
+                </div>
+              </div>
+              <blockquote class="mt-3 text-neutral-800">“On-brand replies and fewer phone calls during the rush.”</blockquote>
+            </figure>
+            <figure class="slide hidden">
+              <div class="flex items-center gap-3">
+                <div class="h-9 w-9 rounded-full bg-neutral-200"></div>
+                <div>
+                  <div class="text-sm font-semibold">Operator, Coastal Kitchen</div>
+                  <div class="text-xs text-neutral-500">Houston, TX</div>
+                </div>
+              </div>
+              <blockquote class="mt-3 text-neutral-800">“Menu guidance and careful allergy phrasing helps a ton.”</blockquote>
+            </figure>
+          </div>
+          <div class="flex justify-center gap-2 py-2">
+            <button class="dot h-2 w-2 rounded-full bg-neutral-300" aria-label="1"></button>
+            <button class="dot h-2 w-2 rounded-full bg-neutral-300" aria-label="2"></button>
+            <button class="dot h-2 w-2 rounded-full bg-neutral-300" aria-label="3"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS / DISCOVER (list + cards) -->
   <section id="results" class="container mx-auto px-4 py-10 md:py-12">
     <div class="flex items-center justify-between">
       <h2 class="text-2xl md:text-3xl section-title">Browse restaurants</h2>
       <div class="text-sm text-neutral-600" id="countInfo"></div>
     </div>
-
-    <!-- Grid results (virtualized) -->
     <div id="cardGrid" class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
     <div class="mt-6 flex items-center justify-center">
       <button id="loadMore" class="hidden rounded-md px-4 py-2 border">Load more</button>
     </div>
   </section>
 
-  <!-- Live Demo (chat to your API) -->
+  <!-- PRICING -->
+  <section id="pricing" class="container mx-auto px-4 py-12 md:py-16">
+    <h2 class="text-3xl md:text-4xl section-title">Pricing</h2>
+    <p class="mt-2 text-neutral-600">Simple plans that scale with you.</p>
+
+    <div class="mt-8 grid md:grid-cols-3 gap-6 items-stretch">
+      <!-- Starter -->
+      <div class="border rounded-lg p-6 flex flex-col">
+        <div class="text-xl font-semibold">Starter</div>
+        <div class="mt-2 text-3xl font-extrabold">$49<span class="text-base font-normal text-neutral-500">/mo</span></div>
+        <table class="mt-4 text-sm w-full">
+          <tbody>
+            <tr><td class="pr-3">Up to 1 restaurant</td><td class="text-right"><span class="icon icon-ok" title="Included"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+            <tr><td class="pr-3">Menu upload</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2"/></svg></span></td></tr>
+            <tr><td class="pr-3">Chat widget</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2"/></svg></span></td></tr>
+            <tr><td class="pr-3">Analytics</td><td class="text-right"><span class="icon icon-x"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2"/></svg></span></td></tr>
+            <tr><td class="pr-3">Custom branding</td><td class="text-right"><span class="icon icon-x"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2"/></svg></span></td></tr>
+          </tbody>
+        </table>
+        <a href="#/demo" class="mt-6 rounded-md px-4 py-2 btn-outline-accent text-center">Start Free Trial</a>
+      </div>
+
+      <!-- Pro -->
+      <div class="border-2 rounded-lg p-6 flex flex-col panel" style="border-color:var(--accent);">
+        <div class="text-xl font-semibold flex items-center justify-between">
+          <span>Pro</span>
+          <span class="text-xs px-2 py-1 rounded-full" style="background:rgba(255,122,0,.12);color:var(--accent)">Most Popular</span>
+        </div>
+        <div class="mt-2 text-3xl font-extrabold">$99<span class="text-base font-normal text-neutral-500">/mo</span></div>
+        <table class="mt-4 text-sm w-full">
+          <tbody>
+            <tr><td class="pr-3">Multi-location</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></span></td></tr>
+            <tr><td class="pr-3">Menu upload</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></span></td></tr>
+            <tr><td class="pr-3">Chat widget</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></span></td></tr>
+            <tr><td class="pr-3">Analytics</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></span></td></tr>
+            <tr><td class="pr-3">Custom branding</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></span></td></tr>
+          </tbody>
+        </table>
+        <a href="#/demo" class="mt-6 rounded-md px-4 py-2 btn-accent text-center">Book a Demo</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="border rounded-lg p-6 flex flex-col">
+        <div class="text-xl font-semibold">Enterprise</div>
+        <div class="mt-2 text-3xl font-extrabold">Custom</div>
+        <table class="mt-4 text-sm w-full">
+          <tbody>
+            <tr><td class="pr-3">Dedicated support</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></span></td></tr>
+            <tr><td class="pr-3">Priority SLA</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></span></td></tr>
+            <tr><td class="pr-3">API Integration</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></span></td></tr>
+            <tr><td class="pr-3">Custom SSO & roles</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></span></td></tr>
+            <tr><td class="pr-3">Advanced reporting</td><td class="text-right"><span class="icon icon-ok"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg></span></td></tr>
+          </tbody>
+        </table>
+        <a href="#/demo" class="mt-6 rounded-md px-4 py-2 btn-outline-accent text-center">Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ + TRUST -->
+  <section id="faq-trust" class="bg-neutral-50 border-y">
+    <div class="container mx-auto px-4 py-12 md:py-16">
+      <h2 class="text-3xl md:text-4xl section-title">Frequently Asked Questions</h2>
+      <div class="mt-6 grid md:grid-cols-2 gap-6 text-sm">
+        <details class="border rounded-lg p-5 bg-white" open>
+          <summary class="font-medium cursor-pointer">Does this replace staff?</summary>
+          <div class="mt-2 text-neutral-700">No — it handles repetitive questions and escalates anything sensitive to your team.</div>
+        </details>
+        <details class="border rounded-lg p-5 bg-white">
+          <summary class="font-medium cursor-pointer">How do menus stay current?</summary>
+          <div class="mt-2 text-neutral-700">Upload a file, paste a link, or use the admin page; daily specials and 86 toggles included.</div>
+        </details>
+        <details class="border rounded-lg p-5 bg-white">
+          <summary class="font-medium cursor-pointer">Any changes to my POS?</summary>
+          <div class="mt-2 text-neutral-700">None required. It works alongside your existing tools.</div>
+        </details>
+        <details class="border rounded-lg p-5 bg-white">
+          <summary class="font-medium cursor-pointer">What about allergies?</summary>
+          <div class="mt-2 text-neutral-700">Conservative language with staff escalation when unsure; guests are advised to discuss severe allergies directly.</div>
+        </details>
+      </div>
+
+      <div class="mt-8 border rounded-lg p-6 bg-white flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <div class="font-semibold">Still have questions?</div>
+          <div class="text-sm text-neutral-700">We’ll set up a private demo with your menu and tone of voice.</div>
+        </div>
+        <a href="#/demo" class="rounded-md px-4 py-2 btn-accent">Get a demo</a>
+      </div>
+
+      <div class="mt-8 grid md:grid-cols-3 gap-6">
+        <div class="border rounded-lg p-5 bg-white text-center">
+          <div class="text-sm font-semibold">SSL</div>
+          <div class="text-xs text-neutral-600">Secure by default</div>
+        </div>
+        <div class="border rounded-lg p-5 bg-white text-center">
+          <div class="text-sm font-semibold">GDPR compliant</div>
+          <div class="text-xs text-neutral-600">Privacy-first design</div>
+        </div>
+        <div class="border rounded-lg p-5 bg-white text-center">
+          <div class="text-sm font-semibold">Trusted by 100+ restaurants</div>
+          <div class="text-xs text-neutral-600">Across Texas and beyond</div>
+        </div>
+      </div>
+      <div class="mt-6 flex flex-wrap items-center gap-6 opacity-80">
+        <div class="h-8 w-28 bg-neutral-200 rounded"></div>
+        <div class="h-8 w-28 bg-neutral-200 rounded"></div>
+        <div class="h-8 w-28 bg-neutral-200 rounded"></div>
+        <div class="h-8 w-28 bg-neutral-200 rounded"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE DEMO -->
   <section id="demoSection" class="bg-neutral-50 border-t">
     <div class="container mx-auto px-4 py-12 md:py-16">
       <div class="md:flex md:items-center md:justify-between gap-6">
         <div>
           <h2 class="text-3xl md:text-4xl section-title">Live demo</h2>
-          <p class="mt-2 text-neutral-600">Ask about hours, parking, dress, or menu guidance. This calls your live `/chat/query` API.</p>
+          <p class="mt-2 text-neutral-600">Ask about hours, parking, dress, or menu guidance. This calls your live <code>/chat/query</code> API.</p>
         </div>
         <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 mt-6 md:mt-0">Live</span>
       </div>
@@ -157,12 +390,17 @@
       <div class="mt-6 grid md:grid-cols-2 gap-8 items-start">
         <div class="panel bg-white border rounded-lg overflow-hidden">
           <div class="px-4 py-3 border-b font-semibold">Assistant</div>
+          <div class="px-4 py-3 text-xs text-neutral-500 border-b">Try: “What’s gluten-free?”, “Parking?”, “Reservation for 4 at 7:30”.</div>
           <div id="log" class="h-[420px] overflow-auto px-4 py-4 text-sm"></div>
           <form id="form" class="flex border-t">
             <input id="input" class="flex-1 px-4 py-3 outline-none" placeholder="Type a message…"/>
             <button class="px-4 py-3 border-l bg-neutral-50 hover:bg-neutral-100" type="submit">Send</button>
           </form>
-          <div class="px-4 py-3 text-xs text-neutral-500 border-t">Example: “Show gluten-free mains in Austin.”</div>
+          <div class="px-4 py-3 border-t flex items-center gap-3">
+            <button id="resetDemo" class="rounded-md px-3 py-2 border text-sm">Reset Demo</button>
+            <button class="preset rounded-md px-3 py-2 border text-sm">What are your hours today?</button>
+            <button class="preset rounded-md px-3 py-2 border text-sm">Do you have on-site parking?</button>
+          </div>
         </div>
 
         <aside>
@@ -170,7 +408,7 @@
             <div class="font-semibold">What to watch</div>
             <ul class="mt-3 text-sm text-neutral-700 space-y-2 list-disc list-inside">
               <li>Instant answers to hours, address, parking.</li>
-              <li>Dietary filters and conservative allergy language.</li>
+              <li>Dietary filters and careful allergy language.</li>
               <li>Menu lookups by dish or category.</li>
             </ul>
           </div>
@@ -179,11 +417,10 @@
     </div>
   </section>
 
-  <!-- Import Data (upload/paste JSON) -->
+  <!-- IMPORT -->
   <section id="import" class="container mx-auto px-4 py-12 md:py-16">
     <h2 class="text-3xl md:text-4xl section-title">Import or replace data</h2>
     <p class="mt-2 text-neutral-600 text-sm">Load your own JSON to swap in real restaurants, menus, prices, and details — no code changes.</p>
-
     <div class="mt-6 grid md:grid-cols-2 gap-6">
       <div class="border rounded-lg p-5">
         <div class="font-semibold">Upload JSON file</div>
@@ -207,13 +444,41 @@
       <span id="year"></span>
       <div class="flex items-center gap-4">
         <a href="#/" class="hover:opacity-70">Home</a>
-        <a href="#/discover" class="hover:opacity-70">Discover</a>
-        <a href="#/demo" class="hover:opacity-70">Live Demo</a>
+        <a href="#pricing" class="hover:opacity-70">Pricing</a>
+        <a href="#faq-trust" class="hover:opacity-70">FAQ</a>
       </div>
     </div>
   </footer>
 
-  <!-- Restaurant Detail Drawer -->
+  <!-- Sticky mobile CTA -->
+  <div class="sticky-cta px-4">
+    <a href="#/demo" class="block mx-auto max-w-md text-center rounded-full px-5 py-3 btn-accent shadow-soft">Try a Live Demo</a>
+  </div>
+
+  <!-- Floating chat bubble demo -->
+  <div id="floatChat" class="fixed right-4 bottom-4 z-50">
+    <button id="bubbleBtn" class="rounded-full h-14 w-14 flex items-center justify-center shadow-lg" style="background:var(--accent)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div id="bubblePane" class="hidden mt-3 w-[320px] bg-white border rounded-2xl overflow-hidden panel">
+      <div class="px-4 py-3 border-b font-semibold">Try the assistant</div>
+      <div id="bubLog" class="h-64 overflow-auto px-4 py-3 text-sm"></div>
+      <div class="px-3 pb-3">
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <button class="bubPreset border rounded px-2 py-1">Ask me about our hours</button>
+          <button class="bubPreset border rounded px-2 py-1">What’s gluten-free?</button>
+          <button class="bubPreset border rounded px-2 py-1">Reserve a table tonight</button>
+        </div>
+        <form id="bubForm" class="flex">
+          <input id="bubInput" class="flex-1 px-3 py-2 border rounded-l" placeholder="Type a message…"/>
+          <button class="px-3 py-2 border rounded-r bg-neutral-50 hover:bg-neutral-100" type="submit">Send</button>
+        </form>
+        <button id="bubReset" class="mt-2 text-xs underline">Reset Demo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
   <div id="detailModal" class="fixed inset-0 z-50 hidden">
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="absolute inset-0 flex items-end md:items-center md:justify-center">
@@ -227,7 +492,6 @@
         </div>
 
         <div class="grid md:grid-cols-2 gap-0">
-          <!-- Left: gallery & tabs -->
           <div class="p-4 space-y-3">
             <div id="detailGallery" class="rounded bg-neutral-100 h-40 flex items-center justify-center text-neutral-500 text-sm">Photo</div>
 
@@ -257,8 +521,6 @@
               <div id="reviewList" class="text-sm text-neutral-700 space-y-3"></div>
             </div>
           </div>
-
-          <!-- Right: Map -->
           <div class="p-4">
             <iframe id="detailMap" class="w-full h-80 border rounded" loading="lazy"></iframe>
           </div>
@@ -267,20 +529,8 @@
     </div>
   </div>
 
-  <!-- ====== Data (seed 100+ entries) ====== -->
+  <!-- DATA -->
   <script>
-  /**
-   * Restaurant schema (per record)
-   * {
-   *  id, name, city, cuisines:[], price:'$'|'$$'|'$$$'|'$$$$', rating:number,
-   *  address, phone, hours:{Mon:'',...}, dress, parking,
-   *  about, url, images:[], coords:{lat,lng},
-   *  menu:[{category, items:[{name, price, desc}]}],
-   *  reviews:[{author, rating, text, ago}]
-   * }
-   */
-
-  // 1) Real example: The Back Porch (Kilgore) — sample menu with exact prices
   const backPorch = {
     id: "back-porch-kilgore",
     name: "The Back Porch",
@@ -349,22 +599,17 @@
     ]
   };
 
-  // 2) Generate 120 placeholder restaurants to reach 100+ (replace later with real data)
   const CITIES = ["Austin","Dallas","Houston","San Antonio","Fort Worth","Plano","Arlington","Irving","El Paso","Waco"];
   const CUISINES = [["Steakhouse"],["Seafood"],["Contemporary American"],["Mexican"],["Sushi"],["Barbecue"],["Vegan"],["American"]];
   const PRICES = ["$","$$","$$$","$$$$"];
-  function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function rnd(a){ return a[Math.floor(Math.random()*a.length)] }
   function genRestaurant(i){
-    const city = rnd(CITIES);
-    const cuisines = rnd(CUISINES);
-    const price = rnd(PRICES);
-    const rating = +(4 + Math.random()*1).toFixed(1);
-    const id = `tx-rest-${i}`;
+    const city=rnd(CITIES), cuisines=rnd(CUISINES), price=rnd(PRICES), rating=+(4+Math.random()*1).toFixed(1);
     return {
-      id, name:`Sample ${cuisines[0]} ${i}`, city, cuisines, price, rating,
+      id:`tx-rest-${i}`, name:`Sample ${cuisines[0]} ${i}`, city, cuisines, price, rating,
       address:`${100+i} Market St, ${city}, TX`, phone:"(555) 000-0000",
       hours:{Mon:"11:00–22:00",Tue:"11:00–22:00",Wed:"11:00–22:00",Thu:"11:00–22:00",Fri:"11:00–23:00",Sat:"10:00–23:00",Sun:"10:00–21:00"},
-      dress:"Smart-casual", parking:"Street & garage",
+      dress:"Smart-casual", parking:"Street and garage",
       about:`Modern ${cuisines[0].toLowerCase()} spot with seasonal ingredients and craft beverages.`,
       url:"#", images:[], coords:{lat:30+Math.random()*5,lng:-97+Math.random()*5},
       menu:[
@@ -379,16 +624,20 @@
     };
   }
   const PLACEHOLDERS = Array.from({length:120}, (_,i)=>genRestaurant(i+1));
-
-  // Master dataset (starts with 121 records total)
   let DATA = [backPorch, ...PLACEHOLDERS];
   </script>
 
-  <!-- ====== App Logic ====== -->
+  <!-- APP LOGIC -->
   <script>
   const API = document.querySelector('meta[name="rai-api"]')?.content || '';
 
-  // --- Autoplay assistant preview (top-right) ---
+  // Hamburger
+  (function(){
+    const btn=document.getElementById('hamburger'); const menu=document.getElementById('mobileMenu');
+    btn?.addEventListener('click', ()=>{ const open=menu.getAttribute('aria-expanded')==='true'; menu.setAttribute('aria-expanded', String(!open)); btn.setAttribute('aria-expanded', String(!open)); });
+  })();
+
+  // Autoplay assistant preview
   (function(){
     const feed = document.getElementById('rah-feed'); if(!feed) return;
     const bubbles = [
@@ -396,7 +645,7 @@
       {role:'you', text:"Which restaurants in Austin have seafood?"},
       {role:'ai',  text:"I can filter by city and cuisine, show menus with prices, and provide hours and parking details."},
       {role:'you', text:"Any casual spots with burgers?"},
-      {role:'ai',  text:"Yes — here are a few popular options. Want to see menu pricing now?"}
+      {role:'ai',  text:"Here are some popular options. Want to see menu pricing now?"}
     ];
     function esc(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
     function bubble(role, text){
@@ -411,10 +660,10 @@
     })();
   })();
 
-  // --- Live Chat demo (calls your API) ---
+  // Live chat demo + Reset + presets
   (function(){
     const logEl=document.getElementById('log'), formEl=document.getElementById('form'), inputEl=document.getElementById('input');
-    if(!logEl) return;
+    const resetBtn=document.getElementById('resetDemo');
     function esc(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
     function say(role, text){
       const row=document.createElement('div'); row.className='mb-2';
@@ -431,60 +680,43 @@
       }catch{ logEl.lastChild.innerHTML='<div class="text-left"><span class="inline-block rounded-md bg-red-50 text-red-700 px-3 py-2">Can’t reach the demo API right now.</span></div>'; }
     }
     formEl?.addEventListener('submit',e=>{e.preventDefault(); const v=inputEl.value; inputEl.value=''; ask(v);});
-    say('ai','Hi! Ask about hours, parking, dress, or menus across Texas restaurants.');
+    document.querySelectorAll('.preset').forEach(b=> b.addEventListener('click', ()=> ask(b.textContent.trim())));
+    resetBtn?.addEventListener('click', ()=>{ logEl.innerHTML=''; say('ai','Fresh demo started. Ask about hours, parking, dress, or menus.'); });
+    if (logEl && !logEl.childElementCount) say('ai','Hi! Ask about hours, parking, dress, or menus across Texas restaurants.');
   })();
 
-  // --- Router (hash) for simple navigation ---
+  // Testimonial carousel
   (function(){
-    function show(id){ document.querySelectorAll('section[id]').forEach(s=> s.id==='hero'||s.id==='results'||s.id+'Section'===id? s.classList.remove('hidden'): s.classList.add('hidden')); }
-    function onRoute(){
-      const h=location.hash||'#/';
-      if (h.startsWith('#/demo')) { document.getElementById('demoSection').scrollIntoView({behavior:'smooth'}); }
-      else if (h.startsWith('#/import')) { document.getElementById('import').scrollIntoView({behavior:'smooth'}); }
-      else { document.getElementById('hero').scrollIntoView({behavior:'smooth'}); }
-    }
-    window.addEventListener('hashchange', onRoute); onRoute();
+    const slides = Array.from(document.querySelectorAll('#tape .slide'));
+    const dots = Array.from(document.querySelectorAll('#why-it-works .dot'));
+    if (!slides.length) return;
+    let i = 0, timer;
+    function show(n){ slides.forEach((s,idx)=> s.classList.toggle('hidden', idx!==n));
+      dots.forEach((d,idx)=> d.style.background = idx===n ? '#111827' : '#d1d5db'); i = n; }
+    function next(){ show((i+1)%slides.length); }
+    dots.forEach((d,idx)=> d.addEventListener('click', ()=>{ show(idx); reset(); }));
+    function reset(){ clearInterval(timer); timer = setInterval(next, 4000); }
+    show(0); reset();
   })();
 
-  // --- Rendering / Filtering / Virtualization ---
+  // Results rendering and filtering (client-side)
   (function(){
     const grid = document.getElementById('cardGrid');
     const loadMoreBtn = document.getElementById('loadMore');
     const countInfo = document.getElementById('countInfo');
 
-    // State
     let filtered = DATA.slice();
     let page = 0;
     const PAGE_SIZE = 18;
 
-    // Filters
     function applyFilters(){
-      const q = document.getElementById('q').value.toLowerCase().trim();
-      const city = document.getElementById('city').value;
-      const cuisine = document.getElementById('cuisine').value;
-      const price = document.getElementById('price').value;
-      const rating = parseFloat(document.getElementById('rating').value || '0');
-
-      filtered = DATA.filter(r=>{
-        if (city && r.city !== city) return false;
-        if (cuisine && !r.cuisines.includes(cuisine)) return false;
-        if (price && r.price !== price) return false;
-        if (rating && (r.rating||0) < rating) return false;
-        if (q) {
-          const hay = (r.name+' '+r.city+' '+r.cuisines.join(' ')+' '+(r.about||'')+' '+(r.menu||[]).map(c=>c.category+' '+c.items.map(i=>i.name).join(' ')).join(' ')).toLowerCase();
-          if (!hay.includes(q)) return false;
-        }
-        return true;
-      });
-
-      // sort: rating desc then price asc
-      filtered.sort((a,b)=> (b.rating||0)-(a.rating||0) || (a.price||'$').length-(b.price||'$').length);
+      // If you have filter inputs elsewhere, wire them here; for now we render all.
+      filtered = DATA.slice().sort((a,b)=> (b.rating||0)-(a.rating||0) || (a.price||'$').length-(b.price||'$').length);
       page = 0;
       renderPage(true);
       countInfo.textContent = `${filtered.length} restaurants • page ${page+1} of ${Math.max(1, Math.ceil(filtered.length/PAGE_SIZE))}`;
     }
 
-    // Card template
     function card(r){
       const cuisines = r.cuisines.join(', ');
       return `
@@ -493,7 +725,7 @@
         <div class="p-4 flex-1 flex flex-col">
           <div class="flex items-start justify-between gap-2">
             <h3 class="font-semibold leading-tight">${r.name}</h3>
-            <span class="text-xs px-2 py-1 rounded bg-neutral-100">${r.price||'$'}</span>
+            <span class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,.05)">${r.price||'$'}</span>
           </div>
           <div class="text-sm text-neutral-600 truncate-2 mt-0.5">${cuisines}</div>
           <div class="mt-1 text-xs text-neutral-500">${r.city}, TX • ${r.rating ? r.rating.toFixed(1):'—'}★</div>
@@ -529,7 +761,6 @@
       });
     }
 
-    // Detail modal
     function openDetail(id){
       const r = DATA.find(x=>x.id===id); if(!r) return;
       const modal = document.getElementById('detailModal');
@@ -543,7 +774,7 @@
       document.getElementById('infoDress').textContent = r.dress || '—';
       document.getElementById('infoParking').textContent = r.parking || '—';
       document.getElementById('infoUrl').innerHTML = r.url ? `<a class="underline" href="${r.url}" target="_blank">${r.url}</a>` : '—';
-      // Menu
+
       const menuDiv = document.getElementById('menuContent');
       menuDiv.innerHTML = (r.menu||[]).map(cat=>{
         const items = cat.items.map(i=>`
@@ -554,12 +785,10 @@
         return `<div class="mb-4"><div class="font-semibold">${cat.category}</div><div class="mt-2 space-y-2">${items}</div></div>`;
       }).join('');
 
-      // Map
       const map = document.getElementById('detailMap');
       const q = r.address ? encodeURIComponent(r.address) : encodeURIComponent(`${r.city}, TX`);
       map.src = `https://www.google.com/maps?q=${q}&output=embed`;
 
-      // Reviews
       const rl = document.getElementById('reviewList');
       rl.innerHTML = (r.reviews||[]).map(v=>`
         <article class="border rounded p-3">
@@ -568,7 +797,6 @@
           <p class="mt-1 text-sm">${v.text||''}</p>
         </article>`).join('') || '<div class="text-sm text-neutral-500">No reviews yet.</div>';
 
-      // Tabs
       document.querySelectorAll('.tab-btn').forEach(b=> b.setAttribute('aria-selected','false'));
       document.querySelector('[data-tab="overview"]').setAttribute('aria-selected','true');
       document.getElementById('tab-overview').classList.remove('hidden');
@@ -578,48 +806,15 @@
 
       modal.classList.remove('hidden');
     }
-
     document.getElementById('detailClose').onclick = ()=> document.getElementById('detailModal').classList.add('hidden');
     document.getElementById('detailModal').addEventListener('click', e=>{
       if (e.target === document.getElementById('detailModal').firstElementChild) document.getElementById('detailModal').classList.add('hidden');
     });
-    document.querySelectorAll('.tab-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        document.querySelectorAll('.tab-btn').forEach(b=> b.setAttribute('aria-selected','false'));
-        btn.setAttribute('aria-selected','true');
-        const tab = btn.dataset.tab;
-        ['overview','menu','info','map','reviews'].forEach(id=>{
-          document.getElementById('tab-'+id)?.classList.toggle('hidden', id!==tab && id!=='map');
-        });
-        if (tab==='menu') { document.getElementById('tab-menu').classList.remove('hidden'); document.getElementById('tab-overview').classList.add('hidden'); }
-        if (tab==='info') { document.getElementById('tab-info').classList.remove('hidden'); document.getElementById('tab-overview').classList.add('hidden'); }
-        if (tab==='reviews') { document.getElementById('tab-reviews').classList.remove('hidden'); document.getElementById('tab-overview').classList.add('hidden'); }
-        if (tab==='overview') { document.getElementById('tab-overview').classList.remove('hidden'); }
-      });
-    });
 
-    // Submit filters
-    document.getElementById('searchForm').addEventListener('submit', e=>{ e.preventDefault(); applyFilters(); });
-
-    // Cuisine chips quick toggle
-    document.querySelectorAll('[data-chip]').forEach(ch=>{
-      ch.addEventListener('click', ()=>{
-        const on = ch.getAttribute('aria-pressed')==='true';
-        document.getElementById('cuisine').value = on ? '' : ch.dataset.chip;
-        document.querySelectorAll('[data-chip]').forEach(x=>x.setAttribute('aria-pressed','false'));
-        ch.setAttribute('aria-pressed', on?'false':'true');
-        applyFilters();
-      });
-    });
-
-    // Load more
-    loadMoreBtn.addEventListener('click', ()=> renderPage(false));
-
-    // Initial render
     applyFilters();
   })();
 
-  // --- Import / Export data controls ---
+  // Import/export data
   (function(){
     const fileInput = document.getElementById('fileInput');
     const pasteInput = document.getElementById('pasteInput');
@@ -636,36 +831,53 @@
       });
       return arr;
     }
-
     async function reload(newData){
       window.DATA = validate(newData);
-      // Re-run filter render
-      document.getElementById('searchForm').dispatchEvent(new Event('submit'));
-      alert('Data loaded. Listing refreshed.');
+      document.getElementById('cardGrid').innerHTML='';
+      const countInfo=document.getElementById('countInfo'); if (countInfo) countInfo.textContent='';
+      // Re-render:
+      location.hash = '#/discover';
+      setTimeout(()=>location.reload(), 50);
     }
-
     fileInput?.addEventListener('change', async (e)=>{
       const f=e.target.files?.[0]; if(!f) return;
-      try{
-        const txt = await f.text();
-        const json = JSON.parse(txt);
-        reload(json);
-      }catch(err){ alert('Failed to load JSON: '+err.message); }
+      try{ const txt = await f.text(); const json = JSON.parse(txt); reload(json); }
+      catch(err){ alert('Failed to load JSON: '+err.message); }
     });
-
     applyBtn?.addEventListener('click', ()=>{
-      try{
-        const txt = pasteInput.value.trim(); if(!txt) return;
-        const json = JSON.parse(txt);
-        reload(json);
-      }catch(err){ alert('Invalid JSON: '+err.message); }
+      try{ const txt = pasteInput.value.trim(); if(!txt) return; const json = JSON.parse(txt); reload(json); }
+      catch(err){ alert('Invalid JSON: '+err.message); }
     });
-
     downloadBtn?.addEventListener('click', ()=>{
       const blob = new Blob([JSON.stringify(window.DATA||[], null, 2)], {type:'application/json'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'restaurants.json'; a.click();
-      URL.revokeObjectURL(a.href);
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'restaurants.json'; a.click(); URL.revokeObjectURL(a.href);
     });
+  })();
+
+  // Floating chat bubble demo
+  (function(){
+    const API = document.querySelector('meta[name="rai-api"]')?.content || '';
+    const btn=document.getElementById('bubbleBtn'); const pane=document.getElementById('bubblePane');
+    const form=document.getElementById('bubForm'); const input=document.getElementById('bubInput'); const log=document.getElementById('bubLog');
+    const reset=document.getElementById('bubReset');
+    function toggle(){ pane.classList.toggle('hidden'); }
+    function esc(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+    function say(role, text){
+      const d=document.createElement('div'); d.className='mb-2';
+      d.innerHTML=role==='you'
+        ? `<div class="text-right"><span class="inline-block rounded-md bg-neutral-900 text-white px-3 py-2">${esc(text)}</span></div>`
+        : `<div class="text-left"><span class="inline-block rounded-md bg-neutral-100 px-3 py-2">${esc(text)}</span></div>`;
+      log.appendChild(d); log.scrollTop=log.scrollHeight;
+    }
+    async function ask(q){ if(!q.trim()) return; say('you', q); say('ai','…');
+      try{ const r=await fetch(API+'/chat/query',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:q})});
+        const j=await r.json(); log.lastChild.innerHTML=`<div class="text-left"><span class="inline-block rounded-md bg-neutral-100 px-3 py-2">${esc(j.reply||'Sorry, something went wrong.')}</span></div>`; }
+      catch{ log.lastChild.innerHTML='<div class="text-left"><span class="inline-block rounded-md bg-red-50 text-red-700 px-3 py-2">Can’t reach the demo API right now.</span></div>'; }
+    }
+    btn?.addEventListener('click', toggle);
+    form?.addEventListener('submit', e=>{ e.preventDefault(); const v=input.value; input.value=''; ask(v); });
+    document.querySelectorAll('.bubPreset').forEach(b=> b.addEventListener('click', ()=> ask(b.textContent.trim())));
+    reset?.addEventListener('click', ()=>{ log.innerHTML=''; say('ai','Fresh demo — ask about hours, parking, menu, or bookings.'); });
   })();
 
   // Year
