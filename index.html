@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Restaurant AI Helper — Texas Dining</title>
   <meta name="description" content="Turn your restaurant site into a 24/7 host. Answer hours, menu, and dietary questions instantly—no extra staff."/>
   <meta name="theme-color" content="#0B0F19"/>
@@ -14,30 +14,36 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root{ --accent:#FF7A00; --charcoal:#222; }
+    :root{ --accent:#FF7A00; --charcoal:#222; --ink:#111827; }
     html,body{height:100%}
-    body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; color:var(--charcoal); line-height:1.6 }
+    body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; color:var(--charcoal); line-height:1.6; background:#fff }
     h1,h2,.section-title{ font-family:Poppins, Inter, system-ui; letter-spacing:-.02em }
     .container{max-width:1200px}
+    /* Buttons & focus */
     .btn-accent{background:var(--accent);color:#fff}
     .btn-accent:hover{filter:brightness(.95)}
     .btn-outline-accent{border:1px solid var(--accent);color:var(--accent)}
     .btn-outline-accent:hover{background:rgba(255,122,0,.08)}
+    .focus-ring:focus{outline:3px solid rgba(255,122,0,.45); outline-offset:2px}
+    a,button{transition:opacity .15s ease, box-shadow .15s ease, transform .15s ease}
+    a:hover,button:hover{opacity:.92}
+    /* Chips & cards */
     .chip{border:1px solid #e5e7eb;border-radius:.5rem;padding:.3rem .55rem;font-size:.82rem}
     .card{transition:transform .18s ease, box-shadow .18s ease}
     .card:hover{transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.08)}
-    .focus-ring:focus{outline:3px solid rgba(255,122,0,.45); outline-offset:2px}
-    .img-ph{background:#f3f4f6}
+    .img-ph{background:linear-gradient(135deg,#f6f7f8,#eceef1)}
     /* Sticky chat */
-    #chatPane{position:fixed; right:20px; bottom:20px; width:360px; max-height:70vh; background:#fff; border:1px solid #e5e7eb; border-radius:14px; overflow:hidden; z-index:60; display:none}
+    #chatPane{position:fixed; right:20px; bottom:20px; width:360px; max-height:75vh; background:#fff; border:1px solid #e5e7eb; border-radius:14px; overflow:hidden; z-index:60; display:none}
     #chatBackdrop{position:fixed; inset:0; background:rgba(0,0,0,.45); backdrop-filter:saturate(100%) blur(1px); z-index:50; display:none}
     @media (max-width: 768px){
-      #chatPane{left:0; right:0; bottom:0; width:auto; max-height:75vh; border-radius:14px 14px 0 0}
+      #chatPane{left:0; right:0; bottom:env(safe-area-inset-bottom); width:auto; max-height:80vh; border-radius:14px 14px 0 0}
     }
-    /* Left rail + grid */
-    #browseWrap{display:grid; grid-template-columns:280px 1fr; gap:24px}
-    @media (max-width: 1024px){ #browseWrap{grid-template-columns:1fr} }
+    /* Featured grid only (no generic “placeholders” text) */
+    .hero-logos .logo{height:32px; background:#ffffff1a; border-radius:6px}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    /* Sticky mobile CTA */
+    .sticky-cta{position:fixed;left:0;right:0;bottom:14px;z-index:45;display:none}
+    @media (max-width:768px){ .sticky-cta{display:block} }
   </style>
 </head>
 <body class="bg-white">
@@ -86,21 +92,24 @@
             <button id="ctaDemo" class="rounded-md px-5 py-3 btn-accent font-medium focus-ring">Try Live Demo</button>
             <a href="#pricing" class="rounded-md px-5 py-3 btn-outline-accent font-medium focus-ring" id="ctaPricing">See Pricing</a>
           </div>
+          <ul class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-neutral-300">
+            <li>Decreases phone calls during peak hours</li>
+            <li>On-brand, safe allergy language</li>
+            <li>Menu guidance with prices and tags</li>
+            <li>One-line install, analytics included</li>
+          </ul>
         </div>
-        <!-- Replaced any placeholders with clean brand panel -->
+        <!-- Credibility strip (logos only; no placeholder copy) -->
         <div class="rounded-lg p-6 border border-white/15 bg-white/5">
-          <div class="text-neutral-200 text-sm">Live assistant demo is available at the bottom-right. Real responses from your API.</div>
-          <div class="mt-4 grid grid-cols-4 gap-3 opacity-80">
-            <div class="h-8 bg-white/10 rounded"></div>
-            <div class="h-8 bg-white/10 rounded"></div>
-            <div class="h-8 bg-white/10 rounded"></div>
-            <div class="h-8 bg-white/10 rounded"></div>
+          <div class="text-neutral-200 text-sm">Used by teams across Texas for fast, accurate guest answers.</div>
+          <div class="hero-logos mt-4 grid grid-cols-4 gap-3 opacity-90" aria-label="Partner logos">
+            <div class="logo"></div><div class="logo"></div><div class="logo"></div><div class="logo"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Why it works (no chart placeholder) -->
+    <!-- Why it works -->
     <section id="why-it-works" class="bg-neutral-50 border-y">
       <div class="container mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-10 items-center">
         <div>
@@ -111,20 +120,22 @@
             <li class="flex items-start gap-3"><span class="mt-1 inline-block h-5 w-5 rounded bg-emerald-600"></span> Simple one-line install and analytics</li>
           </ul>
         </div>
+        <!-- Case study mini -->
         <div class="grid gap-4">
           <figure class="border rounded-lg p-4 bg-white">
-            <blockquote class="text-neutral-800 text-sm">“Guests get instant answers. Our team gets time back.”</blockquote>
-            <figcaption class="text-xs text-neutral-500 mt-2">Owner, Austin Bistro</figcaption>
+            <figcaption class="text-xs text-neutral-500 mb-1">Case study (pilot)</figcaption>
+            <blockquote class="text-neutral-800 text-sm">“Setup took minutes and our phones quieted down immediately. Clear answers on parking and dietary options boosted bookings.”</blockquote>
+            <div class="text-xs text-neutral-500 mt-2">General Manager, Dallas Steakhouse</div>
           </figure>
           <figure class="border rounded-lg p-4 bg-white">
-            <blockquote class="text-neutral-800 text-sm">“On-brand replies and fewer phone calls during the rush.”</blockquote>
-            <figcaption class="text-xs text-neutral-500 mt-2">GM, Dallas Steakhouse</figcaption>
+            <blockquote class="text-neutral-800 text-sm">“Guests get instant answers. Our team gets time back.”</blockquote>
+            <div class="text-xs text-neutral-500 mt-2">Owner, Austin Bistro</div>
           </figure>
         </div>
       </div>
     </section>
 
-    <!-- Featured restaurants (6 card grid) -->
+    <!-- Featured restaurants (6 cards) -->
     <section id="featured" class="container mx-auto px-4 py-12 md:py-16">
       <div class="flex items-center justify-between">
         <h2 class="text-2xl section-title">Featured in Texas</h2>
@@ -163,20 +174,6 @@
             <li>Dedicated support</li><li>Priority SLA</li><li>API integration</li><li>Custom SSO & roles</li><li>Advanced reporting</li>
           </ul>
           <button class="mt-6 rounded-md px-4 py-2 btn-outline-accent text-center focus-ring">Contact Sales</button>
-        </div>
-      </div>
-
-      <!-- Credibility strip -->
-      <div class="mt-10 grid md:grid-cols-2 gap-6">
-        <div class="flex items-center gap-6 opacity-80">
-          <div class="h-8 w-28 bg-neutral-200 rounded" title="Logo"></div>
-          <div class="h-8 w-28 bg-neutral-200 rounded" title="Logo"></div>
-          <div class="h-8 w-28 bg-neutral-200 rounded" title="Logo"></div>
-          <div class="h-8 w-28 bg-neutral-200 rounded" title="Logo"></div>
-        </div>
-        <div class="grid gap-3">
-          <blockquote class="text-sm text-neutral-800">“Setup took minutes and our phones quieted down.”</blockquote>
-          <blockquote class="text-sm text-neutral-800">“Clear answers on parking and dietary options boosted bookings.”</blockquote>
         </div>
       </div>
     </section>
@@ -219,22 +216,31 @@
     </div>
   </footer>
 
+  <!-- Sticky mobile CTA -->
+  <div class="sticky-cta px-4">
+    <button id="ctaDemoMobile" class="block mx-auto max-w-md text-center rounded-full px-5 py-3 btn-accent shadow-md focus-ring">Try Live Demo</button>
+  </div>
+
   <!-- Single sticky chat -->
   <div id="chatBackdrop" aria-hidden="true"></div>
   <section id="chatPane" aria-label="Live demo chat" aria-modal="true" role="dialog">
     <div class="px-4 py-3 border-b bg-neutral-50 flex items-center justify-between">
-      <div class="font-semibold">Live demo — real responses</div>
+      <div class="flex items-center gap-2">
+        <div class="h-5 w-5 rounded bg-neutral-900" aria-hidden="true"></div>
+        <div class="font-semibold">Restaurant AI Helper</div>
+      </div>
       <button id="closeChat" class="rounded px-2 py-1 border text-sm focus-ring" aria-label="Close chat">Close</button>
     </div>
-    <div id="chatLog" class="h-[380px] overflow-auto px-4 py-3 text-sm"></div>
+    <div class="px-4 pt-2 text-xs text-neutral-500">Live demo — real responses</div>
+    <div id="chatLog" class="h-[360px] md:h-[380px] overflow-auto px-4 py-2 text-sm"></div>
     <div id="typing" class="px-4 pb-1 text-xs text-neutral-500" role="status" aria-live="polite" hidden>Assistant is typing…</div>
-    <form id="chatForm" class="flex border-t">
-      <input id="chatInput" class="flex-1 px-4 py-3 outline-none" placeholder="Ask about hours, gluten-free options, or parking." aria-label="Message"/>
+    <form id="chatForm" class="flex border-t" autocomplete="off">
+      <input id="chatInput" class="flex-1 px-4 py-3 outline-none" placeholder="Ask about hours, gluten-free options, or parking." aria-label="Message" inputmode="text"/>
       <button class="px-4 py-3 border-l bg-neutral-50 hover:bg-neutral-100 focus-ring" type="submit">Send</button>
     </form>
   </section>
 
-  <!-- Data (The Back Porch + sample set) -->
+  <!-- Data (Back Porch + small sample set) -->
   <script>
   const backPorch = {
     id: "back-porch-kilgore",
@@ -303,7 +309,6 @@
       { author:"Local regular", rating:4, text:"Perfect for groups; love the live music.", ago:"3w" }
     ]
   };
-
   const CITIES = ["Austin","Dallas","Houston","San Antonio","Fort Worth","Plano","Arlington","Irving","El Paso","Waco"];
   const CUISINES = [["Steakhouse"],["Seafood"],["Contemporary American"],["Mexican"],["Sushi"],["Barbecue"],["Vegan"],["American"]];
   const PRICES = ["$","$$","$$$","$$$$"];
@@ -328,7 +333,7 @@
       ]
     };
   }
-  const PLACEHOLDERS = Array.from({length:12}, (_,i)=>genRestaurant(i+1)); // Only need a small set for featured
+  const PLACEHOLDERS = Array.from({length:12}, (_,i)=>genRestaurant(i+1)); // 6–12 featured
   let DATA = [backPorch, ...PLACEHOLDERS];
   </script>
 
@@ -342,15 +347,19 @@
     btn?.addEventListener('click', ()=>{ const open=menu.classList.contains('hidden'); menu.classList.toggle('hidden'); btn.setAttribute('aria-expanded', String(open)); menu.setAttribute('aria-expanded', String(open)); });
   })();
 
-  // Sticky Chat (single) with typing dots + simple "stream"
+  // Sticky Chat (single) with typing dots + simple reveal
   (function(){
     const pane=document.getElementById('chatPane'); const backdrop=document.getElementById('chatBackdrop');
-    const openBtns=[document.getElementById('openChat'), document.getElementById('openChatM'), document.getElementById('ctaDemo')].filter(Boolean);
+    const openBtns=[document.getElementById('openChat'), document.getElementById('openChatM'), document.getElementById('ctaDemo'), document.getElementById('ctaDemoMobile')].filter(Boolean);
     const closeBtn=document.getElementById('closeChat');
     const form=document.getElementById('chatForm'); const input=document.getElementById('chatInput'); const log=document.getElementById('chatLog');
     const typing=document.getElementById('typing');
 
-    function open(){ pane.style.display='block'; backdrop.style.display='block'; openBtns.forEach(b=>b?.setAttribute('aria-expanded','true')); input?.focus(); }
+    // Keep input visible above mobile keyboard
+    function ensureVisible(){ setTimeout(()=>{ log.scrollTop=log.scrollHeight; }, 80); }
+    input.addEventListener('focus', ensureVisible); window.addEventListener('resize', ensureVisible);
+
+    function open(){ pane.style.display='block'; backdrop.style.display='block'; openBtns.forEach(b=>b?.setAttribute('aria-expanded','true')); input?.focus({preventScroll:false}); }
     function close(){ pane.style.display='none'; backdrop.style.display='none'; openBtns.forEach(b=>b?.setAttribute('aria-expanded','false')); }
     backdrop.addEventListener('click', close); closeBtn.addEventListener('click', close);
     openBtns.forEach(b=> b.addEventListener('click', open));
@@ -388,7 +397,6 @@
         const r=await fetch(API+'/chat/query',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
         const j=await r.json();
         typingDots(false);
-        // Simple client-side streaming: reveal characters gradually
         const txt = (j.reply || 'Sorry, something went wrong.').toString();
         let i=0; const step=() => {
           if (i<=txt.length){ streamEl.textContent = txt.slice(0,i); i+=2; log.scrollTop=log.scrollHeight; requestAnimationFrame(step); }
@@ -400,18 +408,20 @@
     }
 
     form?.addEventListener('submit', e=>{ e.preventDefault(); const v=input.value; input.value=''; ask(v); });
-    // Expose global to scope chat by restaurant
+
+    // Public helper to scope the chat by restaurant
     window.askAbout = function(placeId){
       const r = (window.DATA||[]).find(x=>x.id===placeId);
       open();
       const q = `Tell me about ${r?.name||'this place'} — hours, parking, dress, and popular dishes.`;
       ask(q, { restaurantId: placeId });
     };
-    // Seed welcome
-    setTimeout(()=>{ const streamEl=bubble('ai',''); streamEl.textContent='Hi! Ask about hours, gluten-free options, or parking.'; }, 250);
+
+    // Seed welcome: show value immediately
+    setTimeout(()=>{ const s=bubble('ai',''); s.textContent='Hi—ask about hours, gluten-free options, parking, or popular dishes. I can answer instantly.'; }, 250);
   })();
 
-  // Featured six cards
+  // Featured six cards (no “placeholder” wording, just clean visuals)
   (function(){
     const grid = document.getElementById('cardGrid');
     const featured = (window.DATA||[]).slice(0,6);
@@ -423,21 +433,21 @@
       ].filter(Boolean).slice(0,2);
       return `
       <article class="card border rounded-lg overflow-hidden bg-white flex flex-col" data-id="${r.id}">
-        <div class="h-44 img-ph" role="img" aria-label="Restaurant image"></div>
+        <div class="h-44 img-ph" role="img" aria-label="${r.name} image"></div>
         <div class="p-4 flex-1 flex flex-col">
           <div class="flex items-start justify-between gap-2">
             <h3 class="font-semibold leading-tight">${r.name}</h3>
             <div class="flex items-center gap-1">
-              <span class="chip">${r.price||'$'}</span>
-              <span class="chip">${cuisines}</span>
+              <span class="chip" title="Price">${r.price||'$'}</span>
+              <span class="chip" title="Cuisine">${cuisines}</span>
             </div>
           </div>
           <div class="mt-1 text-xs text-neutral-500">${r.city}, TX • ${r.rating ? r.rating.toFixed(1):'—'}★</div>
           ${facts.length? `<ul class="mt-2 text-sm text-neutral-700 list-disc list-inside">${facts.map(f=>`<li>${f}</li>`).join('')}</ul>`:''}
           <div class="mt-3 flex flex-wrap gap-2">
-            <button class="chip open-detail" data-id="${r.id}">View details</button>
-            <a href="${r.url||'#'}" target="_blank" class="chip">Menu</a>
-            <button class="chip ask-about" data-id="${r.id}" title="Ask about this place">Ask about this place</button>
+            <button class="chip open-detail focus-ring" data-id="${r.id}">View details</button>
+            <a href="${r.url||'#'}" target="_blank" class="chip focus-ring">Menu</a>
+            <button class="chip ask-about focus-ring" data-id="${r.id}" title="Ask about this place">Ask about this place</button>
           </div>
         </div>
       </article>`;
@@ -446,20 +456,20 @@
     grid.querySelectorAll('.ask-about').forEach(btn=> btn.onclick = () => window.askAbout(btn.getAttribute('data-id')));
     grid.querySelectorAll('.open-detail').forEach(btn=> btn.onclick = () => openDetail(btn.getAttribute('data-id')));
 
-    // Detail drawer reused from below:
+    // Detail drawer minimal
     window.openDetail = function(id){
       const r = (window.DATA||[]).find(x=>x.id===id); if(!r) return;
       const modal = document.getElementById('detailModal');
       document.getElementById('detailName').textContent = r.name;
       document.getElementById('detailMeta').textContent = `${r.city}, TX • ${r.cuisines.join(', ')} • ${r.price||'$'} • ${r.rating? r.rating.toFixed(1):'—'}★`;
-      document.getElementById('detailGallery').textContent = 'Photo';
+      document.getElementById('detailGallery').textContent = '';
       document.getElementById('tab-overview').textContent = r.about || '';
       document.getElementById('infoAddress').textContent = r.address || '';
       document.getElementById('infoPhone').textContent = r.phone || '';
       document.getElementById('infoHours').innerHTML = r.hours ? Object.entries(r.hours).map(([d,h])=>`${d}: ${h}`).join('<br>') : '—';
       document.getElementById('infoDress').textContent = r.dress || '—';
       document.getElementById('infoParking').textContent = r.parking || '—';
-      document.getElementById('infoUrl').innerHTML = r.url ? `<a class="underline" href="${r.url}" target="_blank">${r.url}</a>` : '—';
+      document.getElementById('infoUrl').innerHTML = r.url ? `<a class="underline" href="${r.url}" target="_blank" rel="noopener">${r.url}</a>` : '—';
       const menuDiv = document.getElementById('menuContent');
       menuDiv.innerHTML = (r.menu||[]).map(cat=>{
         const items = cat.items.map(i=>`
@@ -502,7 +512,7 @@
         </div>
         <div class="grid md:grid-cols-2 gap-0">
           <div class="p-4 space-y-3">
-            <div id="detailGallery" class="rounded bg-neutral-100 h-40 flex items-center justify-center text-neutral-500 text-sm">Photo</div>
+            <div id="detailGallery" class="rounded bg-neutral-100 h-40" aria-label="Gallery"></div>
             <div class="flex gap-2">
               <button class="tab-btn border rounded px-3 py-1.5 text-sm" data-tab="overview" aria-selected="true">Overview</button>
               <button class="tab-btn border rounded px-3 py-1.5 text-sm" data-tab="menu">Menu</button>
